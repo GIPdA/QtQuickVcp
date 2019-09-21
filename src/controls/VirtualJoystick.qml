@@ -19,8 +19,8 @@
 ** Alexander Rössler @ The Cool Tool GmbH <mail DOT aroessler AT gmail DOT com>
 **
 ****************************************************************************/
-import QtQuick 2.0
-import Machinekit.Controls.Private 1.0
+import QtQuick 2.12
+import Machinekit.Controls.Private 1.12
 
 /*!
     \qmltype VirtualJoystick

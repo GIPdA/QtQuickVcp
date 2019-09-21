@@ -20,7 +20,7 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.0
+import QtQuick 2.12
 import Machinekit.PathView 1.0
 
 QtObject {

@@ -19,9 +19,8 @@
 ** Alexander Rössler @ The Cool Tool GmbH <mail DOT aroessler AT gmail DOT com>
 **
 ****************************************************************************/
-import QtQuick 2.0
-import QtQuick.Controls 1.1
-import QtQuick.Window 2.0
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 import Machinekit.HalRemote 1.0
 import Machinekit.Service 1.0
 
@@ -44,7 +43,7 @@ import Machinekit.Service 1.0
 */
 
 Rectangle {
-    default property alias data: container.data
+    default property alias _data: container.data
 
     /*! This property holds the title of the application window.
     */

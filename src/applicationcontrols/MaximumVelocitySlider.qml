@@ -20,8 +20,8 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.2
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 import Machinekit.Application 1.0
 
 Slider {
@@ -33,8 +33,8 @@ Slider {
     property alias proportional: handler.proportional
 
     id: root
-    minimumValue: handler.proportional ? handler.minimumProportion : handler.minimumValue
-    maximumValue: handler.proportional ? 100.0 : handler.maximumValue
+    from: handler.proportional ? handler.minimumProportion : handler.minimumValue
+    to: handler.proportional ? 100.0 : handler.maximumValue
     enabled: handler.enabled
 
     MaximumVelocityHandler {

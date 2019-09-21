@@ -20,8 +20,7 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.2
+import QtQuick 2.12
 import Machinekit.Application 1.0
 
 ApplicationAction {
@@ -68,7 +67,7 @@ ApplicationAction {
         }
     }
 
-    iconSource: {
+    icon.source: {
         switch (viewMode) {
         case "Front":
             return "qrc:Machinekit/PathView/icons/view-mode-front";

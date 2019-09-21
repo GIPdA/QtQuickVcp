@@ -20,8 +20,7 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.2
+import QtQuick 2.12
 import Machinekit.Application 1.0
 
 ApplicationAction {
@@ -34,7 +33,7 @@ ApplicationAction {
     id: root
 
     text: _paused ? qsTr("Resume") : qsTr("Pause")
-    iconSource: "qrc:Machinekit/Application/Controls/icons/go-pause"
+    icon.source: "qrc:Machinekit/Application/Controls/icons/go-pause"
     shortcut: _paused ? resumeShortcut : pauseShortcut
     tooltip: (_paused ? qsTr("Resume execution [%1]") : qsTr("Pause execution [%1]")).arg(shortcut)
     checkable: true

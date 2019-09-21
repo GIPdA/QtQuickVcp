@@ -20,8 +20,7 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.2
+import QtQuick 2.12
 import Machinekit.Application 1.0
 
 ApplicationAction {
@@ -32,8 +31,8 @@ ApplicationAction {
 
     id: openAction
     text: remote ? qsTr("Open File from Machine...") : qsTr("Open File...")
-    //iconName: "document-open"
-    iconSource: remote ? "qrc:Machinekit/Application/Controls/icons/document-open-remote" : "qrc:Machinekit/Application/Controls/icons/document-open"
+    //icon.name: "document-open"
+    icon.source: remote ? "qrc:Machinekit/Application/Controls/icons/document-open-remote" : "qrc:Machinekit/Application/Controls/icons/document-open"
     shortcut: remote ? "Shift+O" : "O"
     tooltip: remote ? qsTr("Open G-Code file stored on machine [%1]").arg(shortcut) : qsTr("Open G-Code file stored on local computer [%1]").arg(shortcut)
     onTriggered: {
@@ -42,6 +41,5 @@ ApplicationAction {
             fileDialog.visible = true;
         }
     }
-    enabled: _ready
-             && !status.running
+    enabled: _ready && !status.running
 }

@@ -20,9 +20,9 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.2
+import QtQuick 2.12
+import QtQuick.Layouts 1.12
+import QtQuick.Controls 2.12
 import Machinekit.Application 1.0
 
 RowLayout {
@@ -51,7 +51,7 @@ RowLayout {
         value: root.axisIndices.indexOf(root.axis)
     }
 
-    ExclusiveGroup {
+    ButtonGroup {
         property int currentIndex: 0
         id: axisGroup
     }
@@ -60,7 +60,7 @@ RowLayout {
         model: __axes
         RadioButton {
             id: radioButton
-            exclusiveGroup: axisGroup
+            ButtonGroup.group: axisGroup
             text: root.axisNames[index]
             onCheckedChanged: {
                 if (checked) {

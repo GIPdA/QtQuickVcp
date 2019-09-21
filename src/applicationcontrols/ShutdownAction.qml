@@ -20,8 +20,7 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.2
+import QtQuick 2.12
 import Machinekit.Application 1.0
 
 ApplicationAction {
@@ -29,8 +28,8 @@ ApplicationAction {
 
     id: root
     text: qsTr("Sh&utdown")
-    iconName: "system-shutdown"
-    iconSource: "qrc:Machinekit/Application/Controls/icons/system-shutdown"
+    icon.name: "system-shutdown"
+    icon.source: "qrc:Machinekit/Application/Controls/icons/system-shutdown"
     tooltip: qsTr("Shutdown Machinekit instance [%1]").arg(shortcut)
     onTriggered: {
         command.shutdown();

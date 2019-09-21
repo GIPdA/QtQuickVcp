@@ -20,14 +20,18 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.2
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 
 Action {
     property var core: null
     property var gcodeProgramLoader: core === null ? {} : core.gcodeProgramLoader
     property var gcodeProgramModel: core === null ? null : core.gcodeProgramModel
     property var previewClient: core === null ? { connected: false } : core.previewClient
+
+    property string tooltip
+
+    //ToolTip.text: tooltip
 
     Component.onCompleted: {
         if (core === null)

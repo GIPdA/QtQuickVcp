@@ -1,7 +1,7 @@
-import QtQuick 2.0
-import QtQuick.Controls 1.1
-import QtQuick.Dialogs 1.2
-import QtQuick.Window 2.0
+import QtQuick 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Dialogs 1.3
+import QtQuick.Window 2.12
 import Machinekit.Application 1.0
 
 Image {
@@ -49,41 +49,41 @@ Image {
 
         MenuItem {
             text: qsTr("English")
-            iconSource: "qrc:Machinekit/Application/Controls/icons/flag-english"
+            icon.source: "qrc:Machinekit/Application/Controls/icons/flag-english"
             checkable: true
             checked: root.activeLanguage == "english"
-            exclusiveGroup: exclusiveGroup
+            ButtonGroup.group: exclusiveGroup
             onTriggered: root.setLanguage("en")
         }
 
         MenuItem {
             text: qsTr("German")
-            iconSource: "qrc:Machinekit/Application/Controls/icons/flag-german"
+            icon.source: "qrc:Machinekit/Application/Controls/icons/flag-german"
             checkable: true
             checked: root.activeLanguage == "german"
-            exclusiveGroup: exclusiveGroup
+            ButtonGroup.group: exclusiveGroup
             onTriggered: root.setLanguage("de")
         }
 
         MenuItem {
             text: qsTr("Russian")
-            iconSource: "qrc:Machinekit/Application/Controls/icons/flag-russian"
+            icon.source: "qrc:Machinekit/Application/Controls/icons/flag-russian"
             checkable: true
             checked: root.activeLanguage == "russian"
-            exclusiveGroup: exclusiveGroup
+            ButtonGroup.group: exclusiveGroup
             onTriggered: root.setLanguage("ru")
         }
 
         MenuItem {
             text: qsTr("Spanish")
-            iconSource: "qrc:Machinekit/Application/Controls/icons/flag-spanish"
+            icon.source: "qrc:Machinekit/Application/Controls/icons/flag-spanish"
             checkable: true
             checked: root.activeLanguage == "spanish"
-            exclusiveGroup: exclusiveGroup
+            ButtonGroup.group: exclusiveGroup
             onTriggered: root.setLanguage("es")
         }
 
-        ExclusiveGroup {
+        ButtonGroup {
             id: exclusiveGroup
         }
     }
@@ -92,7 +92,7 @@ Image {
         id: restartDialog
         title: qsTr("Restart Application")
         text: qsTr("For the change to take effect, you need to restart the application.\nRestart now?")
-        standardButtons: StandardButton.Yes | StandardButton.No
+        standardButtons: Dialog.Yes | Dialog.No
         icon: StandardIcon.Question
         onYes:  ApplicationHelpers.restartApplication();
     }

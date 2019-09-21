@@ -20,8 +20,8 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Dialogs 1.2
+import QtQuick 2.12
+import QtQuick.Dialogs 1.3
 import Machinekit.Application 1.0
 
 FileDialog {

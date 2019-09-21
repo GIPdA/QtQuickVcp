@@ -1,7 +1,7 @@
-import QtQuick 2.0
+import QtQuick 2.12
 
 Item {
-    default property alias data: container.data
+    default property alias _data: container.data
     property double referenceWidth: 2560
     property double referenceHeight: 1600
     property double scale: (d.scale1 + d.scale2) / 2

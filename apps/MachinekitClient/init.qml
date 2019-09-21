@@ -20,9 +20,9 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.0
+import QtQuick 2.12
 import QtQuick.Controls 1.1
-import QtQuick.Window 2.0
+import QtQuick.Window 2.12
 import Qt.labs.settings 1.0
 
 ApplicationWindow {

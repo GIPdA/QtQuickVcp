@@ -1,8 +1,8 @@
-import QtQuick 2.1
-import QtQuick.Controls 1.1
-import QtQuick.Layouts 1.1
-import QtQuick.Dialogs 1.2
-import QtQuick.Window 2.0
+import QtQuick 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.12
+import QtQuick.Dialogs 1.3
+import QtQuick.Window 2.12
 
 Item {
     property var applicationLauncher: {"launchers": []}
@@ -76,7 +76,7 @@ Item {
         id: shutdownDialog
         title: qsTr("System Shutdown")
         text: qsTr("Do you really want to shutdown the Machinekit system?")
-        standardButtons: StandardButton.Yes | StandardButton.No
+        standardButtons: Dialog.Yes | Dialog.No
 
         onYes: {
             systemShutdown();

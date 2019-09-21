@@ -20,10 +20,10 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.2
-import QtQuick.Layouts 1.1
-import QtQuick.Dialogs 1.2
+import QtQuick 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Controls 1.4 as QQ1
+import QtQuick.Layouts 1.12
 import Machinekit.Application 1.0
 
 Dialog {
@@ -40,8 +40,8 @@ Dialog {
 
     id: dialog
     title: qsTr("Touch Off")
-    standardButtons: StandardButton.Ok | StandardButton.Cancel
-    modality: Qt.ApplicationModal
+    standardButtons: Dialog.Ok | Dialog.Cancel
+    modal: true
 
     onVisibleChanged: {
         if (visible) {
@@ -71,7 +71,7 @@ Dialog {
         Label {
             text: qsTr("Enter %1 coordinate relative to workpiece:").arg(dialog.axisNames[dialog.axis])
         }
-        SpinBox {
+        QQ1.SpinBox {
             id: coordinateSpin
             decimals: 4
             minimumValue: -9999999

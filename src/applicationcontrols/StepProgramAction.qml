@@ -20,8 +20,7 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.2
+import QtQuick 2.12
 import Machinekit.Application 1.0
 
 ApplicationAction {
@@ -30,7 +29,7 @@ ApplicationAction {
 
     id: root
     text: qsTr("Step")
-    iconSource: "qrc:Machinekit/Application/Controls/icons/go-next"
+    icon.source: "qrc:Machinekit/Application/Controls/icons/go-next"
     shortcut: "T"
     tooltip: qsTr("Execute next line [%1]").arg(shortcut)
     onTriggered: {

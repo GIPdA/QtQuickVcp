@@ -28,6 +28,7 @@
 #include <QDir>
 #include <QVector>
 #include <QStandardPaths>
+#include <QDebug>
 
 namespace qtquickvcp {
 
@@ -56,6 +57,7 @@ void LocalSettings::loadSettings()
     {
         m_values = QJsonObject();
     }
+    qDebug() << "Local Settings:\n" << m_values;
 
     emit valuesChanged(m_values);
 }

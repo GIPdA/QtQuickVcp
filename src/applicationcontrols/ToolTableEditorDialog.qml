@@ -1,5 +1,3 @@
-import QtQuick 2.0
-import QtQuick.Dialogs 1.2
 /****************************************************************************
 **
 ** Copyright (C) 2017 Alexander Rössler
@@ -21,10 +19,10 @@ import QtQuick.Dialogs 1.2
 ** Alexander Rössler <alexander AT roessler DOT systems>
 **
 ****************************************************************************/
-
-import QtQuick.Layouts 1.3
-import QtQuick.Controls 1.4
-import QtQuick.Window 2.0
+import QtQuick 2.12
+import QtQuick.Layouts 1.12
+import QtQuick.Controls 2.12
+import QtQuick.Window 2.12
 
 Dialog
 {
@@ -32,8 +30,8 @@ Dialog
     property alias status: editor.status
     property alias command: editor.command
     property alias helper: editor.helper
-    property alias width: container.implicitWidth
-    property alias height: container.implicitHeight
+    implicitWidth: container.implicitWidth
+    implicitHeight: container.implicitHeight
 
     id: root
     title: qsTr("Tool Table Editor")
@@ -76,34 +74,34 @@ Dialog
 
             Button {
                 text: qsTr("Add Row")
-                iconName: "list-add"
+                icon.name: "list-add"
                 onClicked: editor.addRow()
             }
 
             Button {
                 text: qsTr("Remove Row")
-                iconName: "list-remove"
+                icon.name: "list-remove"
                 enabled: editor.itemSelected
                 onClicked: editor.removeRow()
             }
 
             Button {
                 text: qsTr("Reset Modifications")
-                iconName: "view-refresh"
+                icon.name: "view-refresh"
                 enabled: editor.modified
                 onClicked: editor.resetModifications()
             }
 
             Button {
                 text: qsTr("Update Tool Table")
-                iconName: "dialog-ok-apply"
+                icon.name: "dialog-ok-apply"
                 enabled: !editor.errored && editor.modified
                 onClicked: editor.updateToolTable()
             }
 
             Button {
                 text: qsTr("Close")
-                iconName: "dialog-close"
+                icon.name: "dialog-close"
                 onClicked: root.close()
             }
         }

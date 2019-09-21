@@ -20,8 +20,7 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.2
+import QtQuick 2.12
 import Machinekit.Application 1.0
 
 ApplicationAction {
@@ -29,8 +28,8 @@ ApplicationAction {
 
     id: openAction
     text: qsTr("Reopen File")
-    //iconName: "document-open"
-    iconSource: "qrc:Machinekit/Application/Controls/icons/view-refresh"
+    //icon.name: "document-open"
+    icon.source: "qrc:Machinekit/Application/Controls/icons/view-refresh"
     shortcut: "Ctrl+R"
     tooltip: qsTr("Reopen current file [%1]").arg(shortcut)
     onTriggered: core.reloadProgram()

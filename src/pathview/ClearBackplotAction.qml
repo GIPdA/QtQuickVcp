@@ -20,8 +20,7 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.2
+import QtQuick 2.12
 
 PathViewAction {
     id: root
@@ -29,7 +28,7 @@ PathViewAction {
     enabled: core !== null
     text: qsTr("Clear Live Plot")
     tooltip: qsTr("Clear live plot [%1]").arg(shortcut)
-    iconSource: "qrc:Machinekit/PathView/icons/clear-preview"
+    icon.source: "qrc:Machinekit/PathView/icons/clear-preview"
 
     onTriggered: {
         gcodeProgramModel.clearBackplot();

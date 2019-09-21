@@ -34,7 +34,8 @@ SOURCES += \
     applicationhelpers.cpp \
     applicationlog.cpp \
     applicationlogmessage.cpp \
-    applicationfilesynchandler.cpp
+    applicationfilesynchandler.cpp \
+    keystrokewatcher.cpp
 
 HEADERS += \
     plugin/plugin.h \
@@ -60,7 +61,8 @@ HEADERS += \
     applicationhelpers.h \
     applicationlog.h \
     applicationlogmessage.h \
-    applicationfilesynchandler.h
+    applicationfilesynchandler.h \
+    keystrokewatcher.h
 
 RESOURCES += \
     application.qrc

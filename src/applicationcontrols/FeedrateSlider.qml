@@ -20,8 +20,8 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.2
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 import Machinekit.Application 1.0
 
 Slider {
@@ -30,8 +30,8 @@ Slider {
     property alias command: handler.command
 
     id: root
-    minimumValue: handler.minimumValue
-    maximumValue: handler.maximumValue
+    from: handler.minimumValue
+    to: handler.maximumValue
     enabled: handler.enabled
 
     FeedrateHandler {

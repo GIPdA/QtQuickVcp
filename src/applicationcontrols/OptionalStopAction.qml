@@ -20,8 +20,7 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.2
+import QtQuick 2.12
 import Machinekit.Application 1.0
 
 ApplicationAction {
@@ -29,7 +28,7 @@ ApplicationAction {
 
     id: root
     text: qsTr("Optional Stop (M1)")
-    iconSource: "qrc:Machinekit/Application/Controls/icons/go-pause"
+    icon.source: "qrc:Machinekit/Application/Controls/icons/go-pause"
     shortcut: "Alt+M"
     tooltip: qsTr("Optional stop [%1]").arg(shortcut)
     checkable: true

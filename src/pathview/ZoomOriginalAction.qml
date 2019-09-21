@@ -20,8 +20,8 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.2
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 
 Action {
     property var view: null
@@ -31,8 +31,9 @@ Action {
     shortcut: "*"
     enabled: view !== null
     text: qsTr("Reset Zoom")
-    tooltip: qsTr("Reset Zoom")
-    iconSource: "qrc:Machinekit/PathView/icons/zoom-original"
+    icon.source: "qrc:Machinekit/PathView/icons/zoom-original"
+
+    ToolTip.text: qsTr("Reset Zoom")
 
     onTriggered: {
         view.cameraZoom = zoom;

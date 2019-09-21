@@ -20,9 +20,9 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.2
+import QtQuick 2.12
+import QtQuick.Layouts 1.12
+import QtQuick.Controls 2.12
 import Machinekit.Application 1.0
 
 RowLayout {
@@ -37,7 +37,6 @@ RowLayout {
     property alias textField: mdiTextField
 
     TextField {
-
         id: mdiTextField
         Layout.fillWidth: true
 

@@ -20,8 +20,7 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.2
+import QtQuick 2.12
 import Machinekit.Application 1.0
 
 ApplicationAction {
@@ -31,7 +30,7 @@ ApplicationAction {
 
     id: root
     text: qsTr("&Edit File with System Editor...")
-    iconSource: "qrc:Machinekit/Application/Controls/icons/document-edit"
+    icon.source: "qrc:Machinekit/Application/Controls/icons/document-edit"
     shortcut: "Ctrl+E"
     tooltip: qsTr("Edit G-Code file with System Editor [%1]").arg(shortcut)
     onTriggered: {

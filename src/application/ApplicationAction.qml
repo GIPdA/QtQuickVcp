@@ -20,8 +20,8 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.2
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 
 Action {
     property var core: null
@@ -33,9 +33,12 @@ Action {
     property var mdiHistory: core === null ? {"model": []} : core.mdiHistory
     property var homeAllAxesHelper: core === null ? {"running": false} : core.homeAllAxesHelper
 
+    property string tooltip
+
+    //ToolTip.text: tooltip
+
     Component.onCompleted: {
-        if (core === null)
-        {
+        if (core === null) {
             try {
                 var x = applicationCore;
                 core = Qt.binding(function() { return x; });

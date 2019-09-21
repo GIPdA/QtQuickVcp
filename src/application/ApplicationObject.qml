@@ -20,7 +20,7 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.0
+import QtQuick 2.12
 
 QtObject {
     property var core: null

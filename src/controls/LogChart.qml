@@ -19,7 +19,7 @@
 ** Alexander Rössler @ The Cool Tool GmbH <mail DOT aroessler AT gmail DOT com>
 **
 ****************************************************************************/
-import QtQuick 2.0
+import QtQuick 2.12
 
 /*!
     \qmltype LogChart

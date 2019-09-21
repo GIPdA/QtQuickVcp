@@ -20,8 +20,8 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.2
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 
 Action {
     property var view: null
@@ -32,8 +32,9 @@ Action {
     shortcut: "+"
     enabled: view !== null
     text: qsTr("Zoom In")
-    tooltip: qsTr("Zoom In")
-    iconSource: "qrc:Machinekit/PathView/icons/zoom-in"
+    icon.source: "qrc:Machinekit/PathView/icons/zoom-in"
+
+    ToolTip.text: qsTr("Zoom In")
 
     onTriggered: {
         view.cameraZoom = view.cameraZoom * factor + addend;

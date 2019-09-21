@@ -99,3 +99,6 @@ include(../deployment.pri)
 
 TRANSLATIONS_PATH = $$PWD/translations
 include(../translation.pri)
+
+DISTFILES += \
+    JogDistanceComboBox_copy.qml

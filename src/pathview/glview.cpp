@@ -299,7 +299,7 @@ void GLView::drawDrawables(GLView::ModelType type)
         drawModelVertices(type);
         break;
     case Text:
-        drawTexts();
+//        drawTexts(); // FIXME: drawText
         break;
     case Line:
         drawLines();
@@ -1590,7 +1590,7 @@ void GLView::paint()
     m_textProgram->setUniformValue(m_textProjectionMatrixLocation, m_projectionMatrix);
     m_textProgram->setUniformValue(m_textViewMatrixLocation, m_viewMatrix);
     m_textProgram->setUniformValue(m_textSelectionModeLocation, m_selectionModeActive);
-    drawTexts();
+//    drawTexts(); // FIXME: drawText
     m_textProgram->release();
 
     m_modelProgram->bind();

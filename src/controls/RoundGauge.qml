@@ -20,8 +20,8 @@
 ** Alexander Rössler @ The Cool Tool GmbH <mail DOT aroessler AT gmail DOT com>
 **
 ****************************************************************************/
-import QtQuick 2.2
-import QtQuick.Controls 1.1
+import QtQuick 2.12
+import QtQuick.Controls 1.4
 
 /*!
     \qmltype RoundGauge

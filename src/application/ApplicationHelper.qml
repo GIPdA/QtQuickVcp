@@ -16,7 +16,7 @@
 ** Lesser General Public License for more details.
 **
 ****************************************************************************/
-import QtQuick 2.0
+import QtQuick 2.12
 import Machinekit.Application 1.0
 
 Item {

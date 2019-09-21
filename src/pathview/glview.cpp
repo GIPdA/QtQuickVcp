@@ -1057,13 +1057,13 @@ quint32 GLView::getSelection()
         }
     }
 
-    int maxCount = 0;
+    ssize_t maxCount = 0;
 
     // find the id that is most common in the selection
     for (const quint32 id: ids)
     {
-        int count = 0;
-        qCount(ids.begin(), ids.end(), id, count);
+        //int count = 0;
+        ssize_t const count { std::count(ids.begin(), ids.end(), id) };
         if (count > maxCount) {
             sortedIds.prepend(id);
             maxCount = count;
@@ -1474,7 +1474,7 @@ void *GLView::arc(float x, float y, float radius, float startAngle, float endAng
     const int nSegments = static_cast<int>(std::ceil(totalAngle * static_cast<float>(arcDivison) / (2.0f * PI_F)));
     float segmentAngle = totalAngle / static_cast<float>(nSegments);
     if (!anticlockwise) {
-        segmentAngle *= -1.0;
+        segmentAngle *= -1.0f;
     }
     const float segmentZ = helixOffset / static_cast<float>(nSegments);
 

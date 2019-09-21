@@ -151,6 +151,7 @@ void Publish::heartbeatTimerTick()
 /** Processes all message received on socket */
 void Publish::processSocketMessage(const QList<QByteArray> &messageList)
 {
+    Q_UNUSED(messageList)
     Container &rx = m_socketRx;
 
     emit socketMessageReceived(rx);

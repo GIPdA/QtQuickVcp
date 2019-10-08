@@ -19,8 +19,8 @@
 ** Alexander Rössler <mail AT roessler DOT systems>
 **
 ****************************************************************************/
-import QtQuick 2.12
-import QtQuick.Controls 2.12
+import QtQuick 2.4
+import QtQuick.Controls 2.4
 import Machinekit.Controls 1.0
 import Machinekit.HalRemote 1.0
 

@@ -19,7 +19,7 @@
 ** Alexander Rössler <mail AT roesser DOT systems>
 **
 ****************************************************************************/
-import QtQuick 2.12
+import QtQuick 2.4
 import Machinekit.Application 1.0
 
 ApplicationAction {

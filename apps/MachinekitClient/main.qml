@@ -20,15 +20,15 @@
 **
 ****************************************************************************/
 // import all available plugins
-import QtQuick 2.12
-import QtQuick.Controls 2.12
+import QtQuick 2.4
+import QtQuick.Controls 2.4
 import QtQuick.Controls.Styles 1.3
 import QtQuick.Dialogs 1.3
-import QtQuick.Window 2.12
-import QtQuick.Layouts 1.12
+import QtQuick.Window 2.4
+import QtQuick.Layouts 1.4
 import QtQuick.Controls.Styles 1.3
-import QtQuick.Particles 2.12
-import QtQuick.XmlListModel 2.12
+import QtQuick.Particles 2.4
+import QtQuick.XmlListModel 2.4
 import Machinekit.Controls 1.0
 import Machinekit.HalRemote 1.0
 import Machinekit.HalRemote.Controls 1.0

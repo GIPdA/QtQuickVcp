@@ -20,7 +20,7 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.12
+import QtQuick 2.4
 import Machinekit.Controls 1.0
 import Machinekit.Application 1.0
 

@@ -19,7 +19,7 @@
 ** Alexander Rössler @ The Cool Tool GmbH <mail DOT aroessler AT gmail DOT com>
 **
 ****************************************************************************/
-import QtQuick 2.12
+import QtQuick 2.4
 import QtQuick.Controls 1.4
 import Machinekit.HalRemote 1.0
 import Machinekit.HalRemote.Controls 1.0

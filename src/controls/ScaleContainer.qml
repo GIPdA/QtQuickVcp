@@ -1,4 +1,4 @@
-import QtQuick 2.12
+import QtQuick 2.4
 
 Item {
     default property alias _data: container.data

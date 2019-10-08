@@ -20,7 +20,7 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.12
+import QtQuick 2.4
 
 PathViewAction {
     id: root

@@ -21,7 +21,7 @@
 ****************************************************************************/
 
 import QtQuick 2.4
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.4
 import QtQuick.Window 2.4
 import Qt.labs.settings 1.0
 
@@ -33,8 +33,8 @@ ApplicationWindow {
     width: (Qt.platform.os === "android") ? Screen.width : Screen.width * 0.7
     height: (Qt.platform.os === "android") ? Screen.height : Screen.height * 0.7
     title: (mainAppLoader.item !== null) ? mainAppLoader.item.title : "Loading"
-    toolBar: (mainAppLoader.item !== null) ? mainAppLoader.item.toolBar : null
-    statusBar: (mainAppLoader.item !== null) ? mainAppLoader.item.statusBar : null
+    header: (mainAppLoader.item !== null) ? mainAppLoader.item.toolBar : null
+    footer: (mainAppLoader.item !== null) ? mainAppLoader.item.statusBar : null
     menuBar: (mainAppLoader.item !== null) ? mainAppLoader.item.menuBar : null
 
     Settings {

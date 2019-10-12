@@ -4,7 +4,7 @@ classname MachinekitControlsPlugin
 typeinfo plugins.qmltypes
 designersupported
 
-depends QtQuick.Controls 1.1
+depends QtQuick.Controls 2.1
 depends QtQuick.Controls.Styles 1.0
 depends QtQuick.Window 2.1
 depends QtQuick.Layouts 1.1

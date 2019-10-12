@@ -216,6 +216,9 @@ bool KeystrokeWatcher::handleKeyPressEvent(QKeyEvent* event)
 bool KeystrokeWatcher::handleKeyReleaseEvent(QKeyEvent* event)
 {
     if (event->key() == m_key) {
+        if (event->isAutoRepeat() && !m_autoRepeat)
+            return true; // Consume but do nothing
+
         emit released();
         return true;
     }

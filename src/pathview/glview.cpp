@@ -32,6 +32,10 @@
 
 const int MAX_LINES_PER_PATH = 200;
 
+#ifdef Q_OS_WIN
+using ssize_t = SSIZE_T;
+#endif
+
 namespace qtquickvcp {
 
 GLView::GLView(QQuickItem *parent)

@@ -34,19 +34,19 @@ Button {
     property double velocity: jogAction.settings.initialized ? jogAction.settings.values["axis" + axis]["jogVelocity"] : 0.0
 
     function _toggle(onOff) {
-        if (onOff) {
-            if (jogAction.distance === 0) {
-                jogAction.velocity = velocity * direction;
-                jogAction.trigger();
+        if (jogAction.distance === 0) {
+            // Infinite jog
+            if (onOff) {
+                jogAction.velocity = velocity * direction
+                jogAction.trigger()
+            } else {
+                jogAction.velocity = 0
+                jogAction.trigger()
             }
-        }
-        else if (jogAction.distance === 0) {
-            jogAction.velocity = 0;
-            jogAction.trigger();
-        }
-        else {
+        } else if (onOff) {
+            // Step jog
             jogAction.velocity = velocity * direction;
-            jogAction.trigger();
+            jogAction.trigger()
         }
     }
 
@@ -54,14 +54,12 @@ Button {
     enabled: jogAction.enabled
 
     onPressedChanged: {
-        if (!checkable) {
-            _toggle(pressed);
-        }
+        if (!checkable)
+            _toggle(pressed)
     }
     onCheckedChanged: {
-        if (checkable) {
-         _toggle(checked);
-        }
+        if (checkable)
+            _toggle(checked)
     }
 
     JogAction {

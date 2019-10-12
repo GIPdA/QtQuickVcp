@@ -31,6 +31,7 @@
 #include "pi_constants.h"
 
 const int MAX_LINES_PER_PATH = 200;
+using ssize_t = SSIZE_T;
 
 namespace qtquickvcp {
 

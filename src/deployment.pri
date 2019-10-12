@@ -29,7 +29,7 @@ copyqmldesigner.CONFIG += no_link no_clean
 copyqmldesigner.variable_out = PRE_TARGETDEPS
 QMAKE_EXTRA_COMPILERS += copyqmldesigner
 
-exists(QTCREATOR_INSTALL_DIR): CONFIG(release, debug|release): {
+exists(QTCREATOR_INSTALL_DIR): {#CONFIG(release, debug|release): {
     copyqmlpropertyeditor.input = QML_PROPERTY_EDITOR_FILES
     copyqmlpropertyeditor.output = $$OUT_PWD/../../imports/$$DESIGNER/$$TARGETPATH/propertyEditorQmlSources/${QMAKE_FILE_IN_BASE}${QMAKE_FILE_EXT}
     !win32: copyqmlpropertyeditor.commands = $$QMAKE_MKDIR $$shell_path($$dirname(copyqmlpropertyeditor.output)) $$escape_expand(\n\t)
@@ -55,7 +55,7 @@ QMAKE_CLEAN += $$OUT_PWD/../../imports/$$TARGETPATH/
 
 # ========== install additional files ==========
 isEmpty(QMLPLUGINDUMP): QMLPLUGINDUMP = 1
-equals(QMLPLUGINDUMP, 1): !ios: !android: CONFIG(release, debug|release): {
+equals(QMLPLUGINDUMP, 1): !ios: !android: {#CONFIG(release, debug|release): {
     dumppluginqmltypes.CONFIG = no_files no_path
     dumppluginqmltypes.commands = $$dirname(QMAKE_QMAKE)/qmlplugindump -nonrelocatable "$$uri $$PLUGIN_VERSION $$shell_path($$OUT_PWD/../../imports/) > $$shell_path($$OUT_PWD/../../imports/$$TARGETPATH/plugins.qmltypes)"
     INSTALLS += dumppluginqmltypes
@@ -82,7 +82,7 @@ copyqmldesigner_install.files = $$QML_DESIGNER_FILES
 copyqmldesigner_install.path = $$[QT_INSTALL_QML]/$$TARGETPATH
 INSTALLS += copyqmldesigner_install
 
-exists(QTCREATOR_INSTALL_DIR): CONFIG(release, debug|release): {
+exists(QTCREATOR_INSTALL_DIR): {#CONFIG(release, debug|release): {
     copyqmlpropertyeditor_install.files = $$QML_PROPERTY_EDITOR_FILES
     copyqmlpropertyeditor_install.path = $$QTCREATOR_INSTALL_DIR/share/qtcreator/qmldesigner/propertyEditorQmlSources/$$TARGETPATH
     INSTALLS += copyqmlpropertyeditor_install

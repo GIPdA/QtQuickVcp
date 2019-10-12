@@ -11,7 +11,8 @@ INCLUDEPATH += $$MACHINETALK_PATH/build/cpp
     CONFIG(debug, debug|release): LIBS += -L$$MACHINETALK_PATH/debug
     !isEmpty(PROTOBUF_LIB_PATH): LIBS += -L$$PROTOBUF_LIB_PATH
     !isEmpty(PROTOBUF_LIB_FLAGS): LIBS += $$PROTOBUF_LIB_FLAGS
-    LIBS += -llibprotobuf
+    CONFIG(release, debug|release): LIBS += -llibprotobuf
+    CONFIG(debug, debug|release): LIBS += -llibprotobufd
 }
 macx: {
     !isEmpty(PROTOBUF_LIB_PATH): LIBS += -L$$PROTOBUF_LIB_PATH

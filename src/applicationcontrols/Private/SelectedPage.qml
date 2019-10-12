@@ -1,5 +1,6 @@
 import QtQuick 2.1
-import QtQuick.Controls 1.1
+import QtQuick.Controls 2.1
+import QtQuick.Controls 1.1 as QQ1
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.0
 
@@ -111,11 +112,11 @@ Item {
             text: visible ? qsTr("Process exited with return code %1. See the log for details.").arg(d.returncode) : ""
         }
 
-        TabView {
+        QQ1.TabView {
             Layout.fillHeight: true
             Layout.fillWidth: true
 
-            Tab {
+            QQ1.Tab {
                 active: true
                 title: qsTr("Application Output")
                 TextArea {
@@ -125,7 +126,7 @@ Item {
                 }
             }
 
-            Tab {
+            QQ1.Tab {
                 active: true
                 title: qsTr("Machinekit Log")
                 TextArea {

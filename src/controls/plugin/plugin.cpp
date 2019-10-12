@@ -65,7 +65,7 @@ void MachinekitControlsPlugin::registerTypes(const char *uri)
 
 void MachinekitControlsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
 {
-    Q_UNUSED(uri);
+    Q_UNUSED(uri)
 
     if (isLoadedFromResource())
         engine->addImportPath(QStringLiteral("qrc:/"));

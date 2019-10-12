@@ -84,7 +84,7 @@ Qt::ItemFlags GCodeProgramModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
     {
-        return 0;
+        return Qt::NoItemFlags;
     }
     else
     {
@@ -133,6 +133,7 @@ void GCodeProgramModel::prepareFile(const QString &fileName, int lineCount)
     int firstRow = fileIndex.index + fileIndex.count;
     int lastRow = (fileIndex.index + lineCount - 1);
     int rowCount = lastRow - firstRow + 1;
+    Q_ASSERT(rowCount >= 0 && firstRow <= lastRow);
 
     beginInsertRows(QModelIndex(), firstRow, lastRow);
     for (int i = firstRow; i <= lastRow; ++i)
@@ -170,6 +171,7 @@ void GCodeProgramModel::removeFile(const QString &fileName)
     int firstRow = fileIndex.index;
     int lastRow = fileIndex.index + fileIndex.count - 1;
     int rowCount = lastRow - firstRow + 1;
+    Q_ASSERT(rowCount >= 0 && firstRow <= lastRow);
 
     beginRemoveRows(QModelIndex(), firstRow, lastRow);
     for (int i = lastRow; i >= firstRow; i--)

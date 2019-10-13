@@ -320,13 +320,13 @@ Rectangle {
         if (d.errorActive) {
             return "error";
         }
-        else if (appPage.status === Loader.Ready) {
-            return "app-loaded";
-        }
         else if (applicationConfig.selectedConfig.loading
                  || (appPage.active && (appPage.status === Loader.Loading)))
         {
             return "app-loading";
+        }
+        else if (appPage.status === Loader.Ready) {
+            return "app-loaded";
         }
         else if (d.instanceSelected)
         {
@@ -343,7 +343,7 @@ Rectangle {
         else {
             return "instance";
         }
-        }
+    }
 
     /*! \internal */
     function setError(errorType, errorText)

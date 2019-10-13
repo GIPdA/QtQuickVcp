@@ -304,7 +304,7 @@ void GLView::drawDrawables(GLView::ModelType type)
         drawModelVertices(type);
         break;
     case Text:
-//        drawTexts(); // FIXME: drawText
+        drawTexts();
         break;
     case Line:
         drawLines();
@@ -883,7 +883,7 @@ void GLView::drawTexts()
         m_textProgram->setUniformValue(m_textAlignmentLocation, static_cast<GLint>(textParameters->alignment));
         m_textProgram->setUniformValue(m_textColorLocation, textParameters->color);
         m_textProgram->setUniformValue(m_textModelMatrixLocation, textParameters->modelMatrix);
-        m_textProgram->setUniformValue(m_textTextureLocation, texture->textureId());
+        m_textProgram->setUniformValue(m_textTextureLocation, 1);
 
         if (m_selectionModeActive)  // selection mode active
         {
@@ -892,9 +892,10 @@ void GLView::drawTexts()
             m_currentDrawableId++;
         }
 
-        texture->bind(texture->textureId());
+        glActiveTexture(GL_TEXTURE1);
+        texture->bind();
         glDrawArrays(GL_TRIANGLES, 0, vertexBuffer->size() / static_cast<int>(sizeof(TextVertex)));
-        texture->release(texture->textureId());
+        texture->release();
     }
 
     m_textProgram->disableAttributeArray(m_textPositionLocation);
@@ -1591,7 +1592,7 @@ void GLView::paint()
     m_textProgram->setUniformValue(m_textProjectionMatrixLocation, m_projectionMatrix);
     m_textProgram->setUniformValue(m_textViewMatrixLocation, m_viewMatrix);
     m_textProgram->setUniformValue(m_textSelectionModeLocation, m_selectionModeActive);
-//    drawTexts(); // FIXME: drawText
+    drawTexts(); // FIXME: drawText
     m_textProgram->release();
 
     m_modelProgram->bind();

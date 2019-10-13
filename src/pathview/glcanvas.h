@@ -33,7 +33,7 @@ class GLCanvas : public GLItem
     Q_PROPERTY(GLView *context READ contex NOTIFY contextChanged)
 
 public:
-    explicit GLCanvas(QQuickItem *parent = 0);
+    explicit GLCanvas(QQuickItem *parent = nullptr);
 
     virtual void paint(GLView *glView);
 

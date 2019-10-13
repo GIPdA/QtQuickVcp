@@ -48,7 +48,7 @@ class GLPathItem : public GLItem
     Q_PROPERTY(int arcDivision READ arcDivision WRITE setArcDivision NOTIFY arcDivisionChanged)
 
 public:
-    explicit GLPathItem(QQuickItem *parent = 0);
+    explicit GLPathItem(QQuickItem *parent = nullptr);
     ~GLPathItem();
 
     virtual void paint(GLView *glView);

@@ -39,7 +39,7 @@ class PreviewClient : public machinetalk::pathview::PreviewClientBase
     Q_PROPERTY(QString interpreterNote READ interpreterNote NOTIFY interpreterNoteChanged)
 
 public:
-    explicit PreviewClient(QObject *parent = 0);
+    explicit PreviewClient(QObject *parent = nullptr);
 
     enum InterpreterState {
         InterpreterIdle = machinetalk::INTERP_IDLE,

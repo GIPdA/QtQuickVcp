@@ -42,9 +42,9 @@ class GLItem : public QQuickItem
     Q_PROPERTY(QVector3D rotationVector READ rotationVector WRITE setRotationVector NOTIFY rotationVectorChanged)
 
 public:
-    explicit GLItem(QQuickItem *parent = 0);
+    explicit GLItem(QQuickItem* parent = nullptr);
 
-    virtual void paint(GLView *glView) = 0; // must be implemented
+    virtual void paint(GLView* glView) = 0; // must be implemented
 
     QVector3D position() const;
     QVector3D scale() const;

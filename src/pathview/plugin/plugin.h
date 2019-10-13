@@ -34,6 +34,7 @@ class MachinekitPathViewPlugin : public QQmlExtensionPlugin
 public:
     void registerTypes(const char *uri);
     void initializeEngine(QQmlEngine *engine, const char *uri);
+
 private:
     QTranslator m_translator;
 
@@ -42,4 +43,3 @@ private:
 };
 
 #endif // PLUGIN_H
-

@@ -338,7 +338,7 @@ void GLPathItem::setActiveColor(QColor arg)
 
 void GLPathItem::setLineWidth(float arg)
 {
-    if (m_lineWidth != arg) {
+    if (!qFuzzyCompare(m_lineWidth, arg)) {
         m_lineWidth = arg;
         emit lineWidthChanged(arg);
     }
@@ -346,7 +346,7 @@ void GLPathItem::setLineWidth(float arg)
 
 void GLPathItem::setTraverseLineStippleLength(float arg)
 {
-    if (m_traverseLineStippleLength != arg) {
+    if (qFuzzyCompare(m_traverseLineStippleLength, arg)) {
         m_traverseLineStippleLength = arg;
         emit traverseLineStippleLengthChanged(arg);
     }
@@ -354,9 +354,8 @@ void GLPathItem::setTraverseLineStippleLength(float arg)
 
 void GLPathItem::setArcDivision(int arcDivision)
 {
-    if (m_arcDivision == arcDivision) {
+    if (m_arcDivision == arcDivision)
         return;
-    }
 
     m_arcDivision = arcDivision;
     emit arcDivisionChanged(arcDivision);
@@ -507,7 +506,7 @@ void GLPathItem::processPreview(const Preview &preview)
 
 void GLPathItem::processStraightMove(const Preview &preview, MovementType movementType)
 {
-#ifdef QT_DEBUG
+/*#ifdef QT_DEBUG
     if (movementType == FeedMove)
     {
         qDebug() << "straight feed";
@@ -516,7 +515,7 @@ void GLPathItem::processStraightMove(const Preview &preview, MovementType moveme
     {
         qDebug() << "straight traverse";
     }
-#endif
+#endif//*/
 
     Position newPosition;
     QVector3D currentVector;
@@ -543,9 +542,9 @@ void GLPathItem::processStraightMove(const Preview &preview, MovementType moveme
 
 void GLPathItem::processArcFeed(const Preview &preview)
 {
-#ifdef QT_DEBUG
+/*#ifdef QT_DEBUG
     qDebug() << "arc feed";
-#endif
+#endif//*/
 
     // the index values are used for mapping the plane dependant preview data to cartesian space
     int iX;
@@ -806,58 +805,58 @@ GLPathItem::Position GLPathItem::calculateNewPosition(const machinetalk::Positio
         position.x = m_activeOffsets.g92Offset.x;
         position.x += m_activeOffsets.g5xOffsets.at(m_activeOffsets.g5xOffsetIndex-1).x;
         position.x += m_activeOffsets.toolOffset.x;
-        position.x += newPosition.x();
+        position.x += static_cast<float>(newPosition.x());
     }
 
     if (newPosition.has_y()) {
         position.y = m_activeOffsets.g92Offset.y;
         position.y += m_activeOffsets.g5xOffsets.at(m_activeOffsets.g5xOffsetIndex-1).y;
         position.y += m_activeOffsets.toolOffset.y;
-        position.y += newPosition.y();
+        position.y += static_cast<float>(newPosition.y());
     }
 
     if (newPosition.has_z()) {
         position.z = m_activeOffsets.g92Offset.z;
         position.z += m_activeOffsets.g5xOffsets.at(m_activeOffsets.g5xOffsetIndex-1).z;
         position.z += m_activeOffsets.toolOffset.z;
-        position.z += newPosition.z();
+        position.z += static_cast<float>(newPosition.z());
     }
 
     if (newPosition.has_a()) {
         position.a = m_activeOffsets.g92Offset.a;
         position.a += m_activeOffsets.g5xOffsets.at(m_activeOffsets.g5xOffsetIndex-1).a;
         position.a += m_activeOffsets.toolOffset.a;
-        position.a += newPosition.a();
+        position.a += static_cast<float>(newPosition.a());
     }
     if (newPosition.has_b()) {
         position.b = m_activeOffsets.g92Offset.b;
         position.b += m_activeOffsets.g5xOffsets.at(m_activeOffsets.g5xOffsetIndex-1).b;
         position.b += m_activeOffsets.toolOffset.b;
-        position.b += newPosition.b();
+        position.b += static_cast<float>(newPosition.b());
     }
     if (newPosition.has_c()) {
         position.c = m_activeOffsets.g92Offset.c;
         position.c += m_activeOffsets.g5xOffsets.at(m_activeOffsets.g5xOffsetIndex-1).c;
         position.c += m_activeOffsets.toolOffset.c;
-        position.c += newPosition.c();
+        position.c += static_cast<float>(newPosition.c());
     }
     if (newPosition.has_u()) {
         position.u = m_activeOffsets.g92Offset.u;
         position.u += m_activeOffsets.g5xOffsets.at(m_activeOffsets.g5xOffsetIndex-1).u;
         position.u += m_activeOffsets.toolOffset.u;
-        position.u += newPosition.u();
+        position.u += static_cast<float>(newPosition.u());
     }
     if (newPosition.has_v()) {
         position.v = m_activeOffsets.g92Offset.v;
         position.v += m_activeOffsets.g5xOffsets.at(m_activeOffsets.g5xOffsetIndex-1).v;
         position.v += m_activeOffsets.toolOffset.v;
-        position.v += newPosition.v();
+        position.v += static_cast<float>(newPosition.v());
     }
     if (newPosition.has_w()) {
         position.w = m_activeOffsets.g92Offset.w;
         position.w += m_activeOffsets.g5xOffsets.at(m_activeOffsets.g5xOffsetIndex-1).w;
         position.w += m_activeOffsets.toolOffset.w;
-        position.w += newPosition.w();
+        position.w += static_cast<float>(newPosition.w());
     }
 
     return position;

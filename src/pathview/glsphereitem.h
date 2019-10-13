@@ -35,7 +35,7 @@ class GLSphereItem : public GLItem
     Q_PROPERTY(bool selected READ isSelected NOTIFY selectedChanged)
 
 public:
-    explicit GLSphereItem(QQuickItem *parent = 0);
+    explicit GLSphereItem(QQuickItem *parent = nullptr);
 
     virtual void paint(GLView *glView);
 

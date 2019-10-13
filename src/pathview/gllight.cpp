@@ -28,9 +28,9 @@ GLLight::GLLight(QObject *parent) :
     QObject(parent),
     m_position(QVector3D(1.0, 1.0, 5.0)),
     m_intensities(QVector3D(1.0, 1.0, 1.0)),
-    m_attenuation(0.01),
+    m_attenuation(0.01f),
     m_enabled(true),
-    m_ambientCoefficient(0.1)
+    m_ambientCoefficient(0.1f)
 {
     connect(this, &GLLight::positionChanged,
             this, &GLLight::propertyChanged);
@@ -42,5 +42,71 @@ GLLight::GLLight(QObject *parent) :
             this, &GLLight::propertyChanged);
     connect(this, &GLLight::enabledChanged,
             this, &GLLight::propertyChanged);
+}
+
+
+QVector3D GLLight::position() const
+{
+    return m_position;
+}
+
+QVector3D GLLight::intensities() const
+{
+    return m_intensities;
+}
+
+float GLLight::attenuation() const
+{
+    return m_attenuation;
+}
+
+bool GLLight::enabled() const
+{
+    return m_enabled;
+}
+
+float GLLight::ambientCoefficient() const
+{
+    return m_ambientCoefficient;
+}
+
+void GLLight::setPosition(QVector3D arg)
+{
+    if (m_position != arg) {
+        m_position = arg;
+        emit positionChanged(arg);
+    }
+}
+
+void GLLight::setIntensities(QVector3D arg)
+{
+    if (m_intensities != arg) {
+        m_intensities = arg;
+        emit intensitiesChanged(arg);
+    }
+}
+
+void GLLight::setAttenuation(float arg)
+{
+    if (!qFuzzyCompare(m_attenuation, arg)) {
+        m_attenuation = arg;
+        emit attenuationChanged(arg);
+    }
+}
+
+void GLLight::setEnabled(bool arg)
+{
+    if (m_enabled != arg) {
+        m_enabled = arg;
+        emit enabledChanged(arg);
+    }
+}
+
+void GLLight::setAmbientCoefficient(float arg)
+{
+    if (!qFuzzyCompare(m_ambientCoefficient, arg)) {
+        m_ambientCoefficient = arg;
+        emit ambientCoefficientChanged(arg);
+    }
 }
 } // namespace qtquickvcp

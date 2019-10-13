@@ -48,12 +48,12 @@ class GLView : public QQuickPaintedItem, protected QOpenGLFunctions
 
     Q_INTERFACES(QQmlParserStatus)
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY backgroundColorChanged)
-    Q_PROPERTY(QGLCamera *camera READ camera WRITE setCamera NOTIFY cameraChanged)
-    Q_PROPERTY(GLLight *light READ light WRITE setLight NOTIFY lightChanged)
+    Q_PROPERTY(QGLCamera* camera READ camera WRITE setCamera NOTIFY cameraChanged)
+    Q_PROPERTY(GLLight* light READ light WRITE setLight NOTIFY lightChanged)
     Q_PROPERTY(QQmlListProperty<qtquickvcp::GLItem> glItems READ glItems NOTIFY glItemsChanged)
 
 public:
-    GLView(QQuickItem *parent = 0);
+    GLView(QQuickItem* parent = nullptr);
     ~GLView();
 
     enum TextAlignment {
@@ -64,33 +64,26 @@ public:
     Q_ENUM(TextAlignment)
 
     QColor backgroundColor() const { return m_backgroundColor; }
-    void setBackgroundColor(const QColor &color);
+    void setBackgroundColor(QColor const& color);
 
     Q_INVOKABLE void readPixel(int x, int y);
 
-    QGLCamera* camera()
-    {
-        return m_camera;
-    }
-
-    GLLight * light() const
-    {
-        return m_light;
-    }
+    QGLCamera* camera();
+    GLLight* light() const;
 
     QQmlListProperty<GLItem> glItems();
     int glItemCount() const;
-    GLItem *glItem(int index) const;
+    GLItem* glItem(int index) const;
 
-    void paint(QPainter * painter);
+    void paint(QPainter* painter);
 
 signals:
     void backgroundColorChanged();
-    void cameraChanged(QGLCamera *arg);
+    void cameraChanged(QGLCamera* arg);
     void glItemsChanged(QQmlListProperty<GLItem> arg);
-    void lightChanged(GLLight * arg);
+    void lightChanged(GLLight* arg);
     void initialized();
-    void drawableSelected(void *pointer);
+    void drawableSelected(void* pointer);
 
 public slots:
     void paint();
@@ -98,86 +91,67 @@ public slots:
     void sync();
 
     // item handling
-    void addGlItem(GLItem *glItem);
+    void addGlItem(GLItem* glItem);
     void removeGlItem(int index);
-    void removeGlItem(GLItem *glItem);
+    void removeGlItem(GLItem* glItem);
     void clearGlItems();
 
     // loading the correct current drawables list
-    void prepare(GLItem *glItem);
+    void prepare(GLItem* glItem);
 
     // removing drawables
     void reset();
 
     // model and line transformation functions
     void color(float r, float g, float b, float a);
-    void color(const QColor &color);
+    void color(QColor const& color);
     void translate(float x, float y, float z);
-    void translate(const QVector3D &vector);
+    void translate(QVector3D const& vector);
     void rotate(float angle, float x, float y, float z);
-    void rotate(float angle, const QVector3D &axis);
+    void rotate(float angle, QVector3D const& axis);
     void rotate(const QQuaternion &quaternion);
     void scale(float x, float y, float z);
-    void scale(const QVector3D &vector);
+    void scale(QVector3D const& vector);
     void mirror(float x, float y, float z);
-    void mirror(const QVector3D &vector);
+    void mirror(QVector3D const& vector);
     void resetTransformations(bool hard = false);
 
     // model functions
-    void *cube(float w, float l, float h, bool center = false);
-    void *cube(const QVector3D &size, bool center = false);
-    void *cylinder(float r, float h);
-    void *cone(float r, float h);
-    void *sphere(float r);
-    void *polygon(const QVector<QVector3D> &points);
+    void* cube(float w, float l, float h, bool center = false);
+    void* cube(QVector3D const& size, bool center = false);
+    void* cylinder(float r, float h);
+    void* cone(float r, float h);
+    void* sphere(float r);
+    void* polygon(QVector<QVector3D> const& points);
 
     // line functions
     void lineWidth(float width);
     void lineStipple(bool enable, float length = 5.0);
-    void *line(float x, float y, float z);
-    void *line(const QVector3D &vector);
+    void* line(float x, float y, float z);
+    void* line(QVector3D const& vector);
     void* lineTo(float x, float y, float z);
-    void *lineTo(const QVector3D &vector);
-    void *lineFromTo(float x1, float y1, float z1, float x2, float y2, float z2);
-    void *lineFromTo(const QVector3D &startPosition, const QVector3D &endPosition);
+    void* lineTo(QVector3D const& vector);
+    void* lineFromTo(float x1, float y1, float z1, float x2, float y2, float z2);
+    void* lineFromTo(QVector3D const& startPosition, QVector3D const& endPosition);
     void beginPath();
-    void *endPath();
-    void *arc(float x, float y, float radius, float startAngle, float endAngle, bool anticlockwise, float helixOffset = 0.0f, int arcDivison = 16);
+    void* endPath();
+    void* arc(float x, float y, float radius, float startAngle, float endAngle, bool anticlockwise, float helixOffset = 0.0f, int arcDivison = 16);
 
     // text functions
-    void text(const QString &text, TextAlignment alignment = AlignLeft, const QFont &baseFont = QFont());
+    void text(QString const& text, TextAlignment alignment = AlignLeft, QFont const& baseFont = QFont());
 
     // grouping functions
     void beginUnion();
     void endUnion();
 
     // update functions
-    void updateColor(void *drawablePointer, const QColor &color);
+    void updateColor(void* drawablePointer, QColor const& color);
 
-    void setCamera(QGLCamera *arg)
-    {
-        if (m_camera != arg) {
-            m_camera = arg;
-            emit cameraChanged(arg);
-            connect(m_camera, &QGLCamera::projectionChanged,
-                    this, &GLView::updateProjectionMatrix);
-            connect(m_camera, &QGLCamera::viewChanged,
-                    this, &GLView::updateViewMatrix);
-        }
-    }
-
-    void setLight(GLLight * arg)
-    {
-        if (m_light != arg) {
-            m_light = arg;
-            emit lightChanged(arg);
-            connect(m_light, SIGNAL(propertyChanged()),
-                    this, SLOT(update()));
-        }
-    }
+    void setCamera(QGLCamera* arg);
+    void setLight(GLLight* arg);
 
 private slots:
-    void handleWindowChanged(QQuickWindow *win);
+    void handleWindowChanged(QQuickWindow* win);
     void updatePerspectiveAspectRatio();
     void updateViewMatrix();
     void updateProjectionMatrix();
@@ -228,10 +202,10 @@ private:
     class Parameters {
     public:
         Parameters();
-        Parameters(Parameters *parameters);
+        Parameters(Parameters const* parameters);
         virtual ~Parameters();
 
-        GLItem *creator;
+        GLItem* creator;
         QMatrix4x4 modelMatrix;
         QColor color;
         bool deleteFlag;    // marks the parameter to delete
@@ -241,7 +215,7 @@ private:
     class LineParameters: public Parameters {
     public:
         LineParameters();
-        LineParameters(LineParameters *parameters);
+        LineParameters(LineParameters const* parameters);
 
         GLfloat width;
         bool stipple;
@@ -252,7 +226,7 @@ private:
     class TextParameters: public Parameters {
     public:
         TextParameters();
-        TextParameters(TextParameters *parameters);
+        TextParameters(TextParameters const* parameters);
 
         QStaticText staticText;
         TextAlignment alignment;
@@ -260,15 +234,15 @@ private:
 
     typedef struct {
         ModelType type;
-        Parameters *parameters;
+        Parameters* parameters;
     } Drawable;
 
     bool m_initialized;
 
     // the shader programs
-    QOpenGLShaderProgram *m_modelProgram;
-    QOpenGLShaderProgram *m_lineProgram;
-    QOpenGLShaderProgram *m_textProgram;
+    QOpenGLShaderProgram* m_modelProgram;
+    QOpenGLShaderProgram* m_lineProgram;
+    QOpenGLShaderProgram* m_textProgram;
 
     // vertex buffers
     QMap<ModelType, QOpenGLBuffer*> m_vertexBufferMap;
@@ -322,19 +296,19 @@ private:
     QSize m_viewportSize;
 
     // generic map of drawable items
-    QMap<ModelType, QList<Parameters*>* > m_drawableMap;
+    QMap<ModelType, QList<Parameters*> *> m_drawableMap;
 
     // model stack
-    Parameters *m_modelParameters;
+    Parameters* m_modelParameters;
     QStack<Parameters*> m_modelParametersStack;
 
     // line stack
     bool m_pathEnabled;
-    LineParameters *m_lineParameters;
+    LineParameters* m_lineParameters;
     QStack<LineParameters*> m_lineParametersStack;
 
     // text stack
-    TextParameters *m_textParameters;
+    TextParameters* m_textParameters;
     QStack<TextParameters*> m_textParametersStack;
     QList<QStaticText> m_textTextList;
     QList<QImage> m_textImageList;
@@ -348,49 +322,49 @@ private:
     bool m_selectionModeActive;
 
     //GL items
-    GLItem *m_currentGlItem;
+    GLItem* m_currentGlItem;
     QList<GLItem*> m_glItems;
     QMap<GLItem*, QList<Drawable>* > m_drawableListMap;
-    QList<Drawable> *m_currentDrawableList;
+    QList<Drawable>* m_currentDrawableList;
     QList<GLItem*> m_modifiedGlItems;  // list of gl items that have been modified
 
     // camera
-    QGLCamera *m_camera;
+    QGLCamera* m_camera;
 
     // light
-    GLLight *m_light;
+    GLLight* m_light;
 
     void addDrawableList(ModelType type);
     QList<Parameters*>* getDrawableList(ModelType type);
-    Parameters *addDrawableData(const LineParameters & parameters);
-    Parameters *addDrawableData(const TextParameters & parameters);
-    Parameters *addDrawableData(ModelType type, const Parameters & parameters);
+    Parameters* addDrawableData(LineParameters const& parameters);
+    Parameters* addDrawableData(TextParameters const& parameters);
+    Parameters* addDrawableData(ModelType type, Parameters const& parameters);
 
     void drawDrawables(ModelType type = NoType);
     void clearDrawables();
     void cleanupDrawables(ModelType type);
-    void removeDrawables(QList<Drawable> *drawableList);
+    void removeDrawables(QList<Drawable>* drawableList);
 
     void drawModelVertices(ModelType type);
 
     void drawLines();
 
     void drawTexts();
-    void prepareTextTexture(const QStaticText &staticText, const QFont &font);
-    void createTextTexture(TextParameters *textParameters);
+    void prepareTextTexture(QStaticText const& staticText, QFont const& font);
+    void createTextTexture(TextParameters* textParameters);
     void clearTextTextures();
 
     void updateGLItems();
-    void clearGLItem(GLItem *item);
-    void updateGLItem(GLItem *item);
+    void clearGLItem(GLItem* item);
+    void updateGLItem(GLItem* item);
     void paintGLItems();
-    void paintGLItem(GLItem *item);
+    void paintGLItem(GLItem* item);
 
     quint32 getSelection();
 
     // setup functions
-    void initializeVertexBuffer(ModelType type, const QVector<ModelVertex> & vertices);
-    void initializeVertexBuffer(ModelType type, const void *bufferData, int bufferLength);
+    void initializeVertexBuffer(ModelType type, QVector<ModelVertex> const& vertices);
+    void initializeVertexBuffer(ModelType type, const void* bufferData, int bufferLength);
     void setupVBOs();
     void setupGenericVertexBuffer(ModelType type);
     void setupTextVertexBuffer();

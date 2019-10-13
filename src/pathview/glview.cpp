@@ -108,11 +108,10 @@ GLView::~GLView()
     qDeleteAll(m_vertexBufferMap);
 }
 
-void GLView::setBackgroundColor(const QColor &color)
+void GLView::setBackgroundColor(QColor const& color)
 {
-    if (color == m_backgroundColor) {
+    if (color == m_backgroundColor)
         return;
-    }
 
     m_backgroundColor = color;
     emit backgroundColorChanged();
@@ -126,7 +125,17 @@ void GLView::readPixel(int x, int y)
     update();
 }
 
-void GLView::handleWindowChanged(QQuickWindow *win)
+QGLCamera* GLView::camera()
+{
+    return m_camera;
+}
+
+GLLight* GLView::light() const
+{
+    return m_light;
+}
+
+void GLView::handleWindowChanged(QQuickWindow* win)
 {
     if (win) {
         // Connect the beforeRendering signal to our paint function.
@@ -145,11 +154,9 @@ void GLView::handleWindowChanged(QQuickWindow *win)
 
 void GLView::updatePerspectiveAspectRatio()
 {
-    if ((width() > 0.0) && (height() > 0.0)) // avoid division by zero
-    {
+    if ((width() > 0.0) && (height() > 0.0)) { // avoid division by zero
         m_projectionAspectRatio = static_cast<float>(width() / height());
-    }
-    else {
+    } else {
         m_projectionAspectRatio = 1.0f;
     }
 
@@ -160,25 +167,22 @@ void GLView::updateViewMatrix()
 {
     m_viewMatrix = m_camera->modelViewMatrix();
 
-    if (m_initialized) {
+    if (m_initialized)
         update();
-    }
 }
 
 void GLView::updateProjectionMatrix()
 {
     m_projectionMatrix = m_camera->projectionMatrix(m_projectionAspectRatio);
 
-    if (m_initialized) {
+    if (m_initialized)
         update();
-    }
 }
 
 void GLView::updateItems()
 {
-    if (!m_initialized) {
+    if (!m_initialized)
         return;
-    }
 
     updateGLItems();
     update();
@@ -204,51 +208,41 @@ void GLView::updateChildren()
     QList<QQuickItem*> objectChildren = childItems();
 
     // get all GL items
-    for (int i = 0; i < objectChildren.size(); ++i)
-    {
-        GLItem* glItem;
-        glItem = qobject_cast<GLItem*>(objectChildren.at(i));
-        if (glItem != nullptr)
-        {
+    for (auto& item : objectChildren) {
+        auto glItem = qobject_cast<GLItem*>(item);
+        if (glItem)
             newItems.append(glItem);
-        }
     }
 
     // remove all removed GL items
-    for (int i = (m_glItems.size()-1); i >= 0; i--)
-    {
+    for (int i = (m_glItems.size()-1); i >= 0; i--) {
         if (!newItems.contains(m_glItems.at(i)))
-        {
             removeGlItem(i);
-        }
     }
 
     // add all new GL items
-    for (int i = 0; i < newItems.size(); ++i)
-    {
-        if (!m_glItems.contains(newItems.at(i)))
-        {
-            addGlItem(newItems.at(i));
-        }
+    for (auto& item : newItems) {
+        if (!m_glItems.contains(item))
+            addGlItem(item);
     }
 }
 
 void GLView::addDrawableList(GLView::ModelType type)
 {
-    QList<Parameters*> *parametersList = new QList<Parameters*>();
+    auto parametersList = new QList<Parameters*>();
     m_drawableMap.insert(type, parametersList);
 }
 
-QList<GLView::Parameters *> *GLView::getDrawableList(GLView::ModelType type)
+QList<GLView::Parameters*>* GLView::getDrawableList(GLView::ModelType type)
 {
     return m_drawableMap.value(type);
 }
 
-GLView::Parameters* GLView::addDrawableData(const GLView::LineParameters &parameters)
+GLView::Parameters* GLView::addDrawableData(GLView::LineParameters const& parameters)
 {
     // add parameter
     QList<Parameters*> *parametersList = m_drawableMap.value(Line);
-    LineParameters *lineParameters = new LineParameters(parameters);
+    auto lineParameters = new LineParameters(parameters);
     lineParameters->creator = m_currentGlItem;
     parametersList->append(lineParameters);
 
@@ -261,10 +255,10 @@ GLView::Parameters* GLView::addDrawableData(const GLView::LineParameters &parame
     return lineParameters;
 }
 
-GLView::Parameters* GLView::addDrawableData(const GLView::TextParameters &parameters)
+GLView::Parameters* GLView::addDrawableData(GLView::TextParameters const& parameters)
 {
-    QList<Parameters*> *parametersList = m_drawableMap.value(Text);
-    TextParameters *textParameters = new TextParameters(parameters);
+    QList<Parameters*>* parametersList = m_drawableMap.value(Text);
+    auto textParameters = new TextParameters(parameters);
     textParameters->creator = m_currentGlItem;
     parametersList->append(textParameters);
 
@@ -276,11 +270,11 @@ GLView::Parameters* GLView::addDrawableData(const GLView::TextParameters &parame
     return textParameters;
 }
 
-GLView::Parameters* GLView::addDrawableData(GLView::ModelType type, const GLView::Parameters &parameters)
+GLView::Parameters* GLView::addDrawableData(GLView::ModelType type, GLView::Parameters const& parameters)
 {
     QList<Parameters*> *parametersList = m_drawableMap.value(type, nullptr);
     Q_ASSERT(parametersList != nullptr);
-    Parameters *modelParameters = new Parameters(parameters);
+    auto modelParameters = new Parameters(parameters);
     modelParameters->creator = m_currentGlItem;
     parametersList->append(modelParameters);
 
@@ -310,10 +304,8 @@ void GLView::drawDrawables(GLView::ModelType type)
         drawLines();
         break;
     case NoType:
-        QMapIterator<ModelType, QList<Parameters*>* > i(m_drawableMap);
-        while (i.hasNext()) {
-            i.next();
-            drawDrawables(i.key());
+        for (auto& key : m_drawableMap.keys()) {
+            drawDrawables(key);
         }
         break;
     }
@@ -321,13 +313,10 @@ void GLView::drawDrawables(GLView::ModelType type)
 
 void GLView::clearDrawables()
 {
-    QMapIterator<ModelType, QList<Parameters*>* > i(m_drawableMap);
-    while (i.hasNext()) {
-        i.next();
-        QList<Parameters*> * parametersList = i.value();
-        for (int j = 0; j < i.value()->size(); ++j)
-        {
-            Parameters *parameters = parametersList->takeAt(j);
+    for (auto& drawable : qAsConst(m_drawableMap)) {
+        QList<Parameters*>* parametersList = drawable;
+        for (int j = 0; j < drawable->size(); ++j) {
+            Parameters* parameters = parametersList->takeAt(j);
             delete parameters;
         }
     }
@@ -335,34 +324,28 @@ void GLView::clearDrawables()
 
 void GLView::cleanupDrawables(ModelType type)
 {
-    QList<Parameters*> *parametersList = m_drawableMap.value(type, nullptr);
+    QList<Parameters*>* parametersList = m_drawableMap.value(type, nullptr);
 
     Q_ASSERT(parametersList != nullptr);
-    if (parametersList == nullptr) {
+    if (parametersList == nullptr)
         return;
-    }
 
-    for (int i = (parametersList->size()-1); i >= 0; i--)
-    {
-        Parameters *parameters = parametersList->at(i);
+    for (int i = (parametersList->size()-1); i >= 0; i--) {
+        Parameters* parameters = parametersList->at(i);
         if (parameters->deleteFlag)
-        {
             delete parametersList->takeAt(i);
-        }
     }
 }
 
-void GLView::removeDrawables(QList<GLView::Drawable> *drawableList)
+void GLView::removeDrawables(QList<GLView::Drawable>* drawableList)
 {
     QList<ModelType> types;
 
-    for (int i = (drawableList->size() - 1); i >= 0; i--)
-    {
+    for (int i = (drawableList->size() - 1); i >= 0; i--) {
         Drawable drawable = drawableList->at(i);
         drawable.parameters->deleteFlag = true; // mark for deletion
-        if (!types.contains(drawable.type)) {
+        if (!types.contains(drawable.type))
             types.append(drawable.type);
-        }
     }
 
     for (int i = 0; i < types.size(); ++i) {
@@ -372,12 +355,12 @@ void GLView::removeDrawables(QList<GLView::Drawable> *drawableList)
     drawableList->clear();
 }
 
-void GLView::initializeVertexBuffer(ModelType type, const QVector<ModelVertex> &vertices)
+void GLView::initializeVertexBuffer(ModelType type, QVector<ModelVertex> const& vertices)
 {
     initializeVertexBuffer(type, vertices.data(), vertices.length() * static_cast<int>(sizeof(ModelVertex)));
 }
 
-void GLView::initializeVertexBuffer(ModelType type, const void *bufferData, int bufferLength)
+void GLView::initializeVertexBuffer(ModelType type, const void* bufferData, int bufferLength)
 {
     QOpenGLBuffer *glBuffer = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     glBuffer->create();
@@ -561,9 +544,9 @@ void GLView::setupShaders()
 
 bool GLView::setupWindow()
 {
-    if (!window()) {
+    if (!window())
         return false;
-    }
+
     connect(window()->openglContext(), &QOpenGLContext::aboutToBeDestroyed,
             this, &GLView::cleanup, Qt::DirectConnection);
 
@@ -707,14 +690,12 @@ void GLView::setupSphere(int detail)
     int longitudeBands = detail;
     GLfloat radius = 1.0;
 
-    for (int latNumber = 0; latNumber <= latitudeBands; ++latNumber)
-    {
+    for (int latNumber = 0; latNumber <= latitudeBands; ++latNumber) {
         GLfloat theta = static_cast<GLfloat>(latNumber) * PI_F / static_cast<GLfloat>(latitudeBands);
         GLfloat sinTheta = std::sin(theta);
         GLfloat cosTheta = std::cos(theta);
 
-        for (int longNumber = 0; longNumber <= longitudeBands; ++longNumber)
-        {
+        for (int longNumber = 0; longNumber <= longitudeBands; ++longNumber) {
             GLfloat phi = static_cast<GLfloat>(longNumber) * 2.0f * PI_F / static_cast<GLfloat>(longitudeBands);
             GLfloat sinPhi = std::sin(phi);
             GLfloat cosPhi = std::cos(phi);
@@ -772,9 +753,7 @@ void GLView::drawModelVertices(ModelType type)
     const QList<Parameters*> *modelParametersList = getDrawableList(type);
 
     if (modelParametersList->isEmpty())
-    {
         return;
-    }
 
     vertexBuffer->bind();
     m_modelProgram->enableAttributeArray(m_positionLocation);
@@ -782,13 +761,11 @@ void GLView::drawModelVertices(ModelType type)
     m_modelProgram->setAttributeBuffer(m_positionLocation, GL_FLOAT, 0, 3, sizeof(ModelVertex));
     m_modelProgram->setAttributeBuffer(m_normalLocation, GL_FLOAT, 3*sizeof(GLfloat), 3, sizeof(ModelVertex));
 
-    for (Parameters *modelParameters: qAsConst(*modelParametersList))
-    {
+    for (Parameters* modelParameters: qAsConst(*modelParametersList)) {
         m_modelProgram->setUniformValue(m_colorLocation, modelParameters->color);
         m_modelProgram->setUniformValue(m_modelMatrixLocation, modelParameters->modelMatrix);
 
-        if (m_selectionModeActive)  // selection mode active
-        {
+        if (m_selectionModeActive) { // selection mode active
             m_modelProgram->setUniformValue(m_idColorLocation, QColor(0xFF000000u + m_currentDrawableId));    // color for selection mode
             m_drawableIdMap.insert(m_currentDrawableId, modelParameters);
             m_currentDrawableId++;
@@ -797,8 +774,7 @@ void GLView::drawModelVertices(ModelType type)
         if (type == Polygon) {
             vertexBuffer->write(0, modelParameters->shapeVertices.data(), modelParameters->shapeVertices.size() * static_cast<int>(sizeof(ModelVertex)));
             glDrawArrays(GL_TRIANGLE_FAN, 0, modelParameters->shapeVertices.size());
-        }
-        else {
+        } else {
             glDrawArrays(GL_TRIANGLES, 0, vertexBuffer->size() / static_cast<int>(sizeof(ModelVertex)));
         }
     }
@@ -814,25 +790,21 @@ void GLView::drawLines()
     const QList<Parameters*>* parametersList = getDrawableList(Line);
 
     if (parametersList->isEmpty())
-    {
         return;
-    }
 
     vertexBuffer->bind();
     m_lineProgram->enableAttributeArray(m_linePositionLocation);
     m_lineProgram->setAttributeBuffer(m_linePositionLocation, GL_FLOAT, 0, 3);
 
-    for (Parameters *parameters: qAsConst(*parametersList))
-    {
-        LineParameters *lineParameters = static_cast<LineParameters*>(parameters);
+    for (Parameters* parameters: qAsConst(*parametersList)) {
+        LineParameters* lineParameters = static_cast<LineParameters*>(parameters);
         vertexBuffer->write(0, lineParameters->vertices.data(), lineParameters->vertices.size() * static_cast<int>(sizeof(GLvector3D)));
         m_lineProgram->setUniformValue(m_lineColorLocation, lineParameters->color);
         m_lineProgram->setUniformValue(m_lineModelMatrixLocation, lineParameters->modelMatrix);
         m_lineProgram->setUniformValue(m_lineStippleLocation, lineParameters->stipple);
         m_lineProgram->setUniformValue(m_lineStippleLengthLocation, lineParameters->stippleLength);
 
-        if (m_selectionModeActive)  // selection mode active
-        {
+        if (m_selectionModeActive) { // selection mode active
             m_lineProgram->setUniformValue(m_lineIdColorLocation, QColor(0xFF000000u + m_currentDrawableId));    // color for selection mode
             m_drawableIdMap.insert(m_currentDrawableId, lineParameters);
             m_currentDrawableId++;
@@ -848,13 +820,11 @@ void GLView::drawLines()
 
 void GLView::drawTexts()
 {
-    QOpenGLBuffer *vertexBuffer = m_vertexBufferMap[Text];
+    QOpenGLBuffer* vertexBuffer = m_vertexBufferMap[Text];
     QList<Parameters*>* parametersList = getDrawableList(Text);
 
     if (parametersList->isEmpty())
-    {
         return;
-    }
 
     vertexBuffer->bind();
     m_textProgram->enableAttributeArray(m_textPositionLocation);
@@ -862,22 +832,16 @@ void GLView::drawTexts()
     m_textProgram->setAttributeBuffer(m_textPositionLocation, GL_FLOAT, 0, 3, sizeof(TextVertex));
     m_textProgram->setAttributeBuffer(m_textTexCoordinateLocation, GL_FLOAT, 3*sizeof(GLfloat), 2, sizeof(TextVertex));
 
-    for (Parameters *parameters: qAsConst(*parametersList))
-    {
-        TextParameters *textParameters = static_cast<TextParameters*>(parameters);
+    for (Parameters* parameters: qAsConst(*parametersList)) {
+        TextParameters* textParameters = static_cast<TextParameters*>(parameters);
         QStaticText staticText = textParameters->staticText;
-        int textureIndex;
-        QOpenGLTexture *texture;
-        float aspectRatio;
 
-        textureIndex = m_textTextList.indexOf(staticText);
-        texture = m_textTextureList.at(textureIndex);
-        aspectRatio = m_textAspectRatioList.at(textureIndex);
+        int textureIndex = m_textTextList.indexOf(staticText);
+        QOpenGLTexture* texture = m_textTextureList.at(textureIndex);
+        float aspectRatio = m_textAspectRatioList.at(textureIndex);
 
         if (!texture->isCreated()) // initialize texture on first use
-        {
             createTextTexture(textParameters);
-        }
 
         m_textProgram->setUniformValue(m_textAspectRatioLocation, aspectRatio);
         m_textProgram->setUniformValue(m_textAlignmentLocation, static_cast<GLint>(textParameters->alignment));
@@ -885,8 +849,7 @@ void GLView::drawTexts()
         m_textProgram->setUniformValue(m_textModelMatrixLocation, textParameters->modelMatrix);
         m_textProgram->setUniformValue(m_textTextureLocation, 1);
 
-        if (m_selectionModeActive)  // selection mode active
-        {
+        if (m_selectionModeActive) { // selection mode active
             m_textProgram->setUniformValue(m_textIdColorLocation, QColor(0xFF000000u + m_currentDrawableId));    // color for selection mode
             m_drawableIdMap.insert(m_currentDrawableId, textParameters);
             m_currentDrawableId++;
@@ -903,17 +866,13 @@ void GLView::drawTexts()
     vertexBuffer->release();
 }
 
-void GLView::prepareTextTexture(const QStaticText &staticText, const QFont &font)
+void GLView::prepareTextTexture(QStaticText const& staticText, QFont const& font)
 {
     if (m_textTextList.contains(staticText))
-    {
         return;
-    }
 
     if (m_textTextureList.size() > 100) // maximum of 100 rendered texts TODO: make parameter
-    {
         clearTextTextures();
-    }
 
     QPixmap pixmap(QSize(qCeil(staticText.size().width()), qCeil(staticText.size().height())));
     pixmap.fill(QColor(Qt::transparent));
@@ -923,7 +882,7 @@ void GLView::prepareTextTexture(const QStaticText &staticText, const QFont &font
     painter.setFont(font);
     painter.drawStaticText(0, 0, staticText);
 
-    QOpenGLTexture *texture = new QOpenGLTexture(QOpenGLTexture::Target2D);
+    QOpenGLTexture* texture = new QOpenGLTexture(QOpenGLTexture::Target2D);
     float aspectRatio = static_cast<float>(staticText.size().width() / staticText.size().height());
 
     m_textTextList.append(staticText);
@@ -932,10 +891,10 @@ void GLView::prepareTextTexture(const QStaticText &staticText, const QFont &font
     m_textImageList.append(pixmap.toImage());
 }
 
-void GLView::createTextTexture(TextParameters *textParameters)
+void GLView::createTextTexture(TextParameters* textParameters)
 {
     int textureIndex = m_textTextList.indexOf(textParameters->staticText);
-    QOpenGLTexture *texture = m_textTextureList.at(textureIndex);
+    QOpenGLTexture* texture = m_textTextureList.at(textureIndex);
 
     texture->create();
     texture->setMinificationFilter(QOpenGLTexture::Nearest);
@@ -949,23 +908,17 @@ void GLView::clearTextTextures()
     QList<int> usedIndexes;
     QList<Parameters*>* parametersList = getDrawableList(Text);
 
-
     // search for indexes still in use
-    for (int i = 0; i < parametersList->size(); ++i)
-    {
-        TextParameters *textParameters = static_cast<TextParameters*>(parametersList->at(i));
+    for (int i = 0; i < parametersList->size(); ++i) {
+        TextParameters* textParameters = static_cast<TextParameters*>(parametersList->at(i));
 
         if (m_textTextList.contains(textParameters->staticText))
-        {
             usedIndexes.append(i);
-        }
     }
 
     // remove all textures that are not in use anymore
-    for (int i = (m_textTextureList.size()-1); i >= 0; i--)
-    {
-        if (!usedIndexes.contains(i))
-        {
+    for (int i = (m_textTextureList.size()-1); i >= 0; i--) {
+        if (!usedIndexes.contains(i)) {
             m_textTextList.removeAt(i);
             m_textAspectRatioList.removeAt(i);
             m_textTextureList.at(i)->destroy();
@@ -978,59 +931,47 @@ void GLView::clearTextTextures()
 
 void GLView::updateGLItems()
 {
-    for (int i = 0; i < m_glItems.size(); ++i)
-    {
-        updateGLItem(m_glItems.at(i));
+    for (auto& item : qAsConst(m_glItems)) {
+        updateGLItem(item);
     }
 }
 
-void GLView::clearGLItem(GLItem *item)
+void GLView::clearGLItem(GLItem* item)
 {
     Q_ASSERT(item != nullptr);
-    if (item == nullptr)
-    {
+    if (!item)
         return;
-    }
 
     const auto drawables = m_drawableListMap.value(item, nullptr);
-    if (drawables != nullptr)
-    {
+    if (drawables)
         removeDrawables(drawables);
-    }
 }
 
-void GLView::updateGLItem(GLItem *item)
+void GLView::updateGLItem(GLItem* item)
 {
     m_modifiedGlItems.append(item);
 }
 
 void GLView::paintGLItems()
 {
-    for (int i = 0; i < m_modifiedGlItems.size(); ++i)
-    {
-        paintGLItem(m_modifiedGlItems.at(i));
+    for (auto& item : qAsConst(m_modifiedGlItems)) {
+        paintGLItem(item);
     }
     m_modifiedGlItems.clear();
 }
 
-void GLView::paintGLItem(GLItem *item)
+void GLView::paintGLItem(GLItem* item)
 {
     Q_ASSERT(item != nullptr);
-    if (item == nullptr)
-    {
+    if (!item)
         return;
-    }
 
-    if (item->isVisible())
-    {
+    if (item->isVisible()) {
         item->paint(this);
-    }
-    else
-    {
+    } else {
         const auto drawables = m_drawableListMap.value(item, nullptr);
-        if (drawables != nullptr) {
+        if (drawables != nullptr)
             removeDrawables(drawables);     // if the item is not visible we remove all drawables
-        }
     }
 }
 
@@ -1089,11 +1030,11 @@ quint32 GLView::getSelection()
     }
 }
 
-void GLView::addGlItem(GLItem *item)
+void GLView::addGlItem(GLItem* item)
 {
     m_glItems.append(item);
 
-    QList<Drawable> *drawableList = new QList<Drawable>();
+    QList<Drawable>* drawableList = new QList<Drawable>();
     m_drawableListMap.insert(item, drawableList);
 
     if (m_initialized) {
@@ -1109,7 +1050,7 @@ void GLView::addGlItem(GLItem *item)
 
 void GLView::removeGlItem(int index)
 {
-    GLItem *item = m_glItems.takeAt(index);
+    GLItem* item = m_glItems.takeAt(index);
 
     if (m_initialized) {
         clearGLItem(item);
@@ -1124,12 +1065,10 @@ void GLView::removeGlItem(int index)
     emit glItemsChanged(glItems());
 }
 
-void GLView::removeGlItem(GLItem *item)
+void GLView::removeGlItem(GLItem* item)
 {
-    for (int i = 0; i < m_glItems.size(); ++i)
-    {
-        if (m_glItems.at(i) == item)
-        {
+    for (int i = 0; i < m_glItems.size(); ++i) {
+        if (m_glItems.at(i) == item) {
             removeGlItem(i);
             return;
         }
@@ -1138,13 +1077,12 @@ void GLView::removeGlItem(GLItem *item)
 
 void GLView::clearGlItems()
 {
-    for (int i = (m_glItems.size()-1); i >= 0; i--)
-    {
+    for (int i = (m_glItems.size()-1); i >= 0; i--) {
         removeGlItem(i);
     }
 }
 
-void GLView::prepare(GLItem *glItem)
+void GLView::prepare(GLItem* glItem)
 {
     m_currentDrawableList = m_drawableListMap.value(glItem);
     m_currentGlItem = glItem;
@@ -1164,12 +1102,12 @@ int GLView::glItemCount() const
     return m_glItems.count();
 }
 
-GLItem *GLView::glItem(int index) const
+GLItem* GLView::glItem(int index) const
 {
     return m_glItems.at(index);
 }
 
-void GLView::paint(QPainter *painter)
+void GLView::paint(QPainter* painter)
 {
     painter->beginNativePainting();
     paint();
@@ -1184,7 +1122,7 @@ void GLView::color(float r, float g, float b, float a)
                  static_cast<int>(255.0f * a)));
 }
 
-void GLView::color(const QColor &color)
+void GLView::color(QColor const& color)
 {
     m_modelParameters->color = color;
     m_lineParameters->color = color;
@@ -1196,7 +1134,7 @@ void GLView::translate(float x, float y, float z)
     translate(QVector3D(x, y, z));
 }
 
-void GLView::translate(const QVector3D &vector)
+void GLView::translate(QVector3D const& vector)
 {
     m_modelParameters->modelMatrix.translate(vector);
     m_lineParameters->modelMatrix.translate(vector);
@@ -1208,14 +1146,14 @@ void GLView::rotate(float angle, float x, float y, float z)
     rotate(angle, QVector3D(x, y, z));
 }
 
-void GLView::rotate(float angle, const QVector3D &axis)
+void GLView::rotate(float angle, QVector3D const& axis)
 {
     m_modelParameters->modelMatrix.rotate(angle, axis);
     m_lineParameters->modelMatrix.rotate(angle, axis);
     m_textParameters->modelMatrix.rotate(angle, axis);
 }
 
-void GLView::rotate(const QQuaternion &quaternion)
+void GLView::rotate(QQuaternion const& quaternion)
 {
     m_modelParameters->modelMatrix.rotate(quaternion);
     m_lineParameters->modelMatrix.rotate(quaternion);
@@ -1227,7 +1165,7 @@ void GLView::scale(float x, float y, float z)
     scale(QVector3D(x, y, z));
 }
 
-void GLView::scale(const QVector3D &vector)
+void GLView::scale(QVector3D const& vector)
 {
     m_modelParameters->modelMatrix.scale(vector);
     m_lineParameters->modelMatrix.scale(vector);
@@ -1239,11 +1177,11 @@ void GLView::mirror(float x, float y, float z)
     mirror(QVector3D(x, y, z));
 }
 
-void GLView::mirror(const QVector3D &vector)
+void GLView::mirror(QVector3D const& vector)
 {
-    int x = static_cast<int>(vector.x());
-    int y = static_cast<int>(vector.y());
-    int z = static_cast<int>(vector.z());
+    int const x = static_cast<int>(vector.x());
+    int const y = static_cast<int>(vector.y());
+    int const z = static_cast<int>(vector.z());
 
     m_modelParameters->modelMatrix.scale((x == 1) ? -1.0 : 1.0,
                                    (y == 1) ? -1.0 : 1.0,
@@ -1258,12 +1196,10 @@ void GLView::mirror(const QVector3D &vector)
 
 void GLView::resetTransformations(bool hard)
 {
-    if (hard)
-    {
+    if (hard) {
         delete m_modelParameters;
         m_modelParameters = m_modelParametersStack.takeFirst();
-        for (Parameters *parameters: qAsConst(m_modelParametersStack))
-        {
+        for (Parameters* parameters: qAsConst(m_modelParametersStack)) {
             delete parameters;
         }
         m_modelParametersStack.clear();
@@ -1271,8 +1207,7 @@ void GLView::resetTransformations(bool hard)
 
         delete m_lineParameters;
         m_lineParameters = m_lineParametersStack.takeFirst();
-        for (LineParameters *parameters: qAsConst(m_lineParametersStack))
-        {
+        for (LineParameters* parameters: qAsConst(m_lineParametersStack)) {
             delete parameters;
         }
         m_lineParametersStack.clear();
@@ -1280,15 +1215,12 @@ void GLView::resetTransformations(bool hard)
 
         delete m_textParameters;
         m_textParameters = m_textParametersStack.takeFirst();
-        for (TextParameters *parameters: qAsConst(m_textParametersStack))
-        {
+        for (TextParameters* parameters: qAsConst(m_textParametersStack)) {
             delete parameters;
         }
         m_textParametersStack.clear();
         m_textParametersStack.push(new TextParameters(m_textParameters));
-    }
-    else
-    {
+    } else {
         delete m_modelParameters;
         m_modelParameters = new Parameters(m_modelParametersStack.top());
         delete m_lineParameters;
@@ -1298,53 +1230,52 @@ void GLView::resetTransformations(bool hard)
     }
 }
 
-void *GLView::cube(float w, float l, float h, bool center)
+void* GLView::cube(float w, float l, float h, bool center)
 {
     return cube(QVector3D(w, l, h), center);
 }
 
-void *GLView::cube(const QVector3D &size, bool center)
+void* GLView::cube(QVector3D const& size, bool center)
 {
     if (center)
-    {
         m_modelParameters->modelMatrix.translate(-size/2.0);
-    }
+
     m_modelParameters->modelMatrix.scale(size);
 
-    Parameters *parameters = addDrawableData(Cube, m_modelParameters);
+    Parameters* parameters = addDrawableData(Cube, m_modelParameters);
     resetTransformations();
     return parameters;
 }
 
-void *GLView::cylinder(float r, float h)
+void* GLView::cylinder(float r, float h)
 {
     m_modelParameters->modelMatrix.scale(r, r, h);
-    Parameters *parameters = addDrawableData(Cylinder, m_modelParameters);
+    Parameters* parameters = addDrawableData(Cylinder, m_modelParameters);
     resetTransformations();
     return parameters;
 }
 
-void *GLView::cone(float r, float h)
+void* GLView::cone(float r, float h)
 {
     m_modelParameters->modelMatrix.scale(r, r, h);
-    Parameters *parameters = addDrawableData(Cone, m_modelParameters);
+    Parameters* parameters = addDrawableData(Cone, m_modelParameters);
     resetTransformations();
     return parameters;
 }
 
-void *GLView::sphere(float r)
+void* GLView::sphere(float r)
 {
     m_modelParameters->modelMatrix.scale(r,r,r);
-    Parameters *parameters = addDrawableData(Sphere, m_modelParameters);
+    Parameters* parameters = addDrawableData(Sphere, m_modelParameters);
     resetTransformations();
     return parameters;
 }
 
-void *GLView::polygon(const QVector<QVector3D> &points)
+void* GLView::polygon(QVector<QVector3D> const& points)
 {
-    Parameters *parameters = addDrawableData(Polygon, m_modelParameters);
-    for (const auto &point: points) {
-        ModelVertex vertex = {{point.x(), point.y(), point.z()}, {0.0f, 1.0f, 0.0f}};
+    Parameters* parameters = addDrawableData(Polygon, m_modelParameters);
+    for (auto const& point : points) {
+        ModelVertex const vertex = {{point.x(), point.y(), point.z()}, {0.0f, 1.0f, 0.0f}};
         parameters->shapeVertices.append(vertex);
     }
     resetTransformations();
@@ -1362,7 +1293,7 @@ void GLView::lineStipple(bool enable, float length)
     m_lineParameters->stippleLength = length;
 }
 
-void *GLView::line(float x, float y, float z)
+void* GLView::line(float x, float y, float z)
 {
     GLvector3D vector;
     vector.x = x;
@@ -1371,38 +1302,33 @@ void *GLView::line(float x, float y, float z)
 
     m_lineParameters->vertices.append(vector);
 
-    Parameters *parameters = addDrawableData(m_lineParameters);
+    Parameters* parameters = addDrawableData(m_lineParameters);
     resetTransformations();
     return parameters;
 }
 
-void *GLView::line(const QVector3D &vector)
+void* GLView::line(QVector3D const& vector)
 {
     return line(vector.x(), vector.y(), vector.z());
 }
 
-void *GLView::lineTo(float x, float y, float z)
+void* GLView::lineTo(float x, float y, float z)
 {
-    if (!m_pathEnabled)
-    {
+    if (!m_pathEnabled) {
         GLvector3D lastVector;
         GLvector3D vector;
 
         if (m_lineParameters->vertices.size() > 1)
-        {
             lastVector = m_lineParameters->vertices.takeLast();
-        }
         else
-        {
             lastVector = m_lineParameters->vertices.last();
-        }
 
         vector.x = x - lastVector.x;
         vector.y = y - lastVector.y;
         vector.z = z - lastVector.z;
         m_lineParameters->vertices.append(vector);
 
-        Parameters *parameters = addDrawableData(m_lineParameters);
+        Parameters* parameters = addDrawableData(m_lineParameters);
         m_lineParameters->modelMatrix.translate(vector.x,
                                                 vector.y,
                                                 vector.z);
@@ -1412,25 +1338,23 @@ void *GLView::lineTo(float x, float y, float z)
 
         return parameters;
     }
-    else
-    {
-        m_lineParameters->vertices.append({x, y, z});
-    }
+
+    m_lineParameters->vertices.append({x, y, z});
 
     return nullptr;
 }
 
-void *GLView::lineTo(const QVector3D &vector)
+void* GLView::lineTo(QVector3D const& vector)
 {
     return lineTo(vector.x(), vector.y(), vector.z());
 }
 
-void *GLView::lineFromTo(float x1, float y1, float z1, float x2, float y2, float z2)
+void* GLView::lineFromTo(float x1, float y1, float z1, float x2, float y2, float z2)
 {
     return lineFromTo(QVector3D(x1, y1, z1), QVector3D(x2, y2, z2));
 }
 
-void *GLView::lineFromTo(const QVector3D &startPosition, const QVector3D &endPosition)
+void* GLView::lineFromTo(QVector3D const& startPosition, QVector3D const& endPosition)
 {
     GLvector3D vector;
     vector.x = endPosition.x() - startPosition.x();
@@ -1439,7 +1363,7 @@ void *GLView::lineFromTo(const QVector3D &startPosition, const QVector3D &endPos
     m_lineParameters->vertices.append(vector);
 
     m_lineParameters->modelMatrix.translate(startPosition);
-    Parameters *parameters = addDrawableData(m_lineParameters);
+    Parameters* parameters = addDrawableData(m_lineParameters);
     resetTransformations();
     return parameters;
 }
@@ -1449,50 +1373,45 @@ void GLView::beginPath()
     m_pathEnabled = true;
 }
 
-void *GLView::endPath()
+void* GLView::endPath()
 {
     m_pathEnabled = false;
-    Parameters *parameters = addDrawableData(m_lineParameters);
+    Parameters* parameters = addDrawableData(m_lineParameters);
     resetTransformations();
     return parameters;
 }
 
-void *GLView::arc(float x, float y, float radius, float startAngle, float endAngle, bool anticlockwise, float helixOffset, int arcDivison)
+void* GLView::arc(float x, float y, float radius, float startAngle, float endAngle, bool anticlockwise, float helixOffset, int arcDivison)
 {
     float startX = 0.0f;
     float startY = 0.0f;
     float totalAngle;
 
-    if (anticlockwise && (startAngle > endAngle)) {
+    if (anticlockwise && (startAngle > endAngle))
         totalAngle = std::fabs(endAngle - (startAngle - 2.0f * PI_F));
-    }
-    else if (!anticlockwise && (startAngle < endAngle)) {
+    else if (!anticlockwise && (startAngle < endAngle))
         totalAngle = std::fabs(endAngle - (startAngle + 2.0f * PI_F));
-    }
-    else {
+    else
         totalAngle = std::fabs(endAngle - startAngle);
-    }
 
     const int nSegments = static_cast<int>(std::ceil(totalAngle * static_cast<float>(arcDivison) / (2.0f * PI_F)));
     float segmentAngle = totalAngle / static_cast<float>(nSegments);
-    if (!anticlockwise) {
+    if (!anticlockwise)
         segmentAngle *= -1.0f;
-    }
+
     const float segmentZ = helixOffset / static_cast<float>(nSegments);
 
     const bool wasInPath = m_pathEnabled;
-    if (!wasInPath) {
+    if (!wasInPath)
         beginPath();
-    }
-    for (int i = 0; i < (nSegments + 1); ++i)
-    {
+
+    for (int i = 0; i < (nSegments + 1); ++i) {
         const float currentX = std::cos(startAngle + segmentAngle * static_cast<float>(i)) * radius + x;
         const float currentY = std::sin(startAngle + segmentAngle * static_cast<float>(i)) * radius + y;
         const float currentZ = static_cast<float>(i) * segmentZ;
         if (i > 0) {
             lineTo(currentX - startX, currentY - startY, currentZ);
-        }
-        else {
+        } else {
             startX = currentX;
             startY = currentY;
             translate(startX, startY, 0.0f);
@@ -1500,16 +1419,12 @@ void *GLView::arc(float x, float y, float radius, float startAngle, float endAng
     }
 
     if (!wasInPath)    // if no path was previousle active end the path started in this function
-    {
         return endPath();
-    }
-    else
-    {
-        return nullptr;
-    }
+
+    return nullptr;
 }
 
-void GLView::text(const QString &text, TextAlignment alignment , const QFont &baseFont)
+void GLView::text(QString const& text, TextAlignment alignment , QFont const& baseFont)
 {
     QStaticText staticText(text);
     QFont font = baseFont;
@@ -1543,19 +1458,40 @@ void GLView::endUnion()
     m_textParameters = new TextParameters(m_textParametersStack.top());
 }
 
-void GLView::updateColor(void *drawablePointer, const QColor &color)
+void GLView::updateColor(void* drawablePointer, QColor const& color)
 {
-    Parameters *parameters = static_cast<Parameters*>(drawablePointer);
-    if (parameters != nullptr) {
+    Parameters* parameters = static_cast<Parameters*>(drawablePointer);
+    if (parameters)
         parameters->color = color;
+}
+
+void GLView::setCamera(QGLCamera* arg)
+{
+    if (m_camera != arg) {
+        m_camera = arg;
+        emit cameraChanged(arg);
+        connect(m_camera, &QGLCamera::projectionChanged,
+                this, &GLView::updateProjectionMatrix);
+        connect(m_camera, &QGLCamera::viewChanged,
+                this, &GLView::updateViewMatrix);
+    }
+}
+
+void GLView::setLight(GLLight* arg)
+{
+    if (m_light != arg) {
+        m_light = arg;
+        emit lightChanged(arg);
+        connect(m_light, &GLLight::propertyChanged,
+                this, [this]() { update(); });
     }
 }
 
 void GLView::paint()
 {
-    if (!m_initialized) {
+    if (!m_initialized)
         return;
-    }
+
     glViewport(0, 0, static_cast<GLsizei>(width()), static_cast<GLsizei>(height()));
 
     glClearColor(static_cast<GLclampf>(m_thread_backgroundColor.redF()),
@@ -1577,9 +1513,7 @@ void GLView::paint()
     glEnable(GL_BLEND);
 
     if (m_selectionModeActive)
-    {
         m_currentDrawableId = 1;    // we start by one since 0 is the background color
-    }
 
     m_lineProgram->bind();
     m_lineProgram->setUniformValue(m_lineProjectionMatrixLocation, m_projectionMatrix);
@@ -1611,8 +1545,7 @@ void GLView::paint()
     drawDrawables(Polygon);
     m_modelProgram->release();
 
-    if (m_selectionModeActive)
-    {
+    if (m_selectionModeActive) {
         quint32 id = getSelection();
         emit drawableSelected(m_drawableIdMap.value(id, nullptr));
 
@@ -1642,11 +1575,10 @@ void GLView::cleanup()
 
 void GLView::sync()
 {
-    if (!m_initialized)
-    {
-        if (setupWindow() == false) {
+    if (!m_initialized) {
+        if (!setupWindow())
             return;
-        }
+
         initializeOpenGLFunctions();
         setupShaders();
         setupVBOs();
@@ -1671,9 +1603,9 @@ GLView::Parameters::Parameters():
     modelMatrix(QMatrix4x4()),
     color(QColor(Qt::yellow)),
     deleteFlag(false)
-{ }
+{}
 
-GLView::Parameters::Parameters(GLView::Parameters *parameters)
+GLView::Parameters::Parameters(GLView::Parameters const* parameters)
 {
     creator = parameters->creator;
     modelMatrix = parameters->modelMatrix;
@@ -1682,9 +1614,7 @@ GLView::Parameters::Parameters(GLView::Parameters *parameters)
 }
 
 GLView::Parameters::~Parameters()
-{
-
-}
+{}
 
 GLView::LineParameters::LineParameters():
     Parameters(),
@@ -1700,7 +1630,7 @@ GLView::LineParameters::LineParameters():
     color = QColor(Qt::red);
 }
 
-GLView::LineParameters::LineParameters(GLView::LineParameters *parameters):
+GLView::LineParameters::LineParameters(GLView::LineParameters const* parameters):
     Parameters(parameters)
 {
     vertices = parameters->vertices;
@@ -1717,7 +1647,7 @@ GLView::TextParameters::TextParameters():
     color = QColor(Qt::white);
 }
 
-GLView::TextParameters::TextParameters(GLView::TextParameters *parameters):
+GLView::TextParameters::TextParameters(GLView::TextParameters const* parameters):
     Parameters(parameters)
 {
     staticText = parameters->staticText;

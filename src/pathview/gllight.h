@@ -38,32 +38,13 @@ class GLLight : public QObject
     Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
 
 public:
-    explicit GLLight(QObject *parent = 0);
+    explicit GLLight(QObject *parent = nullptr);
 
-    QVector3D position() const
-    {
-        return m_position;
-    }
-
-    QVector3D intensities() const
-    {
-        return m_intensities;
-    }
-
-    float attenuation() const
-    {
-        return m_attenuation;
-    }
-
-    bool enabled() const
-    {
-        return m_enabled;
-    }
-
-    float ambientCoefficient() const
-    {
-        return m_ambientCoefficient;
-    }
+    QVector3D position() const;
+    QVector3D intensities() const;
+    float attenuation() const;
+    bool enabled() const;
+    float ambientCoefficient() const;
 
 signals:
     void positionChanged(QVector3D arg);
@@ -74,45 +55,11 @@ signals:
     void propertyChanged();
 
 public slots:
-    void setPosition(QVector3D arg)
-    {
-        if (m_position != arg) {
-            m_position = arg;
-            emit positionChanged(arg);
-        }
-    }
-
-    void setIntensities(QVector3D arg)
-    {
-        if (m_intensities != arg) {
-            m_intensities = arg;
-            emit intensitiesChanged(arg);
-        }
-    }
-
-    void setAttenuation(float arg)
-    {
-        if (m_attenuation != arg) {
-            m_attenuation = arg;
-            emit attenuationChanged(arg);
-        }
-    }
-
-    void setEnabled(bool arg)
-    {
-        if (m_enabled != arg) {
-            m_enabled = arg;
-            emit enabledChanged(arg);
-        }
-    }
-
-    void setAmbientCoefficient(float arg)
-    {
-        if (m_ambientCoefficient != arg) {
-            m_ambientCoefficient = arg;
-            emit ambientCoefficientChanged(arg);
-        }
-    }
+    void setPosition(QVector3D arg);
+    void setIntensities(QVector3D arg);
+    void setAttenuation(float arg);
+    void setEnabled(bool arg);
+    void setAmbientCoefficient(float arg);
 
 private:
     QVector3D m_position;

@@ -122,7 +122,7 @@ void GLItem::setRotation(const QQuaternion &arg)
 
 void GLItem::setRotationAngle(float arg)
 {
-    if (m_rotationAngle != arg) {
+    if (!qFuzzyCompare(m_rotationAngle, arg)) {
         m_rotationAngle = arg;
         emit rotationAngleChanged(arg);
         setRotation(QQuaternion::fromAxisAndAngle(m_rotationAxis, m_rotationAngle));

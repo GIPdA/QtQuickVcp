@@ -37,7 +37,7 @@ class GLCylinderItem : public GLItem
     Q_PROPERTY(bool selected READ isSelected NOTIFY selectedChanged)
 
 public:
-    explicit GLCylinderItem(QQuickItem *parent = 0);
+    explicit GLCylinderItem(QQuickItem *parent = nullptr);
 
     virtual void paint(GLView *glView);
 

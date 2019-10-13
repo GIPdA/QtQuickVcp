@@ -21,6 +21,7 @@
 ****************************************************************************/
 
 #include "glcubeitem.h"
+#include "glview.h"
 
 namespace qtquickvcp {
 

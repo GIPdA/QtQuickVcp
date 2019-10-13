@@ -1,4 +1,5 @@
 #include "gllathetoolitem.h"
+#include "glview.h"
 
 #include <cmath>
 #include "pi_constants.h"

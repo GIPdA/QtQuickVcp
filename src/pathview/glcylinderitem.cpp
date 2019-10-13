@@ -21,6 +21,7 @@
 ****************************************************************************/
 
 #include "glcylinderitem.h"
+#include "glview.h"
 
 namespace qtquickvcp {
 

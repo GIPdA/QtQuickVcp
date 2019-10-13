@@ -21,6 +21,8 @@
 ****************************************************************************/
 
 #include "glpathitem.h"
+#include "glview.h"
+
 #include <QtCore/qmath.h>
 #include <cmath>
 #include "debughelper.h"

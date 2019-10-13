@@ -21,6 +21,7 @@
 ****************************************************************************/
 
 #include "glsphereitem.h"
+#include "glview.h"
 
 namespace qtquickvcp {
 

@@ -23,8 +23,9 @@
 #ifndef GLITEM_H
 #define GLITEM_H
 
-#include <QObject>
-#include "glview.h"
+#include <QQuickItem>
+#include <QVector3D>
+#include <QQuaternion>
 
 namespace qtquickvcp {
 

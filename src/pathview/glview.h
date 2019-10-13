@@ -182,7 +182,8 @@ private slots:
     void updateViewMatrix();
     void updateProjectionMatrix();
     void updateItems();
-    void updateItem(QObject *item);
+    void updateItem(GLItem* item);
+    void updateItemFromSignal();
     void updateChildren();
 
 private:
@@ -351,7 +352,6 @@ private:
     QList<GLItem*> m_glItems;
     QMap<GLItem*, QList<Drawable>* > m_drawableListMap;
     QList<Drawable> *m_currentDrawableList;
-    QSignalMapper *m_propertySignalMapper;
     QList<GLItem*> m_modifiedGlItems;  // list of gl items that have been modified
 
     // camera

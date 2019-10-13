@@ -88,7 +88,6 @@ GLView::GLView(QQuickItem *parent)
     , m_selectionModeActive(false)
     , m_currentGlItem(nullptr)
     , m_currentDrawableList(nullptr)
-    , m_propertySignalMapper(new QSignalMapper(this))
     , m_camera(new QGLCamera(this))
     , m_light(new GLLight(this))
 {
@@ -97,14 +96,13 @@ GLView::GLView(QQuickItem *parent)
     // queue this connection to prevent trigger on destruction
     connect(this, &GLView::childrenChanged,
             this, &GLView::updateChildren, Qt::QueuedConnection);
-    connect(m_propertySignalMapper, static_cast<void (QSignalMapper::*)(QObject *)>(&QSignalMapper::mapped),
-            this, &GLView::updateItem);
 
     setRenderTarget(QQuickPaintedItem::InvertedYFramebufferObject);
 }
 
 GLView::~GLView()
 {
+    m_initialized = false; // Prevent item updates while destroying
     clearDrawables();
     qDeleteAll(m_drawableMap);
     qDeleteAll(m_vertexBufferMap);
@@ -186,15 +184,18 @@ void GLView::updateItems()
     update();
 }
 
-void GLView::updateItem(QObject *item)
+void GLView::updateItem(GLItem* item)
 {
-    if (!m_initialized)
-    {
+    if (!m_initialized || !item)
         return;
-    }
 
-    updateGLItem(static_cast<GLItem*>(item));
+    updateGLItem(item);
     update();
+}
+
+void GLView::updateItemFromSignal()
+{
+    updateItem(qobject_cast<GLItem*>(sender()));
 }
 
 void GLView::updateChildren()
@@ -1099,9 +1100,7 @@ void GLView::addGlItem(GLItem *item)
         update();
     }
 
-    m_propertySignalMapper->setMapping(item, item);
-    connect(item, &GLItem::needsUpdate,
-            m_propertySignalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(item, &GLItem::needsUpdate, this, &GLView::updateItemFromSignal);
     connect(this, &GLView::drawableSelected,
             item, &GLItem::selectDrawable, Qt::QueuedConnection);
     emit glItemsChanged(glItems());
@@ -1118,9 +1117,7 @@ void GLView::removeGlItem(int index)
 
     delete m_drawableListMap.take(item);
 
-    m_propertySignalMapper->removeMappings(item);
-    disconnect(item, &GLItem::needsUpdate,
-               m_propertySignalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    disconnect(item, &GLItem::needsUpdate, this, &GLView::updateItemFromSignal);
     disconnect(this, &GLView::drawableSelected,
                item, &GLItem::selectDrawable);
     emit glItemsChanged(glItems());

@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
     engine.addImportPath(QStringLiteral("assets:/qml"));
     engine.load(QUrl(QStringLiteral("qrc:///init.qml")));
 #ifdef Q_OS_WIN
-    engine.addImportPath(QStringLiteral("../../../imports")); // for in place execution
+    engine.addImportPath(QStringLiteral("../../imports")); // for in place execution
 #else
     engine.addImportPath(QStringLiteral("../../imports")); // for in place execution
 #endif

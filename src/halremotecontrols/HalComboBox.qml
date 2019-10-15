@@ -100,6 +100,7 @@ ComboBox {
         name: main.name
         type: HalPin.Float
         direction: HalPin.Out
+        value: 0
     }
 
     BusyIndicator {

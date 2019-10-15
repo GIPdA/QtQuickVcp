@@ -41,8 +41,9 @@
 ****************************************************************************/
 
 import QtQuick 2.4
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Private 1.4
+import QtQuick.Controls 2.4
+//import QtQuick.Controls 1.4 as QQ1
+//import QtQuick.Controls.Private 1.4 as QQ1P
 
 /*!
     \qmltype Dial
@@ -201,13 +202,13 @@ Item {
     Accessible.role: Accessible.Dial
     Accessible.name: value
 
-    RangeModel {
+    /*QQ1P.RangeModel {
         id: range
         minimumValue: 0.0
         maximumValue: 1.0
         stepSize: 0.0
         value: 0
-    }
+    }//*/
 
     MouseArea {
         id: mouseArea
@@ -263,7 +264,7 @@ Item {
             return bound(v/100)
         }
     }
-    StyleItem {
+    /*QQ1P.StyleItem {
         anchors.fill: parent
         elementType: "dial"
         hasFocus: dial.focus
@@ -283,7 +284,7 @@ Item {
                 easing.type: Easing.OutSine
             }
         }
-    }
+    }//*/
 
     Label {
         id: valueLabel

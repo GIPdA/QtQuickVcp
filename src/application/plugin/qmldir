@@ -2,6 +2,7 @@ module Machinekit.Application
 plugin machinekitapplicationplugin
 classname MachinekitApplicationPlugin
 typeinfo plugins.qmltypes
+
 ApplicationAction 1.0 ApplicationAction.qml
 ApplicationCore 1.0 ApplicationCore.qml
 ApplicationHelper.qml 1.0 ApplicationHelper.qml

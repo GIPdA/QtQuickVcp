@@ -22,7 +22,7 @@
 
 import QtQuick 2.4
 import QtQuick.Controls 2.4
-import QtQuick.Controls 1.4 as QQ1
+//import QtQuick.Controls 1.4 as QQ1
 import QtQuick.Layouts 1.4
 import Machinekit.Application 1.0
 
@@ -71,11 +71,11 @@ Dialog {
         Label {
             text: qsTr("Enter %1 coordinate relative to workpiece:").arg(dialog.axisNames[dialog.axis])
         }
-        QQ1.SpinBox {
+        SpinBox {
             id: coordinateSpin
-            decimals: 4
-            minimumValue: -9999999
-            maximumValue: 9999999
+            //decimals: 4
+            from: -9999999
+            to: 9999999
         }
         RowLayout {
             Label {

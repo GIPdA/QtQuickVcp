@@ -20,12 +20,12 @@
 **
 ****************************************************************************/
 import QtQuick 2.4
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.4
-import QtQuick.Controls.Styles 1.4
+//import QtQuick.Controls.Styles 1.4
 
 ToolButton {
-    style: ButtonStyle {
+    /*style: ButtonStyle {
         property bool hovered : (Qt.platform.os === "android") ? false : control.hovered
             background: Rectangle {
                 border.color: (control.pressed || control.checked || hovered) ? systemPalette.shadow : "#00000000"
@@ -39,7 +39,14 @@ ToolButton {
                 smooth: true
                 sourceSize: Qt.size(control.width, control.height)
             }
-        }
+        }//*/
+
+    background: Rectangle {
+        border.color: (control.pressed || control.checked || hovered) ? systemPalette.shadow : "#00000000"
+        border.width: hovered ? 2 : 1
+        radius: height * 0.08
+        color: (control.pressed || control.checked) ? systemPalette.highlight : (hovered) ? systemPalette.button : "#00000000"
+    }
 
     Layout.preferredWidth: height
 

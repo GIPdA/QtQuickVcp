@@ -19,8 +19,8 @@
 ** Alexander Rössler @ The Cool Tool GmbH <mail DOT aroessler AT gmail DOT com>
 **
 ****************************************************************************/
-import QtQuick 2.0
-import QtQuick.Controls 1.4
+import QtQuick 2.4
+import QtQuick.Controls 2.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Window 2.4
 
@@ -314,9 +314,9 @@ Item {
             anchors.left: parent.left
             width: parent.width * (main.zeroValue-main.minimumValue) / (main.maximumValue-main.minimumValue)
             rotation: 180
-            style: (main.fancy) ? fancyStyle : defaultStyle
-            minimumValue: 0.0
-            maximumValue: 1.0
+            //style: (main.fancy) ? fancyStyle : defaultStyle
+            from: 0.0
+            to: 1.0
             value: (main.value < main.zeroValue) ? (main.zeroValue-main.value)/Math.max(main.zeroValue-main.minimumValue,0.0000001) : 0.0
         }
 
@@ -327,9 +327,9 @@ Item {
             anchors.bottom: parent.bottom
             anchors.left: progressBar.right
             anchors.right: parent.right
-            style: progressBar.style
-            minimumValue: 0.0
-            maximumValue: 1.0
+            //style: progressBar.style
+            from: 0.0
+            to: 1.0
             value: (main.value >= main.zeroValue) ? (main.value-main.zeroValue)/(main.maximumValue-main.zeroValue) : 0.0
             indeterminate: progressBar.indeterminate
         }

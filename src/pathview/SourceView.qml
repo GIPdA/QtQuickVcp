@@ -28,13 +28,14 @@ import Machinekit.Application 1.0
 import Machinekit.Application.Controls 1.0
 
 Item {
+    id: root
+
     property alias model: object.gcodeProgramModel
     property color selectedColor: "lightblue"
     property color activeColor: "lightcoral"
     property color executedColor: "lightgreen"
     property alias font: dummyLabel.font
-
-    id: root
+    property bool programLoaded: listView.count > 0
 
     SystemPalette { id: systemPalette }
 
@@ -114,7 +115,7 @@ Item {
                         elide: Text.ElideRight
                         maximumLineCount: 1
                         horizontalAlignment: Text.AlignRight
-                        color: selected ? "white" : label.color
+                        color: selected ? root.selectedColor : label.color
                         font: dummyLabel.font
                         text: String(lineNumber)
                     }
@@ -126,7 +127,6 @@ Item {
                     anchors.top: parent.top
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom
-
 
                     Label {
                         id: label

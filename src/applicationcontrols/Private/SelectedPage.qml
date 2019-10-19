@@ -1,8 +1,8 @@
-import QtQuick 2.4
-import QtQuick.Controls 2.4
-import QtQuick.Controls 1.4 as QQ1
-import QtQuick.Layouts 1.4
-import QtQuick.Window 2.4
+import QtQuick 2.1
+import QtQuick.Controls 2.1
+import QtQuick.Controls 1.1 as QQ1
+import QtQuick.Layouts 1.1
+import QtQuick.Window 2.0
 
 Item {
     property var launcher: undefined

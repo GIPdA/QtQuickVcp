@@ -22,7 +22,7 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.4
 import QtQuick.Window 2.4
-//import QtQuick.Controls 1.4 as QQ1
+import QtQuick.Controls 1.4 as QQ1
 import Machinekit.HalRemote 1.0
 import Machinekit.HalRemote.Controls 1.0
 
@@ -266,13 +266,13 @@ Item {
         text: main.prefix + main.maximumValue.toFixed(main.decimals) + main.suffix
     }
 
-    Slider {
+    QQ1.Slider {
         id: slider
 
         width: __horizontal ? main.width : implicitWidth
         height: !__horizontal ? main.height : implicitHeight
         anchors.centerIn: main
-        //tickmarksEnabled: true
+        tickmarksEnabled: true
     }
 
     BusyIndicator {

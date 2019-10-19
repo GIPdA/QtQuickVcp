@@ -20,7 +20,7 @@
 **
 ****************************************************************************/
 import QtQuick 2.4
-import QtQuick.Controls 2.4
+import QtQuick.Controls 1.4
 
 Rectangle {
     id: main
@@ -90,12 +90,12 @@ Rectangle {
         anchors.leftMargin: 0
         anchors.bottom: tempSpin.top
         anchors.bottomMargin: 5
-        //updateValueWhileDragging: true
+        updateValueWhileDragging: true
         stepSize: 5
-        //tickmarksEnabled: false
+        tickmarksEnabled: false
         orientation: 0
-        from: main.minimumValue
-        to: main.maximumValue
+        minimumValue: main.minimumValue
+        maximumValue: main.maximumValue
     }
 
     Text {
@@ -148,9 +148,9 @@ Rectangle {
         anchors.rightMargin: 0
         anchors.left: parent.left
         anchors.leftMargin: 0
-        from: main.minimumValue
-        to: main.maximumValue
-        //decimals: 1
+        maximumValue: main.maximumValue
+        minimumValue: main.minimumValue
+        decimals: 1
         value: main.selectedValue
         onValueChanged: {
             tempSlider.value = value

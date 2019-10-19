@@ -41,7 +41,7 @@ class HalPin : public QObject
     Q_PROPERTY(bool synced READ synced NOTIFY syncedChanged)
 
 public:
-    explicit HalPin(QObject *parent = nullptr);
+    explicit HalPin(QObject *parent = 0);
 
     enum HalPinType {
         Bit = machinetalk::HAL_BIT,

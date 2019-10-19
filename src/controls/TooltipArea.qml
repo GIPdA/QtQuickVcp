@@ -21,6 +21,10 @@
 ****************************************************************************/
 
 import QtQuick 2.4
+import QtQuick.Controls.Private 1.4
+
+// This file contains private Qt Quick modules that might change in future versions of Qt
+// Tested with Qt 5.6.0
 
 MouseArea {
     property string text: ""

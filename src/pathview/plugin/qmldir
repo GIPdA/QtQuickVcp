@@ -4,10 +4,10 @@ classname MachinekitPathViewPlugin
 typeinfo plugins.qmltypes
 designersupported
 
-depends QtQuick.Window 2.4
+depends QtQuick.Window 2.0
 depends Machinekit.Service 1.0
-depends QtQuick.Controls 2.4
-depends QtQuick.Layouts 1.4
+depends QtQuick.Controls 1.2
+depends QtQuick.Layouts 1.1
 depends Machinekit.Application 1.0
 depends Machinekit.Service 1.0
 

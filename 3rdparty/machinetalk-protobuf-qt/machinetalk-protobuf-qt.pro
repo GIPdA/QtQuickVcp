@@ -21,7 +21,7 @@ include(../../paths.pri)
 PROTOGEN = build/cpp
 
 # Protobuf
-MACHINETALK_DIR = C:/bin/QtQuickVcp/3rdparty/machinetalk-protobuf/src/ #$$PWD/../machinetalk-protobuf/src/
+MACHINETALK_DIR = $$PWD/../machinetalk-protobuf/src/
 NAMESPACE_DIR = machinetalk/protobuf
 PROTO_DIR = $$MACHINETALK_DIR/$$NAMESPACE_DIR
 PROTOS += \

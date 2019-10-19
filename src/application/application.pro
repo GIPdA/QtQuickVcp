@@ -35,11 +35,13 @@ SOURCES += \
     applicationlog.cpp \
     applicationlogmessage.cpp \
     applicationfilesynchandler.cpp \
-    keystrokewatcher.cpp
+    keystrokewatcher.cpp \
+    qmlpropertymapmodel.cpp
 
 HEADERS += \
     plugin/plugin.h \
     fileio.h \
+    qmlpropertymapmodel.h \
     revisionsingleton.h \
     revision.h \
     applicationcommand.h \

@@ -29,19 +29,20 @@
 #include "applicationerror.h"
 #include "applicationfile.h"
 #include "applicationfilemodel.h"
+#include "applicationfilesynchandler.h"
+#include "applicationhelpers.h"
 #include "applicationlauncher.h"
 #include "applicationplugins.h"
 #include "applicationpluginitem.h"
 #include "applicationtranslator.h"
 #include "applicationlog.h"
 #include "applicationlogmessage.h"
-#include "localsettings.h"
 #include "fileio.h"
 #include "filewatcher.h"
-#include "revisionsingleton.h"
-#include "applicationhelpers.h"
-#include "applicationfilesynchandler.h"
 #include "keystrokewatcher.h"
+#include "localsettings.h"
+#include "revisionsingleton.h"
+#include "qmlpropertymapmodel.h"
 
 static void initResources()
 {
@@ -96,6 +97,8 @@ void MachinekitApplicationPlugin::registerTypes(const char *uri)
     qmlRegisterType<qtquickvcp::ApplicationFileSyncHandler>(uri, 1, 0, "ApplicationFileSyncHandler");
 
     qmlRegisterType<qtquickvcp::KeystrokeWatcher>(uri, 1, 0, "KeystrokeWatcher");
+    qmlRegisterType<qtquickvcp::QmlPropertyMapModel>(uri, 1, 0, "PropertyMapModel");
+    qRegisterMetaType<QQmlPropertyMap*>("QQmlPropertyMap*"); // For QmlPropertyMapModel
 
     const QString filesLocation = fileLocation();
     for (int i = 0; i < int(sizeof(qmldir)/sizeof(qmldir[0])); i++) {

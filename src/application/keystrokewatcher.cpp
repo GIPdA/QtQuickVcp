@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2014 Alexander Rössler
+** Copyright (C) 2019 Benjamin Balga
 ** License: LGPL version 2.1
 **
 ** This file is part of QtQuickVcp.
@@ -16,15 +16,19 @@
 ** Lesser General Public License for more details.
 **
 ** Contributors:
-** Alexander Rössler @ The Cool Tool GmbH <mail DOT aroessler AT gmail DOT com>
+** Benjamin Balga <balga DOT benjamin AT gmail DOT com>
 **
 ****************************************************************************/
-
 #include "keystrokewatcher.h"
 
 #include <QKeyEvent>
-#include <QDebug>
 
+/*!
+    \qmlproperty bool qtquickvcp::KeystrokeWatcher::sequence
+
+    This property holds the watcher's key sequence.
+    Can be a StandardKey or a string, but must be compatible with QKeySequence.
+*/
 
 /*!
     \qmlproperty bool qtquickvcp::KeystrokeWatcher::enabled
@@ -32,6 +36,15 @@
     This property holds whether the shortcut is enabled.
 
     The default value is \c true.
+*/
+
+/*!
+    \qmlproperty bool qtquickvcp::KeystrokeWatcher::autoRepeat
+
+    If false, auto-repeat events will be ignored.
+    Otherwise, signals will be sent continuously while the sequence is pressed.
+
+    The default value is \c false.
 */
 
 /*! \qmlsignal qtquickvcp::KeystrokeWatcher::pressed()
@@ -43,7 +56,7 @@
 
 /*! \qmlsignal qtquickvcp::KeystrokeWatcher::released()
 
-    This signal is emitted when the key is released.
+    This signal is emitted when the sequence or part of it is released.
 
     The corresponding handler is \c onReleased.
 */

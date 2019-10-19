@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2014 Alexander Rössler
+** Copyright (C) 2019 Benjamin Balga
 ** License: LGPL version 2.1
 **
 ** This file is part of QtQuickVcp.
@@ -16,9 +16,12 @@
 ** Lesser General Public License for more details.
 **
 ** Contributors:
-** Alexander Rössler @ The Cool Tool GmbH <mail DOT aroessler AT gmail DOT com>
+** Benjamin Balga <balga DOT benjamin AT gmail DOT com>
 **
 ****************************************************************************/
+/*!
+ * \brief Watch keystrokes like Shortcut but with pressed and released signals.
+ */
 #ifndef KEYSTROKEWATCHER_H
 #define KEYSTROKEWATCHER_H
 
@@ -78,6 +81,7 @@ private:
 
     QPointer<QQuickWindow> m_window;
 }; // class KeyShortcut
+
 } // namespace qtquickvcp
 
 #endif // KEYSTROKEWATCHER_H

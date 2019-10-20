@@ -29,7 +29,8 @@ ApplicationAction {
     id: openAction
     text: qsTr("Reopen File")
     //icon.name: "document-open"
-    icon.source: "qrc:Machinekit/Application/Controls/icons/view-refresh"
+    //icon.source: "qrc:Machinekit/Application/Controls/icons/view-refresh"
+    icon.source: "qrc:Machinekit/Application/Controls/icons/light/reload"
     shortcut: "Ctrl+R"
     tooltip: qsTr("Reopen current file [%1]").arg(shortcut)
     onTriggered: core.reloadProgram()

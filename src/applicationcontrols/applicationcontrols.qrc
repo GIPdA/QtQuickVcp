@@ -94,5 +94,20 @@
         <file alias="flag-turkish">icons/flags/turkish.png</file>
         <file alias="flag-ukrainian">icons/flags/ukrainian.png</file>
     </qresource>
-    <qresource prefix="/"/>
+    <qresource prefix="/Machinekit/Application/Controls/icons/light">
+        <file alias="clean">icons/light/clean.png</file>
+        <file alias="edit-gcode-file">icons/light/edit-gcode-file.png</file>
+        <file alias="home">icons/light/home.png</file>
+        <file alias="open-gcode">icons/light/open-gcode.png</file>
+        <file alias="pause">icons/light/pause.png</file>
+        <file alias="play">icons/light/play.png</file>
+        <file alias="power-off">icons/light/power-off.png</file>
+        <file alias="power-on">icons/light/power-on.png</file>
+        <file alias="reload">icons/light/reload.png</file>
+        <file alias="resume">icons/light/resume.png</file>
+        <file alias="save">icons/light/save.png</file>
+        <file alias="stop-sign">icons/light/stop-sign.png</file>
+        <file alias="stop">icons/light/stop.png</file>
+        <file alias="run">icons/light/run.png</file>
+    </qresource>
 </RCC>

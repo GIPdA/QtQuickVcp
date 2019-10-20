@@ -29,7 +29,8 @@ ApplicationAction {
     id: root
     text: qsTr("Estop")
     //icon.name: "process-stop"
-    icon.source: "qrc:Machinekit/Application/Controls/icons/process-stop"
+    //icon.source: "qrc:Machinekit/Application/Controls/icons/process-stop"
+    icon.source: "qrc:Machinekit/Application/Controls/icons/light/stop-sign"
     shortcut: "F1"
     tooltip: qsTr("Toggle Emergency Stop [%1]").arg(shortcut)
     checkable: true

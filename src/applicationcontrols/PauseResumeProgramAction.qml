@@ -33,7 +33,8 @@ ApplicationAction {
     id: root
 
     text: _paused ? qsTr("Resume") : qsTr("Pause")
-    icon.source: "qrc:Machinekit/Application/Controls/icons/go-pause"
+    //icon.source: "qrc:Machinekit/Application/Controls/icons/go-pause"
+    icon.source: _paused ? "qrc:Machinekit/Application/Controls/icons/light/pause" : "qrc:Machinekit/Application/Controls/icons/light/resume"
     shortcut: _paused ? resumeShortcut : pauseShortcut
     tooltip: (_paused ? qsTr("Resume execution [%1]") : qsTr("Pause execution [%1]")).arg(shortcut)
     checkable: true

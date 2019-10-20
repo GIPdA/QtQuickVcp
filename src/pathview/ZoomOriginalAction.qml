@@ -32,8 +32,9 @@ Action {
     enabled: view !== null
     text: qsTr("Reset Zoom")
     icon.source: "qrc:Machinekit/PathView/icons/zoom-original"
+    //icon.source: "qrc:Machinekit/PathView/icons/light/zoom-fit"
 
-    ToolTip.text: qsTr("Reset Zoom")
+    property string tooltip: qsTr("Reset Zoom")
 
     onTriggered: {
         view.cameraZoom = zoom;

@@ -29,7 +29,8 @@ ApplicationAction {
     id: root
     text: qsTr("Power")
     //icon.name: "system-shutdown"
-    icon.source: "qrc:Machinekit/Application/Controls/icons/system-shutdown"
+    //icon.source: "qrc:Machinekit/Application/Controls/icons/system-shutdown"
+    icon.source: checked ? "qrc:Machinekit/Application/Controls/icons/light/power-on" : "qrc:Machinekit/Application/Controls/icons/light/power-off"
     shortcut: "F2"
     tooltip: qsTr("Toggle Machine power [%1]").arg(shortcut)
     checkable: true

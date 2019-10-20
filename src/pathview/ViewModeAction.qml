@@ -70,15 +70,20 @@ ApplicationAction {
     icon.source: {
         switch (viewMode) {
         case "Front":
-            return "qrc:Machinekit/PathView/icons/view-mode-front";
+            //return "qrc:Machinekit/PathView/icons/view-mode-front";
+            return "qrc:Machinekit/PathView/icons/light/3d-coordinates-y-color";
         case "Top":
-            return "qrc:Machinekit/PathView/icons/view-mode-top";
+            //return "qrc:Machinekit/PathView/icons/view-mode-top";
+            return "qrc:Machinekit/PathView/icons/light/3d-coordinates-z-color";
         case "RotatedTop":
-            return "qrc:Machinekit/PathView/icons/view-mode-rotated-top";
+            //return "qrc:Machinekit/PathView/icons/view-mode-rotated-top";
+            return "qrc:Machinekit/PathView/icons/light/3d-coordinates-z-r-color";
         case "Side":
-            return "qrc:Machinekit/PathView/icons/view-mode-side";
+            //return "qrc:Machinekit/PathView/icons/view-mode-side";
+            return "qrc:Machinekit/PathView/icons/light/3d-coordinates-x-color";
         case "Perspective":
-            return "qrc:Machinekit/PathView/icons/view-mode-perspective";
+            //return "qrc:Machinekit/PathView/icons/view-mode-perspective";
+            return "qrc:Machinekit/PathView/icons/light/3d-coordinates-perspective";
         default:
             return ""
         }

@@ -34,7 +34,8 @@ ApplicationAction {
 
     id: root
     text: qsTr("Run")
-    icon.source: "qrc:Machinekit/Application/Controls/icons/go-next-view"
+    //icon.source: "qrc:Machinekit/Application/Controls/icons/go-next-view"
+    icon.source: "qrc:Machinekit/Application/Controls/icons/light/run"
     shortcut: "R"
     tooltip: qsTr("Begin executing current file [%1]").arg(shortcut)
     onTriggered: {

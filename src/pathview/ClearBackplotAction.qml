@@ -28,7 +28,8 @@ PathViewAction {
     enabled: core !== null
     text: qsTr("Clear Live Plot")
     tooltip: qsTr("Clear live plot [%1]").arg(shortcut)
-    icon.source: "qrc:Machinekit/PathView/icons/clear-preview"
+    //icon.source: "qrc:Machinekit/PathView/icons/clear-preview"
+    icon.source: "qrc:Machinekit/PathView/icons/light/clean"
 
     onTriggered: {
         gcodeProgramModel.clearBackplot();

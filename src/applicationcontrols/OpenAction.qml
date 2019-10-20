@@ -32,7 +32,8 @@ ApplicationAction {
     id: openAction
     text: remote ? qsTr("Open File from Machine...") : qsTr("Open File...")
     //icon.name: "document-open"
-    icon.source: remote ? "qrc:Machinekit/Application/Controls/icons/document-open-remote" : "qrc:Machinekit/Application/Controls/icons/document-open"
+    //icon.source: remote ? "qrc:Machinekit/Application/Controls/icons/document-open-remote" : "qrc:Machinekit/Application/Controls/icons/document-open"
+    icon.source: remote ? "qrc:Machinekit/Application/Controls/icons/document-open-remote" : "qrc:Machinekit/Application/Controls/icons/light/open-gcode"
     shortcut: remote ? "Shift+O" : "O"
     tooltip: remote ? qsTr("Open G-Code file stored on machine [%1]").arg(shortcut) : qsTr("Open G-Code file stored on local computer [%1]").arg(shortcut)
     onTriggered: {

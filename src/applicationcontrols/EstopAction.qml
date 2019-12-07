@@ -25,6 +25,7 @@ import Machinekit.Application 1.0
 
 ApplicationAction {
     property bool _ready: status.synced && command.connected
+    property bool checked_synced: _ready && (status.task.taskState === ApplicationStatus.TaskStateEstop)
 
     id: root
     text: qsTr("Estop")

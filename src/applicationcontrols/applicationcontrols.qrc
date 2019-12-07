@@ -97,7 +97,6 @@
         <file alias="flag-ukrainian">icons/flags/ukrainian.png</file>
     </qresource>
     <qresource prefix="/Machinekit/Application/Controls/icons/light">
-        <file alias="clean">icons/light/clean.png</file>
         <file alias="edit-gcode-file">icons/light/edit-gcode-file.png</file>
         <file alias="home">icons/light/home.png</file>
         <file alias="open-gcode">icons/light/open-gcode.png</file>

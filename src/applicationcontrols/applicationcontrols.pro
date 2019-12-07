@@ -22,6 +22,8 @@ CONTROLS_QML_FILES = \
     $$PWD/RunProgramAction.qml \
     $$PWD/StepProgramAction.qml \
     $$PWD/StopProgramAction.qml \
+    $$PWD/PauseProgramAction.qml \
+    $$PWD/ResumeProgramAction.qml \
     $$PWD/PauseResumeProgramAction.qml \
     $$PWD/ApplicationNotifications.qml \
     $$PWD/ApplicationProgressBar.qml \

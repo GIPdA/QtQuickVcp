@@ -554,6 +554,17 @@ Jetzt neustarten?</translation>
     </message>
 </context>
 <context>
+    <name>PauseProgramAction</name>
+    <message>
+        <source>Pause</source>
+        <translation type="unfinished">Pausieren</translation>
+    </message>
+    <message>
+        <source>Pause execution [%1]</source>
+        <translation type="unfinished">Ausführen pausieren [%1]</translation>
+    </message>
+</context>
+<context>
     <name>PauseResumeProgramAction</name>
     <message>
         <source>Resume</source>
@@ -596,6 +607,17 @@ Jetzt neustarten?</translation>
     <message>
         <source>Reopen File</source>
         <translation>Datei erneut öffnen</translation>
+    </message>
+</context>
+<context>
+    <name>ResumeProgramAction</name>
+    <message>
+        <source>Resume</source>
+        <translation type="unfinished">Fortsetzen</translation>
+    </message>
+    <message>
+        <source>Resume execution [%1]</source>
+        <translation type="unfinished">Ausführung fortsetzen [%1]</translation>
     </message>
 </context>
 <context>

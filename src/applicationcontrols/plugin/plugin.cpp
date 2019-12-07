@@ -40,6 +40,8 @@ static const struct {
     { "ReopenAction", 1, 0 },
     { "RunProgramAction", 1, 0 },
     { "StepProgramAction", 1, 0 },
+    { "PauseProgramAction", 1, 0 },
+    { "ResumeProgramAction", 1, 0 },
     { "PauseResumeProgramAction", 1, 0 },
     { "StopProgramAction", 1, 0 },
     { "ApplicationNotifications", 1, 0 },

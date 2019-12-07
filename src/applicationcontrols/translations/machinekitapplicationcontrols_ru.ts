@@ -524,6 +524,17 @@ Restart now?</source>
     </message>
 </context>
 <context>
+    <name>PauseProgramAction</name>
+    <message>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause execution [%1]</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PauseResumeProgramAction</name>
     <message>
         <source>Resume</source>
@@ -561,6 +572,17 @@ Restart now?</source>
     </message>
     <message>
         <source>Reopen current file [%1]</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ResumeProgramAction</name>
+    <message>
+        <source>Resume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resume execution [%1]</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

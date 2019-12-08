@@ -25,9 +25,8 @@ import Machinekit.Application 1.0
 
 ApplicationAction {
     property bool _ready: status.synced && command.connected
-    property bool _paused: status.synced && status.task.taskPaused
+    property bool _paused: status.synced && status.task.taskPaused && status.motion.paused
 
-    id: root
     text: qsTr("Step")
     icon.source: "qrc:Machinekit/Application/Controls/icons/go-next"
     shortcut: "T"
@@ -41,5 +40,6 @@ ApplicationAction {
     enabled: _ready
              && (status.task.taskState === ApplicationStatus.TaskStateOn)
              && (status.task.file !== "")
-             && (!status.running || _paused)
+             && status.running
+             && _paused
 }

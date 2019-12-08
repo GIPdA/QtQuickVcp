@@ -25,12 +25,15 @@ import Machinekit.Application 1.0
 
 ApplicationAction {
     property bool _ready: status.synced && command.connected
+    property bool checked_synced: _ready && (status.task.taskState === ApplicationStatus.TaskStateOn)
 
     id: root
     text: qsTr("Power")
     //icon.name: "system-shutdown"
     //icon.source: "qrc:Machinekit/Application/Controls/icons/system-shutdown"
-    icon.source: checked ? "qrc:Machinekit/Application/Controls/icons/light/power-on" : "qrc:Machinekit/Application/Controls/icons/light/power-off"
+    icon.source: checked_synced
+                 ? "qrc:Machinekit/Application/Controls/icons/light/power-on"
+                 : "qrc:Machinekit/Application/Controls/icons/light/power-off"
     shortcut: "F2"
     tooltip: qsTr("Toggle Machine power [%1]").arg(shortcut)
     checkable: true

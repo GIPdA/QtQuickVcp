@@ -25,16 +25,21 @@ import QtQuick 2.4
 import Machinekit.Application 1.0
 
 ApplicationAction {
-    id: root
     property bool _ready: status.synced && command.connected
-    property bool _paused: status.synced && status.task.taskPaused
+    property bool _paused: status.synced && (status.motion.paused || _pauseGuard)
+    property bool _motionPaused: status.synced && status.motion.paused //status.task.taskPaused
+    property bool _pauseGuard: false
 
     text: qsTr("Pause")
     icon.source: "qrc:Machinekit/Application/Controls/icons/light/pause"
     shortcut: "P"
     tooltip: qsTr("Pause execution [%1]").arg(shortcut)
     onTriggered: {
+        _pauseGuard = true // force paused state and reset when motion is paused
         command.pauseProgram('execute');
+    }
+    on_MotionPausedChanged: {
+        _pauseGuard = false
     }
     enabled: _ready
              && (status.task.taskState === ApplicationStatus.TaskStateOn)

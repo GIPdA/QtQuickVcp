@@ -25,7 +25,6 @@ import QtQuick 2.4
 import Machinekit.Application 1.0
 
 ApplicationAction {
-    id: root
     property bool _ready: status.synced && command.connected
     property bool _paused: status.synced && status.task.taskPaused
 

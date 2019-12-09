@@ -110,5 +110,6 @@
         <file alias="stop-sign">icons/light/stop-sign.png</file>
         <file alias="stop">icons/light/stop.png</file>
         <file alias="run">icons/light/run.png</file>
+        <file alias="step">icons/light/step.png</file>
     </qresource>
 </RCC>

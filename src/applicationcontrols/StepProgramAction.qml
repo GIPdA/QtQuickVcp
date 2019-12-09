@@ -28,7 +28,7 @@ ApplicationAction {
     property bool _paused: status.synced && status.task.taskPaused && status.motion.paused
 
     text: qsTr("Step")
-    icon.source: "qrc:Machinekit/Application/Controls/icons/go-next"
+    icon.source: "qrc:Machinekit/Application/Controls/icons/light/step"
     shortcut: "T"
     tooltip: qsTr("Execute next line [%1]").arg(shortcut)
     onTriggered: {

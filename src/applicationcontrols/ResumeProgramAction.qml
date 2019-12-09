@@ -29,7 +29,6 @@ ApplicationAction {
     property bool _paused: status.synced && status.task.taskPaused
 
     text: qsTr("Resume")
-    //icon.source: "qrc:Machinekit/Application/Controls/icons/go-pause"
     icon.source: "qrc:Machinekit/Application/Controls/icons/light/resume"
     shortcut: "S"
     tooltip: qsTr("Resume execution [%1]").arg(shortcut)

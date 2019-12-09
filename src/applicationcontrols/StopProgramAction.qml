@@ -26,9 +26,7 @@ import Machinekit.Application 1.0
 ApplicationAction {
     property bool _ready: status.synced && command.connected
 
-    id: root
     text: qsTr("Stop")
-    //icon.source: "qrc:Machinekit/Application/Controls/icons/go-stop"
     icon.source: "qrc:Machinekit/Application/Controls/icons/light/stop"
     shortcut: "Esc"
     tooltip: qsTr("Stop program execution [%1]").arg(shortcut)

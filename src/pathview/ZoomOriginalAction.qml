@@ -31,8 +31,7 @@ Action {
     shortcut: "*"
     enabled: view !== null
     text: qsTr("Reset Zoom")
-    icon.source: "qrc:Machinekit/PathView/icons/zoom-original"
-    //icon.source: "qrc:Machinekit/PathView/icons/light/zoom-fit"
+    icon.source: "qrc:Machinekit/PathView/icons/light/zoom-fit"
 
     property string tooltip: qsTr("Reset Zoom")
 

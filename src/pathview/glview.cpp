@@ -949,7 +949,7 @@ void GLView::clearGLItem(GLItem* item)
 
 void GLView::updateGLItem(GLItem* item)
 {
-    m_modifiedGlItems.append(item);
+    m_modifiedGlItems.insert(item);
 }
 
 void GLView::paintGLItems()

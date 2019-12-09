@@ -326,7 +326,7 @@ private:
     QList<GLItem*> m_glItems;
     QMap<GLItem*, QList<Drawable>* > m_drawableListMap;
     QList<Drawable>* m_currentDrawableList;
-    QList<GLItem*> m_modifiedGlItems;  // list of gl items that have been modified
+    QSet<GLItem*> m_modifiedGlItems;  // list of gl items that have been modified
 
     // camera
     QGLCamera* m_camera;

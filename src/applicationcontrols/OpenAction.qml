@@ -29,18 +29,13 @@ ApplicationAction {
 
     readonly property bool _ready: status.synced && file.ready && (file.transferState === ApplicationFile.NoTransfer)
 
-    id: openAction
     text: remote ? qsTr("Open File from Machine...") : qsTr("Open File...")
-    //icon.name: "document-open"
-    //icon.source: remote ? "qrc:Machinekit/Application/Controls/icons/document-open-remote" : "qrc:Machinekit/Application/Controls/icons/document-open"
-    icon.source: remote ? "qrc:Machinekit/Application/Controls/icons/document-open-remote" : "qrc:Machinekit/Application/Controls/icons/light/open-gcode"
+    icon.source: remote ? "qrc:Machinekit/Application/Controls/icons/light/open-remote-gcode" : "qrc:Machinekit/Application/Controls/icons/light/open-gcode"
     shortcut: remote ? "Shift+O" : "O"
     tooltip: remote ? qsTr("Open G-Code file stored on machine [%1]").arg(shortcut) : qsTr("Open G-Code file stored on local computer [%1]").arg(shortcut)
     onTriggered: {
         if (_ready)
-        {
-            fileDialog.visible = true;
-        }
+            fileDialog.visible = true
     }
     enabled: _ready && !status.running
 }

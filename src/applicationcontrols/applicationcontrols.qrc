@@ -99,7 +99,8 @@
     <qresource prefix="/Machinekit/Application/Controls/icons/light">
         <file alias="edit-gcode-file">icons/light/edit-gcode-file.png</file>
         <file alias="home">icons/light/home.png</file>
-        <file alias="open-gcode">icons/light/open-gcode.png</file>
+        <file alias="open-gcode">icons/light/open-gcode-nc.png</file>
+        <file alias="open-remote-gcode">icons/light/open-remote-gcode-nc.png</file>
         <file alias="pause">icons/light/pause.png</file>
         <file alias="play">icons/light/play.png</file>
         <file alias="power-off">icons/light/power-off.png</file>

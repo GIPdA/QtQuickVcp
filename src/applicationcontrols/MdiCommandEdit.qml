@@ -41,6 +41,7 @@ RowLayout {
         Layout.fillWidth: true
 
         placeholderText: qsTr("MDI")
+        selectByMouse: true
 
         onAccepted: {
             if (text !== "") {

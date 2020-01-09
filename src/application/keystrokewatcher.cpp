@@ -183,7 +183,7 @@ void KeystrokeWatcher::keyReleaseEvent(QKeyEvent* event)
         handleKeyReleaseEvent(event);
 }
 
-bool KeystrokeWatcher::eventFilter(QObject* , QEvent* event)
+bool KeystrokeWatcher::eventFilter(QObject* obj, QEvent* event)
 {
     if (!m_enabled)
         return false;
@@ -195,18 +195,25 @@ bool KeystrokeWatcher::eventFilter(QObject* , QEvent* event)
         if (matchKeyEvent(static_cast<QKeyEvent*>(event)))
             event->accept();
         // Filter event if it matched
-        return event->isAccepted();
+        if (event->isAccepted())
+            return true;
+        break;
 
     case QEvent::KeyPress:
-        return handleKeyPressEvent(static_cast<QKeyEvent*>(event));
+        if (handleKeyPressEvent(static_cast<QKeyEvent*>(event)))
+            return true;
+        break;
+
     case QEvent::KeyRelease:
-        return handleKeyReleaseEvent(static_cast<QKeyEvent*>(event));
+        if (handleKeyReleaseEvent(static_cast<QKeyEvent*>(event)))
+            return true;
+        break;
 
     default:
         break;
     }
 
-    return false;
+    return QObject::eventFilter(obj, event);
 }
 
 bool KeystrokeWatcher::matchKeyEvent(QKeyEvent* event) const

@@ -25,7 +25,10 @@ import QtQuick.Layouts 1.4
 import QtQuick.Controls 2.4
 import Machinekit.Application 1.0
 
-RowLayout {
+FocusScope {
+    implicitHeight: layout.implicitHeight
+    implicitWidth: layout.implicitWidth
+
     property alias text: mdiTextField.text
     property alias action: mdiCommandAction
     property alias core: mdiCommandAction.core
@@ -36,60 +39,66 @@ RowLayout {
     property alias button: mdiButton
     property alias textField: mdiTextField
 
-    TextField {
-        id: mdiTextField
-        Layout.fillWidth: true
+    RowLayout {
+        id: layout
+        anchors.fill: parent
 
-        placeholderText: qsTr("MDI")
-        selectByMouse: true
+        TextField {
+            id: mdiTextField
+            Layout.fillWidth: true
 
-        onAccepted: {
-            if (text !== "") {
-                mdiCommandAction.trigger();
-            }
-        }
+            placeholderText: qsTr("MDI")
+            selectByMouse: true
+            focus: true
 
-        Keys.onUpPressed: {
-            if (mdiHistory.model.length > 0) {
-                if (mdiHistoryPos === -1) {
-                    mdiHistoryPos = mdiHistory.model.length;
+            onAccepted: {
+                if (text !== "") {
+                    mdiCommandAction.trigger();
                 }
-
-                mdiHistoryPos -= 1;
-
-                if (mdiHistoryPos === -1) {
-                    mdiHistoryPos = 0;
-                }
-
-                mdiTextField.text = mdiHistory.model[mdiHistoryPos].command;
             }
-        }
 
-        Keys.onDownPressed: {
-            if (mdiHistory.model.length > 0) {
-                mdiHistoryPos += 1;
+            Keys.onUpPressed: {
+                if (mdiHistory.model.length > 0) {
+                    if (mdiHistoryPos === -1) {
+                        mdiHistoryPos = mdiHistory.model.length;
+                    }
 
-                if (mdiHistoryPos === mdiHistory.model.length) {
                     mdiHistoryPos -= 1;
-                }
 
-                mdiTextField.text = mdiHistory.model[mdiHistoryPos].command;
+                    if (mdiHistoryPos === -1) {
+                        mdiHistoryPos = 0;
+                    }
+
+                    mdiTextField.text = mdiHistory.model[mdiHistoryPos].command;
+                }
+            }
+
+            Keys.onDownPressed: {
+                if (mdiHistory.model.length > 0) {
+                    mdiHistoryPos += 1;
+
+                    if (mdiHistoryPos === mdiHistory.model.length) {
+                        mdiHistoryPos -= 1;
+                    }
+
+                    mdiTextField.text = mdiHistory.model[mdiHistoryPos].command;
+                }
             }
         }
-    }
 
-    Button {
-        id: mdiButton
-        Layout.fillWidth: false
-        action: mdiCommandAction
-    }
+        Button {
+            id: mdiButton
+            Layout.fillWidth: false
+            action: mdiCommandAction
+        }
 
-    MdiCommandAction {
-        id: mdiCommandAction
-        mdiCommand: mdiTextField.text
-        onTriggered: {
-            mdiTextField.text = '';
-            mdiHistoryPos = -1;
+        MdiCommandAction {
+            id: mdiCommandAction
+            mdiCommand: mdiTextField.text
+            onTriggered: {
+                mdiTextField.text = '';
+                mdiHistoryPos = -1;
+            }
         }
     }
 }

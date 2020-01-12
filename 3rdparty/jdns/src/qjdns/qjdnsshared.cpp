@@ -44,7 +44,7 @@ class SystemInfoCache
 {
 public:
 	QJDns::SystemInfo info;
-	QTime time;
+    QElapsedTimer time;
 };
 
 Q_GLOBAL_STATIC(QMutex, jdnsshared_mutex)
@@ -57,7 +57,7 @@ static QJDns::SystemInfo get_sys_info()
 
 	// cache info for 1/2 second, enough to prevent re-reading of sys
 	//   info 20 times because of all the different resolves
-	if(c->time.isNull() || c->time.elapsed() >= 500)
+    if(!c->time.isValid() || c->time.elapsed() >= 500)
 	{
 		c->info = QJDns::systemInfo();
 		c->time.start();

@@ -100,10 +100,8 @@ static bool matchRecordExceptTtl(const QJDns::Record &a, const QJDns::Record &b)
 
 static void getHex(unsigned char in, char *hi, char *lo)
 {
-	QString str;
-	str.sprintf("%02x", in);
-	*hi = str[0].toLatin1();
-	*lo = str[1].toLatin1();
+    *hi = ((in&0xF0)>>4) + '0';
+    *lo = (in&0x0F) + '0';
 }
 
 static QByteArray getDec(int in)

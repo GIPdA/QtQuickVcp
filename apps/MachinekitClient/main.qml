@@ -47,7 +47,7 @@ Item {
     property string title: connectionWindow.title
     property Item toolBar: connectionWindow.toolBar
     property Item statusBar: connectionWindow.statusBar
-    property MenuBar menuBar: connectionWindow.menuBar
+    property var menuBar: connectionWindow.menuBar
 
     ConnectionWindow {
         id: connectionWindow

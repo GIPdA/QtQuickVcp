@@ -207,7 +207,7 @@ Rectangle {
 
         This property is set by the connection window.
     */
-    property MenuBar menuBar: appPage.menuBar
+    property var menuBar: appPage.menuBar
 
     id: mainWindow
 

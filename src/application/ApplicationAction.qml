@@ -33,6 +33,9 @@ Action {
     property var mdiHistory: core === null ? {"model": []} : core.mdiHistory
     property var homeAllAxesHelper: core === null ? {"running": false} : core.homeAllAxesHelper
 
+    default property var children: [
+    ]
+
     property string tooltip
 
     //ToolTip.text: tooltip

@@ -25,6 +25,7 @@ import QtQuick.Controls 2.4
 import Machinekit.Application 1.0
 
 Button {
+    id: root
     property alias core: jogAction.core
     property alias status: jogAction.status
     property alias command: jogAction.command
@@ -33,8 +34,12 @@ Button {
     property int direction: 1
     property double velocity: jogAction.settings.initialized ? jogAction.settings.values["axis" + axis]["jogVelocity"] : 0.0
 
+    property bool useSafeJog: true
+    property alias safeJogInterval: jogAction.safeJogInterval // ms
+    property double safeJogDistanceFactor: 1.2 // Add 20% distance to send the next jog command just before it ends
+
     function _toggle(onOff) {
-        if (jogAction.distance === 0) {
+        if (jogAction.distance === 0.0) {
             // Infinite jog
             if (onOff) {
                 jogAction.velocity = velocity * direction
@@ -64,5 +69,6 @@ Button {
 
     JogAction {
         id: jogAction
+        safeDistance: useSafeJog ? Math.abs(root.velocity) * safeJogInterval/1000 * safeJogDistanceFactor : 0.0
     }
 }

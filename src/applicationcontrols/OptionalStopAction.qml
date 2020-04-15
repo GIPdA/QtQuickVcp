@@ -28,7 +28,7 @@ ApplicationAction {
 
     id: root
     text: qsTr("Optional Stop (M1)")
-    icon.source: "qrc:Machinekit/Application/Controls/icons/go-pause"
+    icon.source: "qrc:Machinekit/Application/Controls/icons/light/pause"
     shortcut: "Alt+M"
     tooltip: qsTr("Optional stop [%1]").arg(shortcut)
     checkable: true

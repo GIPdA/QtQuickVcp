@@ -71,11 +71,22 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     engine.addImportPath(QStringLiteral("qml"));
     engine.addImportPath(QStringLiteral("assets:/qml"));
-    engine.load(QUrl(QStringLiteral("qrc:///init.qml")));
+    //engine.load(QUrl(QStringLiteral("qrc:///init.qml")));
+
 #ifdef Q_OS_WIN
     engine.addImportPath(QStringLiteral("../../imports")); // for in place execution
 #else
     engine.addImportPath(QStringLiteral("../../imports")); // for in place execution
 #endif
+
+    const QUrl url(QStringLiteral("qrc:/init.qml"));
+    //const QUrl url(QStringLiteral("qrc:/main.qml"));
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
+                     &app, [url](QObject *obj, const QUrl &objUrl) {
+        if (!obj && url == objUrl)
+            QCoreApplication::exit(-1);
+    }, Qt::QueuedConnection);
+    engine.load(url);
+
     return app.exec();
 }

@@ -12,5 +12,6 @@
         <file>MachinekitClient.ServiceDisplay/translations/servicedisplay_ru.qm</file>
         <file>MachinekitClient.LiveCoding/description.ini</file>
         <file>MachinekitClient.LiveCoding/LiveCoding.qml</file>
+        <file>qtquickcontrols2.conf</file>
     </qresource>
 </RCC>

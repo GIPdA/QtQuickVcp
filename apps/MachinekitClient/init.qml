@@ -20,10 +20,11 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.4
-import QtQuick.Controls 2.4
-import QtQuick.Window 2.4
+import QtQuick 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Window 2.12
 import Qt.labs.settings 1.0
+import Qt.labs.platform 1.1 as P
 
 ApplicationWindow {
     id: appWindow
@@ -32,10 +33,33 @@ ApplicationWindow {
     visible: true
     width: (Qt.platform.os === "android") ? Screen.width : Screen.width * 0.7
     height: (Qt.platform.os === "android") ? Screen.height : Screen.height * 0.7
-    title: (mainAppLoader.item !== null) ? mainAppLoader.item.title : "Loading"
+/*    title: (mainAppLoader.item !== null) ? mainAppLoader.item.title : "Loading"
     header: (mainAppLoader.item !== null) ? mainAppLoader.item.toolBar : null
     footer: (mainAppLoader.item !== null) ? mainAppLoader.item.statusBar : null
     menuBar: (mainAppLoader.item !== null) ? mainAppLoader.item.menuBar : null
+//*/
+    /*P.MenuBar {
+        window: appWindow
+        P.Menu {
+            title: qsTr("&File")
+            Action { text: qsTr("&New...") }
+            Action { text: qsTr("&Open...") }
+            Action { text: qsTr("&Save") }
+            Action { text: qsTr("Save &As...") }
+            MenuSeparator { }
+            Action { text: qsTr("&Quit") }
+        }
+        P.Menu {
+            title: qsTr("&Edit")
+            Action { text: qsTr("Cu&t") }
+            Action { text: qsTr("&Copy") }
+            Action { text: qsTr("&Paste") }
+        }
+        P.Menu {
+            title: qsTr("&Help")
+            Action { text: qsTr("&About") }
+        }
+    }//*/
 
     Settings {
         id: windowSettings
@@ -45,20 +69,21 @@ ApplicationWindow {
         property alias x: appWindow.x
         property alias y: appWindow.y
         property alias  visibility: appWindow.visibility
-    }
+    }//*/
 
     // Loaders for the main application and the splash screen.
     Loader {
         id: mainAppLoader
+        source: Qt.resolvedUrl("main.qml");
 
         anchors.fill: parent
         onLoaded: {
             focus = true;
             console.debug("Main application loaded.");
         }
-    }
+    }//*/
 
-    Loader {
+    /*Loader {
         id: splashScreenLoader
         source: Qt.resolvedUrl("SplashScreen.qml");
         width: parent.width
@@ -126,5 +151,5 @@ ApplicationWindow {
                 secondPhaseTimer.stop();
             }
         }
-    }
+    }//*/
 }

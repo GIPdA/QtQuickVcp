@@ -1,7 +1,7 @@
-import QtQuick 2.1
-import QtQuick.Controls 2.1
-import QtQuick.Layouts 1.1
-import QtQuick.Window 2.0
+import QtQuick 2.14
+import QtQuick.Controls 2.14
+import QtQuick.Layouts 1.14
+import QtQuick.Window 2.14
 import Machinekit.Controls 1.0
 import Machinekit.Service 1.0
 
@@ -64,10 +64,6 @@ Item {
         visible: false
     }
 
-    Label {
-        id: dummyText
-        visible: false
-    }
 
     Component {
         id: instanceListView
@@ -92,7 +88,7 @@ Item {
                         id: titleText
 
                         Layout.fillWidth: true
-                        font.pointSize: dummyText.font.pointSize*1.3
+                        font.pointSize: 20
                         font.bold: true
                         text: name
                         horizontalAlignment: Text.AlignHCenter
@@ -103,7 +99,7 @@ Item {
 
                         Layout.fillWidth: true
                         text: hostName + " - " + hostAddress
-                        color: systemPalette.dark
+                        //color: systemPalette.dark
                         horizontalAlignment: Text.AlignHCenter
                         wrapMode: Text.WordWrap
                     }
@@ -131,26 +127,54 @@ Item {
         }
     }
 
-    SlideView {
+
+    Item {
         id: discoveryView
         anchors.fill: parent
 
-        onCurrentIndexChanged: {
-            if (currentIndex === 0) {
-                serviceDiscovery.lookupMode = ServiceDiscovery.MulticastDNS;
+        states: [
+            State {
+                name: "multicast"
+                when: serviceDiscovery.lookupMode === ServiceDiscovery.MulticastDNS
+                PropertyChanges {
+                    target: multicastPage
+                    visible: true
+                }
+            },
+            State {
+                name: "unicast"
+                when: serviceDiscovery.lookupMode === ServiceDiscovery.UnicastDNS
+                PropertyChanges {
+                    target: unicastPage
+                    visible: true
+                }
             }
-            else {
-                serviceDiscovery.lookupMode = ServiceDiscovery.UnicastDNS;
+        ]
+
+        Button {
+            x: 5
+            y: 5
+
+            width: 150
+            focusPolicy: Qt.NoFocus
+
+            text: (hovered ? qsTr("Try ", "Search Multicast or Unicast on Instance Page") : "") +
+                  (((serviceDiscovery.lookupMode === ServiceDiscovery.MulticastDNS) ^ hovered) ? qsTr("Multicast") : qsTr("Unicast"))
+
+            onClicked: {
+                if (serviceDiscovery.lookupMode === ServiceDiscovery.MulticastDNS) {
+                    serviceDiscovery.lookupMode = ServiceDiscovery.UnicastDNS
+                } else if (serviceDiscovery.lookupMode === ServiceDiscovery.UnicastDNS) {
+                    serviceDiscovery.lookupMode = ServiceDiscovery.MulticastDNS
+                }
             }
         }
 
-        Binding {
-            target: discoveryView; property: "currentIndex";
-            value: (serviceDiscovery.lookupMode === ServiceDiscovery.MulticastDNS) ? 0 : 1
-        }
 
-        SlidePage {
-            title: qsTr("Multicast")
+        Item {
+            id: multicastPage
+            anchors.fill: parent
+            visible: false
 
             ColumnLayout {
                 anchors.fill: parent
@@ -164,7 +188,7 @@ Item {
                     Layout.preferredHeight: Math.max(dummyButton.height, implicitHeight)
                     visible: root.networkReady
                     text: qsTr("Available Instances:")
-                    font.pointSize: dummyText.font.pointSize * 1.3
+                    font.pointSize: 20
                     font.bold: true
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
@@ -188,16 +212,17 @@ Item {
                         anchors.centerIn: parent
                         wrapMode: Text.WordWrap
                         horizontalAlignment: Text.AlignHCenter
-                        font.pointSize: dummyText.font.pointSize * 1.1
+                        font.pointSize: 18
                         text: qsTr("Warning!<br>No network connection found, service discovery unavailable. Please check your network connection.")
                     }
                 }
             }
         }
 
-        SlidePage {
+        Item {
             id: unicastPage
-            title: qsTr("Unicast")
+            anchors.fill: parent
+            visible: false
 
             ColumnLayout {
                 anchors.fill: parent
@@ -208,7 +233,7 @@ Item {
                     Layout.fillWidth: true
                     Layout.preferredHeight: Math.max(dummyButton.height, implicitHeight)
                     text: qsTr("Available Instances:")
-                    font.pointSize: dummyText.font.pointSize * 1.3
+                    font.pointSize: 20
                     font.bold: true
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
@@ -225,7 +250,7 @@ Item {
                 Label {
                     Layout.fillWidth: true
                     text: qsTr("Machinekit Instances:")
-                    font.pointSize: dummyText.font.pointSize * 1.3
+                    font.pointSize: 20
                     font.bold: true
                     horizontalAlignment: Text.AlignHCenter
                     wrapMode: Text.WordWrap
@@ -240,82 +265,91 @@ Item {
                     model: serviceDiscovery.nameServers
 
                     delegate: RowLayout {
-                                id: viewItem
-                                anchors.left: parent.left
-                                anchors.right: parent.right
-                                height: dummyButton.height * 1.5
+                        id: viewItem
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        height: dummyButton.height * 1.3
+                        spacing: 10
 
-                                Label {
-                                    text: qsTr("Instance %1:").arg(index + 1)
-                                    font.pointSize: dummyText.font.pointSize * 1.2
-                                }
+                        property var fontPointSize: 20
 
-                                TextField {
-                                    id: dnsServerTextField
-                                    Layout.fillWidth: true
-                                    Layout.fillHeight: true
-                                    font.pointSize: dummyText.font.pointSize * 1.2
-                                    placeholderText: qsTr("IP address or hostname")
-                                    onEditingFinished: {
-                                        dnsServerView.model[index].hostName = text;
-                                        serviceDiscovery.updateNameServers();
-                                        root.nameServersChanged();
+                        Label {
+                            text: qsTr("Instance %1:").arg(index + 1)
+                            font.pointSize: fontPointSize
+                        }
 
-                                        root.forceActiveFocus();   // remove the focus
-                                    }
+                        TextField {
+                            id: dnsServerTextField
+                            Layout.fillWidth: true
+                            //Layout.fillHeight: true
+                            topPadding: 0
+                            bottomPadding: 0
+                            font.pointSize: fontPointSize
 
-                                    Binding {
-                                        target: dnsServerTextField;
-                                        property: "text";
-                                        value: (dnsServerView.model[index] !== null) ? dnsServerView.model[index].hostName : ""
-                                    }
-                                }
+                            placeholderText: qsTr("IP address or hostname")
+                            onEditingFinished: {
+                                dnsServerView.model[index].hostName = text;
+                                serviceDiscovery.updateNameServers();
+                                root.nameServersChanged();
 
-                                Button {
-                                    Layout.fillHeight: true
-                                    text: (dnsServerTextField.text !== "") ? "+" : "-"
-                                    visible: (index === (dnsServerView.model.length - 1)) && (index < 2)   // last item, limited to 3 items due to bug => TODO
-                                    onClicked: {
-                                        root.forceActiveFocus();   // accept changes on text edit
+                                root.forceActiveFocus();   // remove the focus
+                            }
 
-                                        if (dnsServerTextField.text && dnsServerView.model[index].hostName)
-                                        {
-                                            var nameServerObject = nameServerComponent.createObject(root, {});
-                                            serviceDiscovery.addNameServer(nameServerObject);
-                                        }
-                                    }
+                            Keys.onEscapePressed: {
+                                focus = false
+                            }
 
-                                    Label {
-                                        anchors.fill: parent
-                                        font.pointSize: dummyText.font.pointSize*1.2
-                                        font.bold: true
-                                        horizontalAlignment: Text.AlignHCenter
-                                        verticalAlignment: Text.AlignVCenter
-                                        text: "+"
-                                    }
+                            Binding {
+                                target: dnsServerTextField;
+                                property: "text";
+                                value: (dnsServerView.model[index] !== null) ? dnsServerView.model[index].hostName : ""
+                            }
+                        }
+
+                        Button {
+                            //Layout.fillHeight: true
+                            text: "+"//(dnsServerTextField.text !== "") ? "+" : "-"
+                            visible: (index === (dnsServerView.model.length - 1)) && (index < 2)   // last item, limited to 3 items due to bug => TODO
+                            enabled: dnsServerTextField.text
+                            font.bold: true
+                            font.pointSize: fontPointSize
+
+                            onClicked: {
+                                root.forceActiveFocus();   // accept changes on text edit
+
+                                if (dnsServerTextField.text && dnsServerView.model[index].hostName) {
+                                    var nameServerObject = nameServerComponent.createObject(root, {});
+                                    serviceDiscovery.addNameServer(nameServerObject);
                                 }
                             }
+                        }
+                    } // delegate
                 }
 
                 Button {
                     Layout.fillWidth: true
                     Layout.preferredHeight: dummyButton.height * 1.5
                     visible: dnsServerView.count === 0
+                    text: "+"
+                    font.bold: true
+                    font.pointSize: 20
+
                     onClicked: {
                         serviceDiscovery.addNameServer(nameServerComponent.createObject(root, {}))
                     }
 
-                    Label {
+                    /*Label {
                         anchors.fill: parent
                         font.pointSize: dummyText.font.pointSize*1.2
                         font.bold: true
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         text: "+"
-                    }
+                    }//*/
                 }
             }
         }
+
     }
 
     LanguageControlButton {

@@ -107,7 +107,7 @@ import Machinekit.Application.Controls.Private 1.0
     \endqml
 */
 
-Rectangle {
+Item {
     /*! This property holds whether an instance should be automatically selected or not.
     */
     property bool autoSelectInstance: false
@@ -211,7 +211,7 @@ Rectangle {
 
     id: mainWindow
 
-    color: systemPalette.window
+    //color: systemPalette.window
     width: 500
     height: 700
 
@@ -496,10 +496,10 @@ Rectangle {
         readonly property string instanceText: instanceSelected ? " - " + launcherService.hostName + ' - ' + launcherService.hostAddress : ""
     }
 
-    SystemPalette {
+    /*SystemPalette {
         id: systemPalette;
         colorGroup: enabled ? SystemPalette.Active : SystemPalette.Disabled
-    }
+    }//*/
 
     InstancePage {
         id: instancePage

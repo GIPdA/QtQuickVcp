@@ -103,7 +103,7 @@ Item {
 
                             Layout.fillWidth: true
                             text: description
-                            color: systemPalette.dark
+                            //color: systemPalette.dark
                             horizontalAlignment: Text.AlignHCenter
                             wrapMode: Text.WordWrap
                         }

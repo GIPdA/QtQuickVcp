@@ -504,6 +504,7 @@ Item {
     InstancePage {
         id: instancePage
         anchors.fill: parent
+        visible: false
 
         autoSelectInstance: mainWindow.autoSelectInstance
         instances: launcherService.items
@@ -516,6 +517,7 @@ Item {
     LauncherPage {
         id: launcherPage
         anchors.fill: parent
+        visible: false
 
         applicationLauncher: applicationLauncher
         configService: configService
@@ -528,6 +530,7 @@ Item {
     SelectedPage {
         id: selectedPage
         anchors.fill: parent
+        visible: false
 
         launcher: (launcherPage.selectedLauncher < applicationLauncher.launchers.length) ?
                    applicationLauncher.launchers[launcherPage.selectedLauncher] : undefined
@@ -538,6 +541,7 @@ Item {
     ConfigPage {
         id: configPage
         anchors.fill: parent
+        visible: false
 
         instanceSelected: d.instanceSelected
         autoSelectApplication: mainWindow.autoSelectApplication
@@ -556,6 +560,7 @@ Item {
     AppPage {
         id: appPage
         anchors.fill: parent
+        visible: false
 
         applicationSource: d.applicationSource
         applicationConfig: applicationConfig
@@ -571,6 +576,7 @@ Item {
     LoadingPage {
         id: loadingPage
         anchors.fill: parent
+        visible: false
 
         applicationConfig: applicationConfig
 
@@ -580,6 +586,7 @@ Item {
     ErrorPage {
         id: errorPage
         anchors.fill: parent
+        visible: false
 
         errorType: d.errorType
         errorText: d.errorText
@@ -683,72 +690,30 @@ Item {
         State {
             name: "instance"
             PropertyChanges { target: instancePage; visible: true }
-            PropertyChanges { target: launcherPage; visible: false }
-            PropertyChanges { target: selectedPage; visible: false }
-            PropertyChanges { target: configPage; visible: false }
-            PropertyChanges { target: appPage; visible: false }
-            PropertyChanges { target: errorPage; visible: false}
-            PropertyChanges { target: loadingPage; visible: false }
         },
         State {
             name: "launcher"
-            PropertyChanges { target: instancePage; visible: false }
             PropertyChanges { target: launcherPage; visible: true }
-            PropertyChanges { target: selectedPage; visible: false }
-            PropertyChanges { target: configPage; visible: false }
-            PropertyChanges { target: appPage; visible: false }
-            PropertyChanges { target: errorPage; visible: false}
-            PropertyChanges { target: loadingPage; visible: false }
         },
         State {
             name: "launcher-selected"
-            PropertyChanges { target: instancePage; visible: false }
-            PropertyChanges { target: launcherPage; visible: false }
             PropertyChanges { target: selectedPage; visible: true }
-            PropertyChanges { target: configPage; visible: false }
-            PropertyChanges { target: appPage; visible: false }
-            PropertyChanges { target: errorPage; visible: false}
-            PropertyChanges { target: loadingPage; visible: false }
         },
         State {
             name: "config"
-            PropertyChanges { target: instancePage; visible: false }
-            PropertyChanges { target: launcherPage; visible: false }
-            PropertyChanges { target: selectedPage; visible: false }
             PropertyChanges { target: configPage; visible: true }
-            PropertyChanges { target: appPage; visible: false }
-            PropertyChanges { target: errorPage; visible: false}
-            PropertyChanges { target: loadingPage; visible: false }
         },
         State {
             name: "app-loading"
-            PropertyChanges { target: instancePage; visible: false }
-            PropertyChanges { target: launcherPage; visible: false }
-            PropertyChanges { target: selectedPage; visible: false }
-            PropertyChanges { target: configPage; visible: false }
-            PropertyChanges { target: appPage; visible: false }
-            PropertyChanges { target: errorPage; visible: false}
             PropertyChanges { target: loadingPage; visible: true }
         },
         State {
             name: "app-loaded"
-            PropertyChanges { target: instancePage; visible: false }
-            PropertyChanges { target: launcherPage; visible: false }
-            PropertyChanges { target: selectedPage; visible: false }
-            PropertyChanges { target: configPage; visible: false }
             PropertyChanges { target: appPage; visible: true }
-            PropertyChanges { target: errorPage; visible: false}
-            PropertyChanges { target: loadingPage; visible: false }
         },
         State {
             name: "error"
-            PropertyChanges { target: instancePage; visible: false }
-            PropertyChanges { target: launcherPage; visible: false }
-            PropertyChanges { target: selectedPage; visible: false }
-            PropertyChanges { target: configPage; visible: false }
-            PropertyChanges { target: appPage; visible: false }
             PropertyChanges { target: errorPage; visible: true}
-            PropertyChanges { target: loadingPage; visible: false }
         }
     ]
 }

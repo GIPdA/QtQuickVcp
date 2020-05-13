@@ -5,6 +5,8 @@ import QtQuick.Window 2.0
 import Machinekit.Controls 1.0
 
 Item {
+    id: root
+
     property bool instanceSelected: false
     property bool autoSelectApplication: false
     property bool localVisible: true
@@ -19,13 +21,27 @@ Item {
     signal goBack()
 
     function _evaluateAutoSelection() {
-        if ((autoSelectApplication === true) && (_listModel.length > 0) && configService.ready)
-        {
+        if ((autoSelectApplication === true) && (_listModel.length > 0) && configService.ready) {
             applicationSelected(0);
         }
     }
 
-    id: root
+    QtObject {
+        id: d
+
+        function isRemote() {
+            return root.mode === "remote";
+        }
+        function isLocal() {
+            return root.mode === "local";
+        }
+        function searchRemote() {
+            return root.mode = "remote";
+        }
+        function searchLocal() {
+            return root.mode = "local";
+        }
+    }
 
     Connections {
         target: configService
@@ -125,27 +141,56 @@ Item {
         }
     }
 
-    SlideView {
+
+    Item {
         id: appView
         anchors.fill: parent
 
-        onCurrentIndexChanged: {
-            if (currentIndex === 0)
-                root.mode = "remote";
-            else
-                root.mode = "local";
+        states: [
+            State {
+                name: "remote"
+                when: d.isRemote()
+                PropertyChanges {
+                    target:remotePage
+                    visible: true
+                }
+            },
+            State {
+                name: "local"
+                when: d.isLocal()
+                PropertyChanges {
+                    target: localPage
+                    visible: true
+                }
+            }
+        ]
+
+        Button {
+            x: 5
+            y: 5
+
+            width: 150
+            focusPolicy: Qt.NoFocus
+
+            text: (hovered ? qsTr("Try ", "Search Remote or Local on ConfigPage.qml") : "") +
+                  ((d.isRemote() ^ hovered) ? qsTr("Remote") : qsTr("Local"))
+
+            onClicked: {
+                if (d.isRemote()) {
+                    d.searchLocal()
+                } else if (d.isLocal()) {
+                    d.searchRemote()
+                }
+            }
         }
 
-        Binding {
-            target: appView; property: "currentIndex";
-            value: ((root.mode === "remote") ? 0 : 1)
-        }
 
-        SlidePage {
+        Item {
+            id: remotePage
             anchors.fill: parent
             anchors.margins: Screen.pixelDensity
-            title: qsTr("Remote UIs")
             visible: root.remoteVisible
+            //title: qsTr("Remote UIs")
 
             Loader {
                 anchors.fill: parent
@@ -154,10 +199,11 @@ Item {
             }
         }
 
-        SlidePage {
+        Item {
+            id: localPage
             anchors.fill: parent
             anchors.margins: Screen.pixelDensity
-            title: qsTr("Local UIs")
+            //title: qsTr("Local UIs")
             visible: root.localVisible
 
             Loader {
@@ -166,6 +212,7 @@ Item {
                 active: true
             }
         }
+
     }
 }
 

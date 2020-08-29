@@ -20,12 +20,14 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.4
-import QtQuick.Controls 2.4
-import QtQuick.Window 2.4
-import QtQuick.Layouts 1.4
-import Qt.labs.platform 1.0
+import QtQuick 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.12
+import Qt.labs.platform 1.1 as Platform
+import Qt.labs.settings 1.0
+
 import Machinekit.Application 1.0
+import Machinekit.Application.Controls 1.0
 
 Item {
     property string title: qsTr("QtQuickVcp Live Coding") + (loader.item ? " - " + loader.item.title : "")
@@ -57,6 +59,34 @@ Item {
         id: dummyText
         visible: false
     }
+
+
+    ApplicationMenuBar {
+       Platform.Menu {
+            title: qsTr("&Live Coding")
+
+            Platform.MenuItem {
+                text: qsTr("&Reload")
+                enabled: loader.source != ""
+                onTriggered: d.reload()
+            }
+            Platform.MenuItem {
+                text: qsTr("&Open...")
+                onTriggered: fileDialog.open()
+            }
+            Platform.MenuItem {
+                text: qsTr("&Edit...")
+                enabled: fileDialog.file != ""
+                onTriggered: d.openWithSystemEditor()
+            }
+            Platform.MenuSeparator {}
+            Platform.MenuItem {
+                text: qsTr("&Exit Live Coding")
+                onTriggered: root.disconnect()
+            }
+        }
+    }
+
 
     ColumnLayout {
         anchors.fill: parent

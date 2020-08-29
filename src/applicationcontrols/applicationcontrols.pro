@@ -25,9 +25,10 @@ CONTROLS_QML_FILES = \
     $$PWD/PauseProgramAction.qml \
     $$PWD/ResumeProgramAction.qml \
     $$PWD/PauseResumeProgramAction.qml \
+    $$PWD/ApplicationFileDialog.qml \
+    $$PWD/ApplicationMenuBar.qml \
     $$PWD/ApplicationNotifications.qml \
     $$PWD/ApplicationProgressBar.qml \
-    $$PWD/ApplicationFileDialog.qml \
     $$PWD/JogStick.qml \
     $$PWD/AbstractDigitalReadOut.qml \
     $$PWD/DigitalReadOut.qml \

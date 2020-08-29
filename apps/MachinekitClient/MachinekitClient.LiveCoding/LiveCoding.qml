@@ -31,7 +31,6 @@ Item {
     property string title: qsTr("QtQuickVcp Live Coding") + (loader.item ? " - " + loader.item.title : "")
     property alias item: loader.item
     readonly property var statusBar: (((item !== null) && (item.statusBar !== undefined)) ? item.statusBar : null)
-    readonly property var menuBar: (((item !== null) && (item.menuBar !== undefined)) ? item.menuBar : null)
     readonly property var toolBar: (((item !== null) && (item.toolBar !== undefined)) ? item.toolBar : null)
     readonly property var services: (((item !== null) && (item.services !== undefined)) ? loader.item.services : [])
 

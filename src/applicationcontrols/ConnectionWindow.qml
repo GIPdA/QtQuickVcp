@@ -200,15 +200,6 @@ Item {
     */
     property Item statusBar: appPage.statusBar
 
-    /*!
-        \qmlproperty MenuBar menuBar
-
-        This property holds the \l MenuBar.
-
-        This property is set by the connection window.
-    */
-    property var menuBar: appPage.menuBar
-
     id: mainWindow
 
     //color: systemPalette.window

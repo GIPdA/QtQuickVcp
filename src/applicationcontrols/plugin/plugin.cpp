@@ -47,6 +47,7 @@ static const struct {
     { "ApplicationNotifications", 1, 0 },
     { "ApplicationProgressBar", 1, 0 },
     { "ApplicationFileDialog", 1, 0 },
+    { "ApplicationMenuBar", 1, 0 },
     { "JogStick", 1, 0 },
     { "AbstractDigitalReadOut", 1, 0 },
     { "DigitalReadOut", 1, 0 },

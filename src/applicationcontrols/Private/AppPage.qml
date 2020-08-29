@@ -12,7 +12,6 @@ Loader {
     property var services: (((item !== null) && (item.services !== undefined)) ? item.services : [])
     property var toolBar: (((item !== null) && (item.toolBar !== undefined)) ? item.toolBar : null)
     property var statusBar: (((item !== null) && (item.statusBar !== undefined)) ? item.statusBar : null)
-    property var menuBar: (((item !== null) && (item.menuBar !== undefined)) ? item.menuBar : null)
 
     signal goBack(bool shutdown)
 

@@ -21,55 +21,57 @@
 ****************************************************************************/
 
 import QtQuick 2.12
-import QtQuick.Controls 2.12
 import QtQuick.Window 2.12
+import QtQuick.Controls 2.12
+import Qt.labs.platform 1.1 // For Menu. Must be after QtQuick.Controls (beware of folder imports)
 import Qt.labs.settings 1.0
-import Qt.labs.platform 1.1 as P
+
+import Machinekit.Application.Controls 1.0
 
 ApplicationWindow {
-    id: appWindow
+    id: window
 
     visibility: (Qt.platform.os === "android") ? "FullScreen" : "AutomaticVisibility"
     visible: true
     width: (Qt.platform.os === "android") ? Screen.width : Screen.width * 0.7
     height: (Qt.platform.os === "android") ? Screen.height : Screen.height * 0.7
-/*    title: (mainAppLoader.item !== null) ? mainAppLoader.item.title : "Loading"
-    header: (mainAppLoader.item !== null) ? mainAppLoader.item.toolBar : null
+    title: (mainAppLoader.item !== null) ? mainAppLoader.item.title : "Loading"
+    /*header: (mainAppLoader.item !== null) ? mainAppLoader.item.toolBar : null
     footer: (mainAppLoader.item !== null) ? mainAppLoader.item.statusBar : null
-    menuBar: (mainAppLoader.item !== null) ? mainAppLoader.item.menuBar : null
-//*/
-    /*P.MenuBar {
-        window: appWindow
-        P.Menu {
-            title: qsTr("&File")
-            Action { text: qsTr("&New...") }
-            Action { text: qsTr("&Open...") }
-            Action { text: qsTr("&Save") }
-            Action { text: qsTr("Save &As...") }
+    //*/
+
+    // This is the global menu bar, used by the remote apps.
+    MenuBar {
+        id: globalMenuBar
+        objectName: "_MK_ApplicationMenuBar"
+
+        Menu {
+            title: qsTr("&Machine Kit")
+            MenuItem {
+                text: qsTr("&About")
+                // TODO: display the About popup.
+                onTriggered: print("TODO: Show 'About' window")
+            }
+
             MenuSeparator { }
-            Action { text: qsTr("&Quit") }
+
+            MenuItem {
+                text: qsTr("&Quit")
+                onTriggered: Qt.quit()
+            }
         }
-        P.Menu {
-            title: qsTr("&Edit")
-            Action { text: qsTr("Cu&t") }
-            Action { text: qsTr("&Copy") }
-            Action { text: qsTr("&Paste") }
-        }
-        P.Menu {
-            title: qsTr("&Help")
-            Action { text: qsTr("&About") }
-        }
-    }//*/
+    }
+
 
     Settings {
         id: windowSettings
         category: "window"
-        property alias width: appWindow.width
-        property alias height: appWindow.height
-        property alias x: appWindow.x
-        property alias y: appWindow.y
-        property alias  visibility: appWindow.visibility
-    }//*/
+        property alias width: window.width
+        property alias height: window.height
+        property alias x: window.x
+        property alias y: window.y
+        property alias  visibility: window.visibility
+    }
 
     // Loaders for the main application and the splash screen.
     Loader {
@@ -81,7 +83,7 @@ ApplicationWindow {
             focus = true;
             console.debug("Main application loaded.");
         }
-    }//*/
+    }
 
     /*Loader {
         id: splashScreenLoader

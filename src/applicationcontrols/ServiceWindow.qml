@@ -70,15 +70,6 @@ Rectangle {
     property Item statusBar
 
     /*!
-        \qmlproperty MenuBar menuBar
-
-        This property holds the \l MenuBar.
-
-        By default, this value is not set.
-    */
-    property MenuBar menuBar
-
-    /*!
         \qmlproperty Item background
 
         This property holds the background \l Item.

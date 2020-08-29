@@ -29,6 +29,7 @@ StopProgramAction 1.0 StopProgramAction.qml
 ApplicationNotifications 1.0 ApplicationNotifications.qml
 ApplicationProgressBar 1.0 ApplicationProgressBar.qml
 ApplicationFileDialog 1.0 ApplicationFileDialog.qml
+ApplicationMenuBar 1.0 ApplicationMenuBar.qml
 JogStick 1.0 JogStick.qml
 AbstractDigitalReadOut 1.0 AbstractDigitalReadOut.qml
 DigitalReadOut 1.0 DigitalReadOut.qml

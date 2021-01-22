@@ -34,6 +34,11 @@ ApplicationAction {
 
     property bool _ready: status.synced && command.connected
 
+    function stop() {
+        continuousJogTimer.stop();
+        command.jog(ApplicationCommand.StopJog, axis);
+    }
+
     text: ""
     shortcut: ""
     tooltip: qsTr("Jog Axis %1 [%2]").arg(axis).arg(shortcut)
@@ -60,6 +65,11 @@ ApplicationAction {
     enabled: _ready
              && (status.task.taskState === ApplicationStatus.TaskStateOn)
              && !status.running
+
+    onEnabledChanged: {
+        if (!enabled)
+            stop()
+    }
 
     Timer {
         id: continuousJogTimer

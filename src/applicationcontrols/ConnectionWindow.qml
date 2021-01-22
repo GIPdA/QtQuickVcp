@@ -19,10 +19,11 @@
 ** Alexander Rössler @ The Cool Tool GmbH <mail DOT aroessler AT gmail DOT com>
 **
 ****************************************************************************/
-import QtQuick 2.4
-import QtQuick.Controls 2.4
-import QtQuick.Layouts 1.4
-import QtQuick.Window 2.4
+import QtQuick 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.12
+import QtQuick.Window 2.12
+
 import Machinekit.Controls 1.0
 import Machinekit.Service 1.0
 import Machinekit.Application 1.0
@@ -108,6 +109,13 @@ import Machinekit.Application.Controls.Private 1.0
 */
 
 Item {
+    id: mainWindow
+
+    //color: systemPalette.window
+    width: 500
+    height: 700
+
+
     /*! This property holds whether an instance should be automatically selected or not.
     */
     property bool autoSelectInstance: false
@@ -200,11 +208,6 @@ Item {
     */
     property Item statusBar: appPage.statusBar
 
-    id: mainWindow
-
-    //color: systemPalette.window
-    width: 500
-    height: 700
 
     /*! \internal */
     function selectInstance(uuid)

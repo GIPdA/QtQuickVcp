@@ -27,6 +27,8 @@ CONTROLS_QML_FILES = \
     $$PWD/PauseResumeProgramAction.qml \
     $$PWD/ApplicationFileDialog.qml \
     $$PWD/ApplicationMenuBar.qml \
+    $$PWD/Menu.qml \
+    $$PWD/MenuItem.qml \
     $$PWD/ApplicationNotifications.qml \
     $$PWD/ApplicationProgressBar.qml \
     $$PWD/JogStick.qml \
@@ -102,6 +104,3 @@ include(../deployment.pri)
 
 TRANSLATIONS_PATH = $$PWD/translations
 include(../translation.pri)
-
-DISTFILES += \
-    JogDistanceComboBox_copy.qml

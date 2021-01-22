@@ -1,9 +1,10 @@
-import QtQuick 2.4
-import QtQuick.Controls 2.4
-import QtQuick.Layouts 1.3
-import QtQuick.Window 2.0
+import QtQuick 2.0
 
 Loader {
+    id: applicationLoader
+    width: 600
+    height: 500
+
     property string applicationSource: ""
     property var applicationConfig: undefined
     property var serviceDiscovery: undefined
@@ -15,9 +16,6 @@ Loader {
 
     signal goBack(bool shutdown)
 
-    id: applicationLoader
-    width: 600
-    height: 500
 
     active: ((applicationSource !== "") || (applicationConfig === undefined)) ? true : applicationConfig.selectedConfig.loaded
     source: ((applicationSource !== "") || (applicationConfig === undefined)) ? applicationSource : applicationConfig.selectedConfig.mainFile
@@ -27,8 +25,7 @@ Loader {
     }
 
     onStatusChanged: {
-        if (status === Loader.Error)
-        {
+        if (status === Loader.Error) {
             var msg = applicationLoader.sourceComponent.errorString();
             setError(qsTr("QML Error:"), qsTr("Loading QML file failed:\n" + msg));
         }

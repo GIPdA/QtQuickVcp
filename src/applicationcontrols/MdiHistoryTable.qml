@@ -21,12 +21,14 @@
 ****************************************************************************/
 
 import QtQuick 2.4
-import QtQuick.Controls 1.4
+import QtQuick.Controls 1.4 as QQ1
+import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.4
+
 import Machinekit.Application 1.0
 import Machinekit.Application.Controls 1.0
 
-TableView {
+QQ1.TableView {
     property alias core: object.core
     property alias history: object.mdiHistory
 
@@ -54,7 +56,7 @@ TableView {
         id: object
     }
 
-    TableViewColumn{ role: "command"  ; title: ""  }
+    QQ1.TableViewColumn{ role: "command"  ; title: ""  }
 
     MouseArea {
         anchors.fill: parent

@@ -32,7 +32,7 @@ import QtQuick 2.4
 */
 
 
-Rectangle {
+Item {
     /*! The title of the page. Will be visible in the menu.
     */
     property string title: "SlidePage"
@@ -42,11 +42,11 @@ Rectangle {
     property string iconSource: ""
 
     anchors.fill: parent
-    color: systemPalette.window
+    //color: systemPalette.window
     opacity: 0
     enabled: opacity !== 0
 
-    SystemPalette { id: systemPalette; colorGroup: SystemPalette.Active }
+    //SystemPalette { id: systemPalette; colorGroup: SystemPalette.Active }
 
     Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutQuad } }
 }

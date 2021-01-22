@@ -22,8 +22,9 @@
 
 import QtQuick 2.12
 import QtQuick.Window 2.12
+import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
-import Qt.labs.platform 1.1 // For Menu. Must be after QtQuick.Controls (beware of folder imports)
+import Qt.labs.platform 1.1 as QLP // For Menu. Must be after QtQuick.Controls (beware of folder imports)
 import Qt.labs.settings 1.0
 
 import Machinekit.Application.Controls 1.0
@@ -36,12 +37,12 @@ ApplicationWindow {
     width: (Qt.platform.os === "android") ? Screen.width : Screen.width * 0.7
     height: (Qt.platform.os === "android") ? Screen.height : Screen.height * 0.7
     title: (mainAppLoader.item !== null) ? mainAppLoader.item.title : "Loading"
-    /*header: (mainAppLoader.item !== null) ? mainAppLoader.item.toolBar : null
+    header: (mainAppLoader.item !== null) ? mainAppLoader.item.toolBar : null
     footer: (mainAppLoader.item !== null) ? mainAppLoader.item.statusBar : null
-    //*/
+
 
     // This is the global menu bar, used by the remote apps.
-    MenuBar {
+    QLP.MenuBar {
         id: globalMenuBar
         objectName: "_MK_ApplicationMenuBar"
 
@@ -53,11 +54,13 @@ ApplicationWindow {
                 onTriggered: print("TODO: Show 'About' window")
             }
 
-            MenuSeparator { }
+            MenuSeparator {}
 
-            MenuItem {
+            QLP.MenuItem {
                 text: qsTr("&Quit")
                 onTriggered: Qt.quit()
+                shortcut: StandardKey.Quit
+                role: QLP.MenuItem.QuitRole
             }
         }
     }
@@ -70,7 +73,7 @@ ApplicationWindow {
         property alias height: window.height
         property alias x: window.x
         property alias y: window.y
-        property alias  visibility: window.visibility
+        property alias visibility: window.visibility
     }
 
     // Loaders for the main application and the splash screen.

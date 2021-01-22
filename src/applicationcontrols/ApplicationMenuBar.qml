@@ -1,4 +1,6 @@
 /*
+ * Part of QtQuickVcp.
+ *
  * Control to add menus into the global Menu Bar of the application.
  */
 import QtQuick 2.0

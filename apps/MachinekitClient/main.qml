@@ -19,25 +19,10 @@
 ** Alexander Rössler @ The Cool Tool GmbH <mail DOT aroessler AT gmail DOT com>
 **
 ****************************************************************************/
-// import all available plugins
-import QtQuick 2.4
-import QtQuick.Controls 2.4
-import QtQuick.Controls.Styles 1.3
-import QtQuick.Dialogs 1.3
-import QtQuick.Window 2.4
-import QtQuick.Layouts 1.4
-import QtQuick.Controls.Styles 1.3
-import QtQuick.Particles 2.4
-import QtQuick.XmlListModel 2.4
+import QtQuick 2.0
 
-import Machinekit.Controls 1.0
-import Machinekit.HalRemote 1.0
-import Machinekit.HalRemote.Controls 1.0
-import Machinekit.VideoView 1.0
-import Machinekit.PathView 1.0
 import Machinekit.Application 1.0
 import Machinekit.Application.Controls 1.0
-import Machinekit.Service 1.0
 
 Item {
     id: applicationWindow

@@ -146,18 +146,18 @@ Item {
                 }
     }
 
-    Rectangle {
+    Item {
        id: menuView
        anchors.left: parent.left
        anchors.top: parent.top
        anchors.bottom: parent.bottom
        width: Screen.pixelDensity * 40
-       color: systemPalette.base
+       //color: systemPalette.base
 
        opacity: viewTranslate.x/width
        enabled: opacity !== 0
 
-       Rectangle {
+       /*Rectangle {
            id: shadow1
            anchors.top: parent.top
            anchors.bottom: parent.bottom
@@ -185,7 +185,7 @@ Item {
            width: shadow2.width * 0.6
            color: systemPalette.shadow
            opacity: 0.3
-       }
+       }//*/
 
        ListView {
            id: menuList
@@ -193,7 +193,7 @@ Item {
            model: normalView.children
 
            delegate: Component {
-                   Rectangle {
+                   Item {
                        property bool isCurrentItem: ListView.isCurrentItem
 
                        SystemPalette { id: systemPalette; colorGroup: enabled ? SystemPalette.Active : SystemPalette.Disabled }
@@ -202,7 +202,7 @@ Item {
                        anchors.left: parent.left
                        anchors.right: parent.right
                        height: Screen.pixelDensity * 10
-                       color: rect.isCurrentItem ? systemPalette.highlight : "transparent"
+                       //color: rect.isCurrentItem ? systemPalette.highlight : "transparent"
                        enabled:  menuList.model[index].visible
                        ListView.onCurrentItemChanged: menuList.model[index].opacity = ListView.isCurrentItem * 1.0
 
@@ -263,10 +263,10 @@ Item {
 
     }
 
-    Rectangle {
+    Item {
        id: normalView
        anchors.fill: parent
-       color: systemPalette.window
+       //color: systemPalette.window
 
        transform: Translate {
                    id: viewTranslate

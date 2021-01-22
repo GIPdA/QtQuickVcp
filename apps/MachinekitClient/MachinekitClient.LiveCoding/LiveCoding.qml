@@ -30,16 +30,17 @@ import Machinekit.Application 1.0
 import Machinekit.Application.Controls 1.0
 
 Item {
+    id: root
+
     property string title: qsTr("QtQuickVcp Live Coding") + (loader.item ? " - " + loader.item.title : "")
     property alias item: loader.item
     readonly property var statusBar: (((item !== null) && (item.statusBar !== undefined)) ? item.statusBar : null)
-    readonly property var toolBar: (((item !== null) && (item.toolBar !== undefined)) ? item.toolBar : null)
+    readonly property var toolBar: (((item !== null) && (item.toolBar !== undefined)) && !hideToolbar.checked ? item.toolBar : null)
     readonly property var services: (((item !== null) && (item.services !== undefined)) ? loader.item.services : [])
 
-    /* Disconnects this page */
+    // Disconnects this page
     signal disconnect()
 
-    id: root
 
     QtObject {
         id: d
@@ -53,6 +54,12 @@ Item {
         function openWithSystemEditor() {
             ApplicationHelpers.openUrlWithDefaultApplication(fileDialog.file);
         }
+    }
+
+    Settings {
+        id: settings
+        category: "liveCoding"
+        property string lastFileName: Platform.StandardPaths.writableLocation(Platform.StandardPaths.HomeLocation)
     }
 
     Label {
@@ -74,6 +81,16 @@ Item {
                 text: qsTr("&Open...")
                 onTriggered: fileDialog.open()
             }
+            Platform.Menu {
+                title: qsTr("Recent files")
+                // TODO
+
+                Platform.MenuSeparator {}
+                Platform.MenuItem {
+                    text: qsTr("Clear menu")
+                    //onTriggered:
+                }
+            }
             Platform.MenuItem {
                 text: qsTr("&Edit...")
                 enabled: fileDialog.file != ""
@@ -84,6 +101,12 @@ Item {
                 text: qsTr("&Exit Live Coding")
                 onTriggered: root.disconnect()
             }
+            Platform.MenuItem {
+                id: hideToolbar
+                text: qsTr("&Hide Tool Bar")
+                checkable: true
+                checked: false
+            }
         }
     }
 
@@ -91,7 +114,7 @@ Item {
     ColumnLayout {
         anchors.fill: parent
 
-        RowLayout {
+        /*RowLayout {
             Button {
                 text: qsTr("Open")
                 onClicked: fileDialog.open()
@@ -115,7 +138,7 @@ Item {
                 text: qsTr("Disconnect")
                 onClicked: root.disconnect()
             }
-        }
+        }//*/
 
         Loader {
             id: loader
@@ -123,12 +146,15 @@ Item {
             Layout.fillHeight: true
 
             onStatusChanged: {
-                if (status !== Loader.Error) {
-                    return;
+                if (status == Loader.Ready) {
+                    item.disconnect.connect(root.disconnect)
+                    item.shutdown.connect(root.disconnect)
                 }
 
-                var msg = loader.sourceComponent.errorString();
-                errorLabel.text = qsTr("QML Error: Loading QML file failed:\n") + msg;
+                if (status == Loader.Error) {
+                    var msg = loader.sourceComponent.errorString();
+                    errorLabel.text = qsTr("QML Error: Loading QML file failed:\n") + msg;
+                }
             }
 
             Label {
@@ -141,16 +167,27 @@ Item {
                 font.pointSize: dummyText.font.pointSize * 1.1
                 visible: loader.status === Loader.Error
             }
+
+            Button {
+                anchors.centerIn: parent
+                padding: 30
+                text: qsTr("Open File...")
+                visible: loader.status === Loader.Null
+                onClicked: fileDialog.open()
+            }
         }
     }
 
-    FileDialog {
+    Platform.FileDialog {
         property bool selected: false
         id: fileDialog
-        folder: StandardPaths.writableLocation(StandardPaths.HomeLocation)
+        folder: settings.lastFileName
         nameFilters: [qsTr("QML files (*.qml)")]
         onFileChanged: d.reload()
-        onAccepted: selected = true
+        onAccepted: {
+            settings.lastFileName = file
+            selected = true
+        }
     }
 
     FileWatcher {

@@ -49,9 +49,12 @@ Item {
         onReadyChanged: _evaluateAutoSelection()
     }
 
-    Label {
-        id: dummyText
+    Label { // "template"
+        id: t_titleText
         visible: false
+        Component.onCompleted: {
+            font.pointSize = font.pointSize*1.3
+        }
     }
     Button {
         id: dummyButton
@@ -70,7 +73,7 @@ Item {
                 Layout.fillWidth: true
                 Layout.preferredHeight: Math.max(dummyButton.height, implicitHeight)
                 text: configService.name
-                font.pointSize: dummyText.font.pointSize * 1.3
+                font.pointSize: t_titleText.font.pointSize
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
@@ -108,7 +111,7 @@ Item {
                             id: titleText
 
                             Layout.fillWidth: true
-                            font.pointSize: dummyText.font.pointSize*1.3
+                            font.pointSize: t_titleText.font.pointSize
                             font.bold: true
                             text: name
                             horizontalAlignment: Text.AlignHCenter

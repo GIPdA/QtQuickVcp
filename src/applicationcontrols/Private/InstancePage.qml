@@ -59,6 +59,13 @@ Item {
         onTriggered: instanceSelected(uuid)
     }
 
+    Label { // "template"
+        id: t_titleText
+        visible: false
+        Component.onCompleted: {
+            font.pointSize = font.pointSize*1.3
+        }
+    }
     Button {
         id: dummyButton
         visible: false
@@ -88,7 +95,7 @@ Item {
                         id: titleText
 
                         Layout.fillWidth: true
-                        font.pointSize: 20
+                        font.pointSize: t_titleText.font.pointSize
                         font.bold: true
                         text: name
                         horizontalAlignment: Text.AlignHCenter
@@ -188,7 +195,7 @@ Item {
                     Layout.preferredHeight: Math.max(dummyButton.height, implicitHeight)
                     visible: root.networkReady
                     text: qsTr("Available Instances:")
-                    font.pointSize: 20
+                    font.pointSize: t_titleText.font.pointSize
                     font.bold: true
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
@@ -233,7 +240,7 @@ Item {
                     Layout.fillWidth: true
                     Layout.preferredHeight: Math.max(dummyButton.height, implicitHeight)
                     text: qsTr("Available Instances:")
-                    font.pointSize: 20
+                    font.pointSize: t_titleText.font.pointSize
                     font.bold: true
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
@@ -250,7 +257,7 @@ Item {
                 Label {
                     Layout.fillWidth: true
                     text: qsTr("Machinekit Instances:")
-                    font.pointSize: 20
+                    font.pointSize: t_titleText.font.pointSize
                     font.bold: true
                     horizontalAlignment: Text.AlignHCenter
                     wrapMode: Text.WordWrap
@@ -271,7 +278,7 @@ Item {
                         height: dummyButton.height * 1.3
                         spacing: 10
 
-                        property var fontPointSize: 20
+                        property var fontPointSize: t_titleText.font.pointSize
 
                         Label {
                             text: qsTr("Instance %1:").arg(index + 1)
@@ -332,7 +339,7 @@ Item {
                     visible: dnsServerView.count === 0
                     text: "+"
                     font.bold: true
-                    font.pointSize: 20
+                    font.pointSize: t_titleText.font.pointSize
 
                     onClicked: {
                         serviceDiscovery.addNameServer(nameServerComponent.createObject(root, {}))

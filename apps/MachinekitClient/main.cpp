@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 #ifdef Q_OS_WIN
     engine.addImportPath(QStringLiteral("../../imports")); // for in place execution
 #else
-    engine.addImportPath(QStringLiteral("../../imports")); // for in place execution
+    engine.addImportPath(QStringLiteral("../../../../../imports")); // for in place execution (macOS)
 #endif
 
     const QUrl url(QStringLiteral("qrc:/init.qml"));

@@ -103,7 +103,7 @@ ListView {
                 hoverEnabled: true
             }
 
-            opacity: (notificationMouseArea.containsMouse || (notificationModel.count === (model.index+1))) ? 1.0 : 0.6
+            //opacity: (notificationMouseArea.containsMouse || (notificationModel.count === (model.index+1))) ? 1.0 : 0.6
         }
     }
 

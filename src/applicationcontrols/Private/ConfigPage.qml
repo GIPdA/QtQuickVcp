@@ -46,7 +46,7 @@ Item {
     Connections {
         target: configService
         ignoreUnknownSignals: true
-        onReadyChanged: _evaluateAutoSelection()
+        function onReadyChanged(ready) { _evaluateAutoSelection() }
     }
 
     Label { // "template"

@@ -15,4 +15,6 @@ QLP.MenuItem {
     checked: action ? action.checked : false
     enabled: action ? action.enabled : true
     shortcut: action ? action.shortcut : undefined
+
+    onTriggered: if (action) action.trigger()
 }

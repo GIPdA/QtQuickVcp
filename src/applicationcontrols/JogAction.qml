@@ -36,7 +36,8 @@ ApplicationAction {
 
     function stop() {
         continuousJogTimer.stop();
-        command.jog(ApplicationCommand.StopJog, axis);
+        if (_ready)
+            command.jog(ApplicationCommand.StopJog, axis);
     }
 
     text: ""

@@ -67,6 +67,7 @@ ListView {
                 verticalAlignment: Text.AlignVCenter
                 wrapMode: Text.WordWrap
                 text: model.text
+                color: systemPalette.text
             }
 
             Image {

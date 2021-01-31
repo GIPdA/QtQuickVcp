@@ -40,7 +40,7 @@ class HalRemoteComponent : public machinetalk::halremote::RemoteComponentBase
     Q_PROPERTY(QObject *containerItem READ containerItem WRITE setContainerItem NOTIFY containerItemChanged)
     Q_PROPERTY(bool create READ create WRITE setCreate NOTIFY createChanged)
     Q_PROPERTY(bool bind READ bind WRITE setBind NOTIFY bindChanged)
-    Q_PROPERTY(QQmlListProperty<qtquickvcp::HalPin> pins READ pins NOTIFY pinsChanged)
+    Q_PROPERTY(QList<qtquickvcp::HalPin*> pins READ pins NOTIFY pinsChanged)
 
 public:
     explicit HalRemoteComponent(QObject *parent  = nullptr);
@@ -134,9 +134,9 @@ public slots:
         emit bindChanged(bind);
     }
 
-    QQmlListProperty<HalPin> pins()
+    QList<HalPin*> pins()
     {
-        return QQmlListProperty<HalPin>(this, m_pins);
+        return m_pins;
     }
 
     void pinChange(QVariant value);
@@ -184,7 +184,7 @@ signals:
     void containerItemChanged(QObject * containerItem);
     void createChanged(bool create);
     void bindChanged(bool bind);
-    void pinsChanged(QQmlListProperty<HalPin> arg);
+    void pinsChanged(QList<HalPin*> arg);
 }; // class HalRemoteComponent
 } // namespace qtquickvcp
 

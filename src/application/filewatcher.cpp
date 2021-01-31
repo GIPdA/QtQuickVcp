@@ -37,12 +37,12 @@ FileWatcher::FileWatcher(QObject *parent)
     , m_enabled(true)
     , m_recursive(false)
 {
-    connect(this, &FileWatcher::fileUrlChanged, this, &FileWatcher::updateWatchedFile);
-    connect(this, &FileWatcher::enabledChanged, this, &FileWatcher::updateWatchedFile);
-    connect(this, &FileWatcher::recursiveChanged, this, &FileWatcher::updateWatchedFile);
-    connect(this, &FileWatcher::nameFiltersChanged, this, &FileWatcher::updateWatchedFile);
+    m_timer.setInterval(100);
+    m_timer.setSingleShot(true);
+    m_timer.callOnTimeout(this, &FileWatcher::fileChanged);
+
     connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, &FileWatcher::onWatchedFileChanged);
-    connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, &FileWatcher::onWatchedDirectoryChanged);
+    //connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, &FileWatcher::onWatchedDirectoryChanged);
 }
 
 QUrl FileWatcher::fileUrl() const
@@ -67,44 +67,44 @@ QStringList FileWatcher::nameFilters() const
 
 void FileWatcher::setFileUrl(const QUrl &fileUrl)
 {
-    if (m_fileUrl == fileUrl) {
+    if (m_fileUrl == fileUrl)
         return;
-    }
 
     m_fileUrl = fileUrl;
     emit fileUrlChanged(m_fileUrl);
+    updateWatchedFile();
 }
 
 void FileWatcher::setEnabled(bool enabled)
 {
-    if (m_enabled == enabled) {
+    if (m_enabled == enabled)
         return;
-    }
 
     m_enabled = enabled;
     emit enabledChanged(m_enabled);
+    updateWatchedFile();
 }
 
 void FileWatcher::setRecursive(bool recursive)
 {
-    if (m_recursive == recursive) {
+    if (m_recursive == recursive)
         return;
-    }
 
     m_recursive = recursive;
     emit recursiveChanged(m_recursive);
+    updateWatchedFile();
 }
 
 void FileWatcher::setNameFilters(const QStringList &nameFilters)
 {
-    if (m_nameFilters == nameFilters) {
+    if (m_nameFilters == nameFilters)
         return;
-    }
 
     m_nameFilters = nameFilters;
     emit nameFiltersChanged(m_nameFilters);
 
     updateRegExps();
+    updateWatchedFile();
 }
 
 void FileWatcher::updateRegExps()
@@ -126,47 +126,54 @@ bool FileWatcher::updateWatchedFile()
         m_fileSystemWatcher.removePaths(directories);
     }
 
-     if (!m_fileUrl.isValid() || !m_enabled) {
+    if (!m_fileUrl.isValid() || !m_enabled)
         return false;
-    }
 
     if (!m_fileUrl.isLocalFile()) {
         qCWarning(filewatcherCategory) << "Can only watch local files";
         return false;
     }
+
     const auto &localFile = m_fileUrl.toLocalFile();
-    if (localFile.isEmpty()) {
+    if (localFile.isEmpty())
         return false;
-    }
 
-    if (m_recursive && QDir(localFile).exists()) {
-        QSet<QString> newPaths;
-        m_fileSystemWatcher.addPath(localFile);
-        newPaths.insert(localFile);
+    auto matchFileFilter = [&](QString const& name) {
+        for (QRegExp const& regExp : qAsConst(m_regExps)) {
+            if (regExp.exactMatch(name))
+                return true;
+        }
+        return false;
+    };
 
-        QDirIterator it(localFile, QDirIterator::Subdirectories | QDirIterator::FollowSymlinks);
-        while (it.hasNext()) {
-            const auto &file = it.next();
-            const QString extension = it.fileInfo().completeSuffix();
-            bool filtered = false;
-            for (QRegExp &regExp: m_regExps) {
-                if (regExp.exactMatch(extension)) {
-                    filtered = true;
-                    break;
-                }
-            }
-            if ((it.fileName() == QLatin1String("..")) || (it.fileName() == QLatin1String("."))
-                || filtered) {
-                continue;
-            }
-            m_fileSystemWatcher.addPath(file);
-            newPaths.insert(it.filePath());
+    if (QDir(localFile).exists()) {
+        //QSet<QString> newPaths;
+
+        if (matchFileFilter(localFile)) {
+            m_fileSystemWatcher.addPath(localFile);
+            //newPaths.insert(localFile);
+            qDebug("Matched: %s", qPrintable(localFile));
         }
 
-        return newPaths != QSet<QString>::fromList(files).unite(QSet<QString>::fromList(directories));
-    }
-    else if (QFile::exists(localFile)) {
-        m_fileSystemWatcher.addPath(localFile);
+        if (m_recursive) {
+            QDirIterator it(localFile, QDirIterator::Subdirectories | QDirIterator::FollowSymlinks);
+            while (it.hasNext()) {
+                const QString file = it.next();
+                const QString extension = it.fileInfo().completeSuffix();
+
+                if ((it.fileName() != QLatin1String(".."))
+                       && (it.fileName() != QLatin1String("."))
+                       && matchFileFilter(it.fileName()))
+                {
+                    m_fileSystemWatcher.addPath(file);
+                    //newPaths.insert(it.filePath());
+                    qDebug("Matched: %s", qPrintable(localFile));
+                }
+            }
+        }
+
+        return true;
+        //return newPaths != QSet<QString>(files.begin(), files.end()).unite(QSet<QString>(directories.begin(), directories.end()));
     }
     else {
 #ifdef QT_DEBUG
@@ -176,18 +183,21 @@ bool FileWatcher::updateWatchedFile()
     return false;
 }
 
-void FileWatcher::onWatchedFileChanged()
+void FileWatcher::onWatchedFileChanged(QString const& file)
 {
     if (m_enabled) {
-        emit fileChanged();
+        qCDebug(filewatcherCategory) << "File changed:" << file;
+        //emit fileChanged();
+        if (!m_timer.isActive())
+            m_timer.start();
     }
 }
 
 void FileWatcher::onWatchedDirectoryChanged(const QString &)
 {
-    if (updateWatchedFile()) {
+    /*if (updateWatchedFile()) {
         onWatchedFileChanged(); // propagate event
-    }
+    }//*/
 }
 
 } // namespace qtquickvcp

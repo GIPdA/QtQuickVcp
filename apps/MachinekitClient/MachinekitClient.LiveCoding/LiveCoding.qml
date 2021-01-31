@@ -221,8 +221,7 @@ Item {
         recursive: true
         onFileChanged: d.reload()
         nameFilters: [
-            "qmlc",
-            "jsc"
+            "*.qml"
         ]
     }
 }

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QUrl>
 #include <QFileSystemWatcher>
+#include <QTimer>
 
 namespace qtquickvcp {
 
@@ -44,13 +45,14 @@ private:
     QFileSystemWatcher m_fileSystemWatcher;
     QStringList m_nameFilters;
     QList<QRegExp> m_regExps;
+    QTimer m_timer;
 
     void updateRegExps();
 
 private slots:
     bool updateWatchedFile();
-    void onWatchedFileChanged();
-    void onWatchedDirectoryChanged(const QString &);
+    void onWatchedFileChanged(QString const&);
+    void onWatchedDirectoryChanged(QString const&);
 
 }; // class FileWatcher
 } // namespace qtquickvcp

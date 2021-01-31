@@ -22,7 +22,7 @@ QML_FILES = $$PWD/init.qml \
 OTHER_FILES += $$QML_FILES
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
+QML_IMPORT_PATH = $$OUT_PWD/../../imports
 
 # deactivate installs for applications
 INSTALLS =
@@ -53,6 +53,11 @@ macx: {
     ICON = $$PWD/icons/machinekit.icns
     QMAKE_POST_LINK += $$QMAKE_COPY $$PWD/$${QMAKE_INFO_PLIST} $${TARGET}.app/Contents/Info.plist $$escape_expand(\n\t)
     QMAKE_POST_LINK += $$QMAKE_COPY $$ICON $${TARGET}.app/Contents/Resources/machinekit.icns
+
+    # Add the import files into the bundle.
+    imports_copy.files = $$OUT_PWD/../../imports/Machinekit
+    imports_copy.path = Contents/PlugIns
+    QMAKE_BUNDLE_DATA += imports_copy
 }
 
 OTHER_FILES += \

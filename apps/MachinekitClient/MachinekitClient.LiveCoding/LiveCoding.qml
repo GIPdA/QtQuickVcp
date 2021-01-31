@@ -45,14 +45,23 @@ Item {
     QtObject {
         id: d
 
-        function reload() {
+        property string loadedFile
+        property string loadedFolder: !loadedFile ? "" : loadedFile.substr(0, loadedFile.lastIndexOf('/'))
+
+        function loadQmlFile(file) {
+            loadedFile = file;
+            settings.lastFileName = file;
             loader.source = "";
             ApplicationHelpers.clearQmlComponentCache();
-            loader.source = fileDialog.file;
+            loader.source = file;
+        }
+
+        function reload() {
+            loadQmlFile(loadedFile);
         }
 
         function openWithSystemEditor() {
-            ApplicationHelpers.openUrlWithDefaultApplication(fileDialog.file);
+            ApplicationHelpers.openUrlWithDefaultApplication(loadedFile);
         }
     }
 
@@ -71,6 +80,10 @@ Item {
     ApplicationMenuBar {
        Platform.Menu {
             title: qsTr("&Live Coding")
+            /*MenuItem {
+                text: qsTr("CheckTest")
+                checkable: true
+            }//*/
 
             Platform.MenuItem {
                 text: qsTr("&Reload")
@@ -168,13 +181,28 @@ Item {
                 visible: loader.status === Loader.Error
             }
 
-            Button {
+            Column {
                 anchors.centerIn: parent
-                padding: 30
-                text: qsTr("Open File...")
                 visible: loader.status === Loader.Null
-                onClicked: fileDialog.open()
+
+                Button {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    padding: 30
+                    text: qsTr("Open File...")
+                    onClicked: fileDialog.open()
+                }
+
+                Button {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    padding: 30
+                    text: qsTr("Open last file:\n"+settings.lastFileName)
+                    visible: !!(settings.lastFileName)
+                    onClicked: {
+                        d.loadQmlFile(settings.lastFileName)
+                    }
+                }
             }
+
         }
     }
 
@@ -184,15 +212,12 @@ Item {
         folder: settings.lastFileName
         nameFilters: [qsTr("QML files (*.qml)")]
         onFileChanged: d.reload()
-        onAccepted: {
-            settings.lastFileName = file
-            selected = true
-        }
+        onAccepted: d.loadQmlFile(file)
     }
 
     FileWatcher {
         id: fileWatcher
-        fileUrl: fileDialog.selected ? fileDialog.folder : ""
+        fileUrl: d.loadedFolder
         recursive: true
         onFileChanged: d.reload()
         nameFilters: [

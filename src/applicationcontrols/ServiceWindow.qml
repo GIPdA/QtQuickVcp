@@ -24,7 +24,7 @@ import QtQuick 2.4
 import QtQuick.Controls 2.4
 import QtQuick.Window 2.4
 
-Rectangle {
+Control {
     default property alias _data: container.data
 
     /*! This property holds the title of the service window.
@@ -79,7 +79,7 @@ Rectangle {
         By default, this value references the default loading screen. When you set
         the background item it will be reparented to the ServiceWindow automatically.
     */
-    property Item background: discoveryPage
+    background: discoveryPage
 
     /*! \internal */
     property var _requiredServices: {
@@ -110,7 +110,7 @@ Rectangle {
         root.services = list;
     }
 
-    /*! \internal */
+    //! \internal
     function _evaluateReady() {
         for (var i = 0; i < _requiredServices.length; ++i) {
             if (!_requiredServices[i].ready) {
@@ -123,9 +123,8 @@ Rectangle {
         return;
     }
 
-    /*! \internal */
-    function _recurseObjects(objects, name)
-    {
+    //! \internal
+    function _recurseObjects(objects, name) {
         var list = [];
 
         if (objects !== undefined) {
@@ -160,7 +159,7 @@ Rectangle {
     }
 
     id: root
-    color: systemPalette.window
+    //color: systemPalette.window
 
     onBackgroundChanged: {
         if (background !== discoveryPage) {
@@ -183,7 +182,7 @@ Rectangle {
         anchors.fill: parent
     }
 
-    /* loads the default discovery page if necessary */
+    // loads the default discovery page if necessary
     Loader {
         id: discoveryPage
         anchors.fill: parent
@@ -201,8 +200,8 @@ Rectangle {
             }
         }
 
-        /* This timer is a workaround to make the discoveryPage invisible in QML designer */
         Timer {
+        // This timer is a workaround to make the discoveryPage invisible in QML designer
             interval: 10
             repeat: false
             running: discoveryPage.active
@@ -212,7 +211,7 @@ Rectangle {
         }
     }
 
-    /* the default discovery page, overlays the window as long as Machinetalk is not ready */
+    // the default discovery page, overlays the window as long as Machinetalk is not ready
     Component {
         id: defaultDiscoveryPage
 
